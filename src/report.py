@@ -106,17 +106,19 @@ def _section2(ranked, cfg) -> list:
         rsi_word = "at/above" if r["rsi_trough"] >= lower_band else "below"
         lines.append(
             f"     1) Divergence (daily): dip on {r['prev_date'].date()} "
-            f"(MACD {r['h_prev']:+.2f}, low {_num(r['pl_prev'])}), then a\n"
+            f"(MACD {r['h_prev']:+.2f}, low {_num(r['pl_prev'])} on {r['swing_prev_date'].date()}), then a\n"
             f"        higher-momentum dip on {r['recent_date'].date()} "
-            f"(MACD {r['h_recent']:+.2f}, low {_num(r['pl_recent'])}).\n"
+            f"(MACD {r['h_recent']:+.2f}, low {_num(r['pl_recent'])} on {r['swing_recent_date'].date()}).\n"
             f"        Momentum made a HIGHER low while price made {_price_dir_word(r['pl_recent'], r['pl_prev'])}, "
             f"and the latest\n"
             f"        dip was {'confirmed (momentum turned back up)' if r['confirmed'] else 'NOT confirmed'}.  "
             f"[{'OK' if r['momentum_ok'] and r['price_ok'] and r['confirmed'] else 'X'}]"
         )
+        ema_str = ", ".join(f"EMA{p} {_num(r['ema_vals'].get(p), 1)}" for p in cfg.weekly.ema_set)
         lines.append(
-            f"     2) Weekly support zone (week of {r['W'].date()}): the 11/22/50-week averages formed a\n"
-            f"        band {_num(r['band_lo'],1)} to {_num(r['band_hi'],1)}; that week's range "
+            f"     2) Weekly support zone (week of {r['W'].date()}): the weekly averages were\n"
+            f"        {ema_str}.\n"
+            f"        They formed a band {_num(r['band_lo'],1)} to {_num(r['band_hi'],1)}; that week's range "
             f"{_num(r['week_low'],1)} to {_num(r['week_high'],1)} {zone_word}.  "
             f"[{'OK' if r['zone_ok'] else 'X'}]"
         )
@@ -181,10 +183,13 @@ def _flagged_dataframe(ranked) -> pd.DataFrame:
             "recent_date": r["recent_date"].date().isoformat(),
             "h_recent": r["h_recent"],
             "pl_recent": r["pl_recent"],
+            "swing_prev_date": r["swing_prev_date"].date().isoformat(),
+            "swing_recent_date": r["swing_recent_date"].date().isoformat(),
             "momentum_ok": r["momentum_ok"],
             "price_ok": r["price_ok"],
             "confirmed": r["confirmed"],
             "zone_week": r["W"].date().isoformat(),
+            **{f"ema{p}": v for p, v in r["ema_vals"].items()},
             "band_lo": r["band_lo"],
             "band_hi": r["band_hi"],
             "week_low": r["week_low"],
