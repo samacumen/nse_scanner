@@ -1,0 +1,67 @@
+# ===== NSE SCANNER SETTINGS - edit, save, re-run. =====
+# Change anything BELOW [data] (i.e. [macd]..[output]) -> just re-run:  python scripts/run_scanner.py
+#   (re-analyzes the ALREADY-DOWNLOADED ~2000 stocks; NO re-fetch)
+# Change [universe] or [data] -> re-download first:                     python scripts/fetch_data.py
+
+[universe]
+series = EQ                      # comma-separated, e.g. EQ,BE
+include_sme = false
+index_filter =                  # blank = all EQ; or NIFTY500 / NIFTY500+SMALLCAP250 (faster, cleaner)
+max_symbols =                   # blank = all; small integer to test on a subset
+symbols_override =              # comma-separated to scan ONLY these (testing)
+
+[data]
+history_years = 6
+price_adjustment = split_only   # split_only (matches TradingView) | total_return (incl. dividends)
+request_throttle_sec = 0.5      # raise if Yahoo rate-limits you
+min_rows_daily = 1000           # ~4y min history; else skipped (weekly EMA50 needs depth)
+refresh_if_older_than_hours = 120  # reuse cached files newer than this (resume); 0 = always refetch
+
+[macd]
+fast = 12
+slow = 26
+signal = 9
+
+[divergence]
+lookback_days = 60
+price_window_k = 3
+trough_detection = prominence   # prominence (default) | strict (literal spec)
+min_segment_len = 1
+prominence_frac = 0.10          # MIN_PROMINENCE = frac x max(|H|) over lookback
+divergence_scope = two_most_recent   # two_most_recent (spec) | recent_vs_deepest_prior
+min_trough_sep = 7
+tolerance_pct = 0.01            # 1% "equal low" band
+price_field = Low               # Low | Close
+require_confirmation = true
+confirm_bars = 3
+recency_bars = 20
+
+[weekly]
+ema_set = 11,22,50
+zone_test = range_overlap       # range_overlap (wick touch) | close_in_band (stricter)
+min_weekly_bars_for_zone = 200  # ~4y; the EMA50 zone is a hard filter and needs a warmed series
+
+[rsi]
+period = 14
+smoothing = wilder              # wilder | sma
+lower_band = 30
+
+[liquidity]
+apply_as_filter = true
+window = 20
+min_median_traded_value_inr = 50000000   # Rs 5 cr/day
+min_price = 20                            # ignore sub-Rs 20 names
+
+[ranking]
+top_n = 10
+weight_momentum = 0.30
+weight_zone_confluence = 0.20
+weight_rsi_quality = 0.15
+weight_liquidity = 0.15
+weight_recency = 0.10
+weight_volume_expansion = 0.10
+min_score =                     # blank = no floor (never pad the list with weak names)
+
+[output]
+dir = output
+write_full_flagged_csv = true

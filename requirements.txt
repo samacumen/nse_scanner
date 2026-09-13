@@ -1,0 +1,9 @@
+# NSE Scanner runtime dependencies (validated on this machine).
+# Settings use stdlib configparser -> NO PyYAML dependency.
+pandas>=2.2
+numpy>=1.26
+scipy>=1.11
+yfinance==1.7.0
+pyarrow>=15
+requests>=2.31
+tzdata>=2022.7   # IANA tz db for Asia/Kolkata on Windows (pandas pulls it; pinned explicitly)
