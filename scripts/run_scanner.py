@@ -4,7 +4,8 @@
   python scripts/run_scanner.py
 
 Reads the already-downloaded data/, computes indicators, applies the rules,
-ranks the flagged set, and writes output/top_recommended_for_<DATE>.txt (+ CSV + log).
+ranks the flagged set, and writes ONE output/top_recommended_for_<DATE>.txt per day
+(summary folded in; optional CSV when [output] write_full_flagged_csv = true).
 Re-runnable with no re-fetch after editing any [macd]..[output] setting.
 """
 from __future__ import annotations
@@ -115,11 +116,8 @@ def main() -> int:
     company_map = _load_company_map(root)
     ok = manifest[manifest["status"] == "ok"]
 
-    log = []
-
     def emit(msg):
         print(msg, flush=True)
-        log.append(msg)
 
     emit(f"[scan] analyzing {len(ok)} ok symbols (of {len(manifest)} in manifest)")
 
@@ -173,6 +171,7 @@ def main() -> int:
     ranked = rankmod.rank(flagged, cfg)
 
     as_of = max(last_dates).date().isoformat() if last_dates else "unknown"
+    failed_syms = manifest[manifest["status"] == "failed"]["symbol"].tolist()
     meta = {
         "date": as_of,
         "generated": reportmod.now_ist(),
@@ -180,19 +179,20 @@ def main() -> int:
         "L": n_liquid,
         "F": len(flagged),
         "P": len(pending),
+        "skips": skip_reasons,
+        "failed_symbols": failed_syms,
     }
 
-    log.append("")
-    log.append(f"[scan] as-of {as_of}: scanned={n_scanned} flagged={len(flagged)} "
-               f"pending={len(pending)}")
+    print(f"[scan] as-of {as_of}: scanned={n_scanned} flagged={len(flagged)} "
+          f"pending={len(pending)}", flush=True)
     for reason, cnt in sorted(skip_reasons.items(), key=lambda x: -x[1]):
-        log.append(f"[scan] skip {reason}: {cnt}")
+        print(f"[scan] skip {reason}: {cnt}", flush=True)
 
-    paths = reportmod.write_outputs(ranked, pending, meta, cfg, out_dir, log)
+    # ONE report file per day (overwritten on re-run); summary is folded in.
+    paths = reportmod.write_outputs(ranked, pending, meta, cfg, out_dir)
     print(f"[scan] wrote {paths['report']}", flush=True)
     if "csv" in paths:
         print(f"[scan] wrote {paths['csv']}", flush=True)
-    print(f"[scan] wrote {paths['log']}", flush=True)
     return 0
 
 

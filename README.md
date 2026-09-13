@@ -14,11 +14,14 @@ It also tags each pick's **RSI health**: `uncensored` = the dip held at/above RS
 `censored` = it dipped below 30 (weaker). This is only a label; it never removes a stock.
 
 ## What you get
-`output/top_recommended_for_<date>.txt` with two sections:
+**One file per day**: `output/top_recommended_for_<date>.txt` (re-running the same day just
+updates it — the "Generated" time inside changes, but it stays a single file). It contains:
 1. **THE LIST** — ranked 1, 2, 3 ... (top 10 first, then any other qualifying names).
 2. **WHY EACH WAS CHOSEN** — a simple explanation plus the exact numbers behind every check.
+3. **SCAN SUMMARY** — how many were scanned and why the rest were not selected.
 
-Also written: `flagged_<date>.csv` (for a spreadsheet) and `scan_log_<date>.txt` (a run log).
+Optional: set `write_full_flagged_csv = true` in `config.txt` to also get a spreadsheet
+`flagged_<date>.csv`. It is off by default, so you get just the one text file.
 
 ## One-time setup
 Needs **Python 3.10+** installed.

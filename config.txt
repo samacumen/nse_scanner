@@ -64,4 +64,4 @@ min_score =                     # blank = no floor (never pad the list with weak
 
 [output]
 dir = output
-write_full_flagged_csv = true
+write_full_flagged_csv = false   # false = ONE .txt file per day; true = also write a machine-readable CSV

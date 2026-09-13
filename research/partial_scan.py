@@ -57,11 +57,13 @@ def main() -> int:
     ranked = rankmod.rank(flagged, cfg)
     as_of = max(last_dates).date().isoformat() if last_dates else "unknown"
     meta = {"date": as_of, "generated": reportmod.now_ist(),
-            "U": n_scanned, "L": n_liquid, "F": len(flagged), "P": len(pending)}
+            "U": n_scanned, "L": n_liquid, "F": len(flagged), "P": len(pending),
+            "skips": skip, "failed_symbols": [],
+            "partial": True, "universe_total": 2292}
 
-    text = reportmod.build_report_text(ranked, pending, meta, cfg)
-    out = root / "output" / f"top_recommended_PARTIAL_{n_scanned}syms_{as_of}.txt"
-    out.write_text(text, encoding="utf-8")
+    # Write the SAME single dated file the full run uses (overwritten later by the full run).
+    paths = reportmod.write_outputs(ranked, pending, meta, cfg, root / "output")
+    out = paths["report"]
 
     print(f"[partial] scanned={n_scanned} liquid_pass={n_liquid} "
           f"FLAGGED={len(flagged)} pending={len(pending)}")

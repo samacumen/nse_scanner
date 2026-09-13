@@ -96,7 +96,7 @@ the rules, ranks, and writes **`top_recommended_for_<DATE>.txt`**.
 | # | Command | Does | Output |
 |---|---|---|---|
 | 1 | `python scripts/fetch_data.py` | Download ~2,292 symbols' ~6y adjusted daily OHLCV; resumable, rate-limit-aware. | `data/daily/<SYMBOL>.parquet` + `data/manifest.csv` |
-| 2 | `python scripts/run_scanner.py` | Read stored data, compute indicators, apply rules, rank, write report. | `output/top_recommended_for_<DATE>.txt` (primary) + `output/flagged_<DATE>.csv` + `output/scan_log_<DATE>.txt` |
+| 2 | `python scripts/run_scanner.py` | Read stored data, compute indicators, apply rules, rank, write report. | `output/top_recommended_for_<DATE>.txt` (ONE file/day; summary folded in) + optional `output/flagged_<DATE>.csv` (when `write_full_flagged_csv=true`) |
 
 `<DATE>` = data as-of date = last trading day in the data (`YYYY-MM-DD`). Both scripts read
 `config.txt` (§6), share `src/` (§5), and run identically on **Linux and Windows** (pure Python,
@@ -181,7 +181,7 @@ nse_scanner/
 ├─ inputs/             # this blueprint
 ├─ research/           # validation harness (validate_pipeline.py = pinned reference; others superseded)
 ├─ data/  universe/EQUITY_L.csv  daily/<SYMBOL>.parquet  manifest.csv
-├─ output/ top_recommended_for_<DATE>.txt  flagged_<DATE>.csv  scan_log_<DATE>.txt
+├─ output/ top_recommended_for_<DATE>.txt   (+ optional flagged_<DATE>.csv)
 ├─ src/    config.py universe.py fetch.py store.py indicators.py divergence.py
 │          zone.py liquidity.py rank.py report.py
 └─ scripts/ fetch_data.py   run_scanner.py       # the two deliverables (thin entry points)
@@ -475,8 +475,13 @@ can't be computed, print `n/a` — never invent it. Every listed stock must genu
     computed from sourced data as of <DATE>. Not investment advice — verify each chart.
 =====================================================================
 ```
-Also write `output/flagged_<DATE>.csv` (machine-readable: every field per flagged stock, for audit)
-and `output/scan_log_<DATE>.txt` (counts, skips by reason, failures, timings).
+**Single file per day (v1.5):** the report is the ONE deliverable file
+`output/top_recommended_for_<DATE>.txt`, keyed on the data as-of date and **overwritten** on
+re-run (the "Generated" timestamp inside updates). The run summary (counts, skips-by-reason,
+fetch failures) is **folded into a SCAN SUMMARY section** of that file — no separate log file.
+The machine-readable `output/flagged_<DATE>.csv` (every field per flagged stock, for audit) is
+written **only when `[output] write_full_flagged_csv = true`** (default **false** → exactly one
+file per day).
 
 ## 9. Edge cases & correctness rules
 Warm-up (~6y) then slice last 60 — no truncated indicators • **causality:** ≥K bars after `recent`

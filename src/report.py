@@ -2,7 +2,8 @@
 
 TRUTHFULNESS MANDATE: every printed value comes from the computed record.
 Nothing hardcoded/placeholder. Unfetchable field -> 'n/a'.
-Writes top_recommended_for_<DATE>.txt (2 sections) + flagged_<DATE>.csv + scan_log_<DATE>.txt.
+Writes ONE top_recommended_for_<DATE>.txt per day (2 sections + scan summary), overwritten
+on re-run; optional flagged_<DATE>.csv when [output] write_full_flagged_csv = true.
 Output is plain ASCII (portable + readable in any editor on Windows/Linux).
 """
 from __future__ import annotations
@@ -15,7 +16,6 @@ import pandas as pd
 # Fixed in code (blueprint 6): report filename pattern.
 REPORT_PATTERN = "top_recommended_for_{date}.txt"
 FLAGGED_PATTERN = "flagged_{date}.csv"
-LOG_PATTERN = "scan_log_{date}.txt"
 
 BAR = "=" * 69
 SUBBAR = "-" * 69
@@ -142,6 +142,9 @@ def build_report_text(ranked, pending, meta, cfg) -> str:
     L.append(" Setup      : Daily MACD-histogram bullish divergence + weekly EMA(11/22/50) support zone")
     L.append(f" Universe   : {meta['U']} EQ scanned | {meta['L']} passed liquidity | "
              f"{meta['F']} flagged | {meta['P']} pending week-close")
+    if meta.get("partial"):
+        L.append(f" NOTE       : PARTIAL run - {meta['U']} of ~{meta.get('universe_total', 2292)} symbols "
+                 f"downloaded so far; this file refreshes when the full download finishes.")
     L.append(f" Settings   : {_settings_echo(cfg)}")
     L.append(f" Data source: yfinance (.NS, {cfg.data.price_adjustment}, "
              f"{'dividends unadjusted' if cfg.data.price_adjustment=='split_only' else 'total return'})")
@@ -158,6 +161,27 @@ def build_report_text(ranked, pending, meta, cfg) -> str:
     pend = ", ".join(pending) if pending else "(none)"
     L.append(f" PENDING (weekly candle still forming; will confirm after the week closes): {pend}")
     L.append("")
+    skips = meta.get("skips") or {}
+    if skips:
+        L.append(" SCAN SUMMARY (why the other stocks were not selected)")
+        L.append(f"   scanned {meta['U']} | passed liquidity+history {meta['L']} | "
+                 f"flagged {meta['F']} | pending {meta['P']}")
+        label = {
+            "illiquid": "below liquidity/price floor",
+            "insufficient_history": "too little history (<~4y)",
+            "no_divergence:criteria_not_met": "no valid bullish divergence",
+            "no_divergence:no_causal_recent_trough": "no confirmed recent trough",
+            "no_divergence:fewer_than_two_troughs": "fewer than two troughs",
+            "no_divergence:no_prior_trough_with_separation": "no separated prior trough",
+            "zone:zone_fail": "low not inside the weekly EMA zone",
+        }
+        for k, v in sorted(skips.items(), key=lambda x: -x[1]):
+            L.append(f"     {v:>5}  {label.get(k, k)}")
+        fails = meta.get("failed_symbols") or []
+        if fails:
+            shown = ", ".join(fails[:15]) + (" ..." if len(fails) > 15 else "")
+            L.append(f"   fetch-failed ({len(fails)}): {shown}")
+        L.append("")
     L.append(" NOTES")
     L.append('  - "uncensored" = the dip stayed at/above RSI 30 (healthier). "censored" = it dipped')
     L.append("    below 30 (weaker) but the stock is STILL listed (the RSI check only labels, it")
@@ -210,7 +234,12 @@ def _flagged_dataframe(ranked) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
-def write_outputs(ranked, pending, meta, cfg, out_dir: Path, log_lines: list) -> dict:
+def write_outputs(ranked, pending, meta, cfg, out_dir: Path) -> dict:
+    """Write ONE report file per day: top_recommended_for_<DATE>.txt (overwritten
+    on re-run; the 'Generated' timestamp inside updates). The run summary is folded
+    into that file. An optional machine-readable CSV is written only when
+    [output] write_full_flagged_csv = true (default off -> a single file per day).
+    """
     out_dir.mkdir(parents=True, exist_ok=True)
     date = meta["date"]
     paths = {}
@@ -225,9 +254,6 @@ def write_outputs(ranked, pending, meta, cfg, out_dir: Path, log_lines: list) ->
         _flagged_dataframe(ranked).to_csv(p_csv, index=False)
         paths["csv"] = p_csv
 
-    p_log = out_dir / LOG_PATTERN.format(date=date)
-    p_log.write_text("\n".join(log_lines) + "\n", encoding="utf-8")
-    paths["log"] = p_log
     return paths
 
 
