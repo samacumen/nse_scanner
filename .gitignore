@@ -19,9 +19,11 @@ env/
 .coverage
 htmlcov/
 
-# ---- Generated data & outputs (regenerable; can be large) ----
+# ---- Generated market data (large: ~2000 parquet files) - NOT tracked ----
 data/
-output/
+
+# ---- Reports ARE tracked (kept in the repo); ignore only transient logs there ----
+output/*.log
 
 # ---- Scratch / diagnostics artifacts ----
 /tmp/

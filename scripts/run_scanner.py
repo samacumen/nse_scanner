@@ -181,6 +181,8 @@ def main() -> int:
         "P": len(pending),
         "skips": skip_reasons,
         "failed_symbols": failed_syms,
+        "listed": int(len(manifest)),
+        "skipped_insufficient": int((manifest["status"] == "insufficient_history").sum()),
     }
 
     print(f"[scan] as-of {as_of}: scanned={n_scanned} flagged={len(flagged)} "

@@ -140,8 +140,15 @@ def build_report_text(ranked, pending, meta, cfg) -> str:
     L.append(" NSE SCANNER - TOP RECOMMENDATIONS")
     L.append(f" Data as-of : {meta['date']} (last trading day)        Generated: {meta['generated']} IST")
     L.append(" Setup      : Daily MACD-histogram bullish divergence + weekly EMA(11/22/50) support zone")
-    L.append(f" Universe   : {meta['U']} EQ scanned | {meta['L']} passed liquidity | "
-             f"{meta['F']} flagged | {meta['P']} pending week-close")
+    if meta.get("listed"):
+        skipped = meta.get("skipped_insufficient", 0)
+        L.append(f" Universe   : {meta['listed']} NSE equities listed | {meta['U']} had enough "
+                 f"history and were scanned")
+        L.append(f"              ({skipped} skipped - too new for a 4-year weekly average) | "
+                 f"{meta['L']} passed liquidity | {meta['F']} flagged | {meta['P']} pending")
+    else:
+        L.append(f" Universe   : {meta['U']} EQ scanned | {meta['L']} passed liquidity | "
+                 f"{meta['F']} flagged | {meta['P']} pending week-close")
     if meta.get("partial"):
         L.append(f" NOTE       : PARTIAL run - {meta['U']} of ~{meta.get('universe_total', 2292)} symbols "
                  f"downloaded so far; this file refreshes when the full download finishes.")
