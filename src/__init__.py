@@ -1,1 +1,1 @@
-"""NSE stock scanner — source package (see inputs/BLUEPRINT.md)."""
+"""NSE stock scanner - source package (see inputs/BLUEPRINT.md)."""

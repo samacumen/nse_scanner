@@ -147,7 +147,7 @@ def run_symbol(df):
 def show_bse():
     df,src=fetch("BSE",6); print(f"BSE via {src}: {len(df)} bars {df.index[0].date()}..{df.index[-1].date()}")
     r=run_symbol(df)
-    if r["flag"]!=1: print("!! BSE NOT FLAGGED — reason:",r["reason"]); return
+    if r["flag"]!=1: print("!! BSE NOT FLAGGED - reason:",r["reason"]); return
     d,z=r["d"],r["z"]
     print("\n===== BSE GOLDEN (production algo, 6y warm-up) =====")
     print(f"Trough_prev  : {df.index[d['prev']].date()}  H={d['h_prev']:+.3f}  priceLow={d['pl_prev']:.2f} @ {pd.Timestamp(d['swing_prev']).date()}")

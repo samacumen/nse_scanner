@@ -1,5 +1,5 @@
 """
-GOLDEN TEST — BSE Ltd (the spec's own diagram example).
+GOLDEN TEST - BSE Ltd (the spec's own diagram example).
 
 Purpose: reproduce the full NSE Scanner Rule Spec v1.1 pipeline on the one stock
 we KNOW should flag (BSE Ltd, shown in the spec's TradingView screenshot), and in

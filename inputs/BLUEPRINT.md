@@ -1,4 +1,4 @@
-# NSE Stock Scanner — Implementation Blueprint (v1.4, build-ready)
+# NSE Stock Scanner - Implementation Blueprint (v1.4, build-ready)
 
 > **Purpose.** Single source of truth a developer *or an AI coding agent* follows to build the
 > scanner. Written **ELI5** (plain language, nothing assumed) and **unambiguous** (exact formulas,
@@ -7,14 +7,14 @@
 > are each **documented with empirical evidence** (§4) and required to make the spec self-consistent
 > and tradeable. Flagged items for final sign-off are in §12.
 >
-> **Status:** v1.1 — revised after the expert-trader adversarial review (verdict: GO-WITH-CHANGES)
+> **Status:** v1.1 - revised after the expert-trader adversarial review (verdict: GO-WITH-CHANGES)
 > **and** an empirical validation run. **No product code is written until the user greenlights.**
 
 ## Changelog v1.0 → v1.1 (what the expert review + validation changed)
 - **Pinned ONE trough algorithm** using `scipy.signal.find_peaks` (true topographic prominence),
   replacing three inconsistent prototypes. Re-validated on BSE at full 6-year warm-up (§4, §8.2).
 - **`MIN_SEGMENT_LEN` → 1** under prominence: `=2` *drops BSE's own Sep-02 swing low* (a 1-bar run)
-  and breaks the spec's example. Prominence — not segment length — is now the noise filter (§4).
+  and breaks the spec's example. Prominence - not segment length - is now the noise filter (§4).
 - **Real golden numbers** replace the earlier self-contradictory example (§8.7, §11).
 - Added **causality guard** (≥K bars after the recent trough), **fixed confirmation off-by-one**,
   **min trough separation ≥ 7**, **recency guard**, **NSE-calendar-robust closed-week test**,
@@ -29,16 +29,16 @@
   installs and works** in 2026. We **pin `yfinance==1.7.0`** (the validated version) + add a
   startup smoke-fetch (below).
 
-## Changelog v1.1 → v1.2 (second expert pass — blockers B1/B2/B3 + should-fixes)
-- **B1 — weekly-history gate:** the EMA-zone (a hard filter) needs a well-warmed weekly EMA50, so
+## Changelog v1.1 → v1.2 (second expert pass - blockers B1/B2/B3 + should-fixes)
+- **B1 - weekly-history gate:** the EMA-zone (a hard filter) needs a well-warmed weekly EMA50, so
   a stock must have **≥ `MIN_WEEKLY_BARS_FOR_ZONE` (200 ≈ 4y)** weekly bars (else skipped as
   `insufficient_history`). `min_rows_daily` raised 250 → **1000 (~4y)** (§6, §7, §8.3, §9).
-- **B2 — unattended fetch trust:** (i) count/act on **`failed` only** (never conflate with
+- **B2 - unattended fetch trust:** (i) count/act on **`failed` only** (never conflate with
   `insufficient_history`) for the bhavcopy-failover threshold; (ii) **pin `yfinance==1.7.0`** +
   **startup smoke-fetch** (fail loud if Yahoo's shape changes); (iii) after each full run, **log the
   `failed` set and cross-check it against liquidity/index membership** so no liquid name is silently
   dropped. Empirically validated: **200 random-EQ sample → 0 hard failures** (§4a).
-- **B3 — NaN-safe ranking:** z-scoring is **NaN-aware** (a missing metric imputes to the cohort mean
+- **B3 - NaN-safe ranking:** z-scoring is **NaN-aware** (a missing metric imputes to the cohort mean
   → contributes 0; never nulls the whole column), and the ATR normalizer is finite-guarded (§8.6).
 - **S1:** BSE prominence sweep 0.06–0.20 → stable (§4a). **S3:** closed-week claim corrected +
   scan-date test (§8.1). **S4:** `src/` must match the reference's *outputs on fixtures with these
@@ -47,7 +47,7 @@
 
 ## Changelog v1.2 → v1.3 (user request: one editable settings file, re-analyze without re-fetch)
 - **All settings moved into one plain-text `config.txt`** (INI via stdlib `configparser`; PyYAML
-  dependency dropped) — heavily commented, editable in any editor (§6).
+  dependency dropped) - heavily commented, editable in any editor (§6).
 - **Fetch/analyze split made explicit:** the ~2,000-stock download runs once; editing any analysis
   setting and re-running `scripts/run_scanner.py` **re-analyzes the already-sourced data with no
   re-fetch** (§6). Report header echoes the exact settings used.
@@ -58,12 +58,12 @@
   lever. Any multi-value knob left in config **must have all its values implemented** (no dead options).
 - **Output restructured to two readable sections (§8.7):** SECTION 1 = one numbered ranked list
   (1..N); SECTION 2 = ELI5 "why chosen + what it satisfied" per stock, with real numbers.
-- **TRUTHFULNESS MANDATE (§8.7, §11):** the report is generated purely from computed data — nothing
+- **TRUTHFULNESS MANDATE (§8.7, §11):** the report is generated purely from computed data - nothing
   hardcoded/assumed; a golden test asserts printed values == computed values; unfetchable fields print
   `n/a`, never invented.
 - **Build process:** two agents in parallel (implementer + expert reviewer) iterating to convergence,
   then a third greenlight agent that does not pass until implementer, reviewer, and requirements are
-  fully aligned — implementing the blueprint **as written, no assumptions**.
+  fully aligned - implementing the blueprint **as written, no assumptions**.
 
 ---
 
@@ -79,7 +79,7 @@ Scan **every regular NSE equity (~2,292 `EQ` symbols)** once a week; find stocks
 
 Three questions per stock, in order:
 1. **Momentum quietly turning up while price still falls?** On the **daily** chart the MACD
-   *histogram* makes a **higher low** while price makes a **lower/equal low** — a **bullish
+   *histogram* makes a **higher low** while price makes a **lower/equal low** - a **bullish
    divergence** (selling exhausting).
 2. **Did that low happen at long-term support?** The **weekly** candle containing that price low
    must sit **inside the weekly EMA 11/22/50 band** (a support zone).
@@ -122,7 +122,7 @@ Spec defaults kept: MACD 12/26/9, `LOOKBACK_DAYS`=60, `PRICE_WINDOW_K`=3, weekly
 Each deviation was *proven necessary* by running the spec against its **own diagram example
 (BSE Ltd)** end-to-end (`research/validate_pipeline.py`, yfinance split-adjusted, 6y).
 
-**D1 — Trough detection = prominence, not "one trough per zero-crossed segment."**
+**D1 - Trough detection = prominence, not "one trough per zero-crossed segment."**
 The literal rule (§1.2–1.3) needs a positive bar (zero-cross) between the two compared troughs.
 BSE's divergence forms **within one 47-bar negative run**, so the literal rule finds too few troughs
 and returns **DIVERGENCE=FALSE on the spec's own example**. Fix: a trough is a **local minimum of
@@ -131,17 +131,17 @@ distance=TROUGH_MIN_DISTANCE)`, where **`MIN_PROMINENCE = PROMINENCE_FRAC × max
 `LOOKBACK_DAYS`** (`PROMINENCE_FRAC` default **0.10**). `find_peaks` uses *true topographic
 prominence*, so genuine sub-lows survive and tiny wiggles do not.
 
-**D2 — `MIN_SEGMENT_LEN` = 1 (was 2).** With prominence as the noise filter, requiring a ≥2-bar
+**D2 - `MIN_SEGMENT_LEN` = 1 (was 2).** With prominence as the noise filter, requiring a ≥2-bar
 negative run **drops BSE's actual swing low on 2026-09-02** (a sharp 1-bar dip, `H=-3.49`, whose
 low **3131.5** is the diagram's weekly `L3,131.5`). Segment length is the wrong knob; prominence
 already removes noise. Kept as a config knob for experimentation.
 
-**D3 — RSI = Wilder RMA(14)** (user-confirmed; spec text deemed a mis-copy).
+**D3 - RSI = Wilder RMA(14)** (user-confirmed; spec text deemed a mis-copy).
 
-**D4 — Guards the spec omits, required for tradeability & no-repaint:** confirmation, causality
+**D4 - Guards the spec omits, required for tradeability & no-repaint:** confirmation, causality
 (±K window fully known), recency, and a liquidity floor (§8). User-confirmed.
 
-**D5 — `TOLERANCE_PCT` 0.1% → 1%.** v1.1's changelog widened the rule to "equal (with tolerance)
+**D5 - `TOLERANCE_PCT` 0.1% → 1%.** v1.1's changelog widened the rule to "equal (with tolerance)
 or lower lows" (double bottoms); at 0.1% the "equal" branch essentially never fires. Default 1%.
 *(Flagged for user confirm, §12.)*
 
@@ -149,7 +149,7 @@ or lower lows" (double bottoms); at 0.1% the "equal" branch essentially never fi
 ≥7-bar separation guard) reproduces the diagram exactly (Aug-21 → Sep-02). A more aggressive
 `recent_vs_deepest_prior` is offered as a switch.
 
-### 4a. Validation evidence (already run — must stay green)
+### 4a. Validation evidence (already run - must stay green)
 **BSE golden (production algo, 6y warm-up), reproduces the diagram exactly:**
 - `Trough_prev` 2026-08-21 `H=-18.127` low 3223.00 → `Trough_recent` 2026-09-02 `H=-3.491`
   low **3131.50** (matches diagram `L3,131.5`); momentum ✓, price ✓, confirmed ✓.
@@ -158,9 +158,9 @@ or lower lows" (double bottoms); at 0.1% the "equal" branch essentially never fi
 - RSI-trough **33.29 → uncensored**; liquidity ₹1,599 cr/day.
 
 **50-symbol dry run (20 large + 30 random EQ, 6y each):** the only hard failure was
-`TATAMOTORS.NS` 404 — a **symbol rename** (→ track by ISIN, §7); 5 recent IPOs auto-skipped.
+`TATAMOTORS.NS` 404 - a **symbol rename** (→ track by ISIN, §7); 5 recent IPOs auto-skipped.
 
-**200-symbol random-EQ tail sample (no large-cap padding — the real unattended test):**
+**200-symbol random-EQ tail sample (no large-cap padding - the real unattended test):**
 **0 hard fetch failures** of 176 fetched (24 young stocks correctly `insufficient_history`) →
 **REAL failure ≈ 0%**; **~2.3 s/symbol → ~88 min** full run; **liquidity floor removed ~48%**
 (91 liquid of 176); **liquid flag rate ~8.8%** → a healthy funnel (~90 flagged liquid names →
@@ -168,7 +168,7 @@ ranked → top 10); 4/176 suspicious single-day jumps (adjustment sound). This c
 under-sampled" concern: yfinance `.NS` EQ coverage is reliable for an unattended weekly job.
 
 **Prominence sensitivity sweep (BSE, `prominence_frac` 0.06→0.20):** BSE flags with the correct
-Sep-02 low **at every setting** — Sep-02's topographic prominence (~11) sits far above even the
+Sep-02 low **at every setting** - Sep-02's topographic prominence (~11) sits far above even the
 0.20 threshold (6.26). The `0.10` default is comfortably mid-range, not knife-edge.
 
 ---
@@ -188,15 +188,15 @@ nse_scanner/
 ```
 **Env:** Python ≥3.10; `python -m venv .venv` then install `requirements.txt`:
 `pandas>=2.2, numpy>=1.26, scipy>=1.11, yfinance==1.7.0, pyarrow>=15, requests>=2.31`.
-(Settings use stdlib `configparser` — **no YAML dependency**.)
+(Settings use stdlib `configparser` - **no YAML dependency**.)
 (All validated on this machine: pandas 2.3.3, numpy 2.2.6, scipy 1.15.3, yfinance 1.7.0.)
 **yfinance is exact-pinned** (a floating minor can break Yahoo parsing mid-schedule); Script 1 does a
 **startup smoke-fetch** (one known symbol) and aborts loudly if the API shape changed (§7).
 No OS-specific calls; `pathlib` paths. **Scheduling (optional, README):** Linux `cron` Saturday;
 Windows Task Scheduler weekly calling `.venv\Scripts\python.exe`.
 
-## 6. Configuration — one plain-text settings file the user edits (`config.txt`)
-**Every knob lives in `config.txt`** (INI format — plain text, heavily commented, editable in any
+## 6. Configuration - one plain-text settings file the user edits (`config.txt`)
+**Every knob lives in `config.txt`** (INI format - plain text, heavily commented, editable in any
 editor; parsed by Python's stdlib `configparser`, so **no YAML dependency**). `src/config.py` loads
 it with `configparser.ConfigParser(inline_comment_prefixes=("#",";"))`, validates types/ranges, and
 exposes typed access. Blank value = "unset/default". Lists are comma-separated.
@@ -204,18 +204,18 @@ exposes typed access. Blank value = "unset/default". Lists are comma-separated.
 > **Re-analyze without re-downloading (user's explicit requirement).** The pipeline is split so the
 > **~2,000-stock download happens once** (Script 1 → `data/`), and **tuning is instant**: edit any
 > `[macd]/[divergence]/[weekly]/[rsi]/[liquidity]/[ranking]/[output]` setting and just re-run
-> **`python scripts/run_scanner.py`** — it re-analyzes the **already-sourced** data and rewrites the
+> **`python scripts/run_scanner.py`** - it re-analyzes the **already-sourced** data and rewrites the
 > report, **no re-fetch**. Only changing `[universe]` or `[data]` requires re-running
 > `scripts/fetch_data.py` first. Each report header echoes the exact settings used (reproducibility).
 
 **Re-assessed for leanness (user request):** `config.txt` holds **only settings a user would
 realistically change to alter results**. Every knob below with multiple listed values **must have all
-those values implemented** (truthful config — no dead options). Pure internal mechanics, fixed
+those values implemented** (truthful config - no dead options). Pure internal mechanics, fixed
 NSE/methodology constants, and single-implementation "toggles" are **hardcoded in `src/`** and listed
 under "Fixed in code" after the file.
 
 ```ini
-# ===== NSE SCANNER SETTINGS — edit, save, re-run. =====
+# ===== NSE SCANNER SETTINGS - edit, save, re-run. =====
 # Change anything BELOW [data] (i.e. [macd]..[output]) -> just re-run:  python scripts/run_scanner.py
 #   (re-analyzes the ALREADY-DOWNLOADED ~2000 stocks; NO re-fetch)
 # Change [universe] or [data] -> re-download first:                     python scripts/fetch_data.py
@@ -284,10 +284,10 @@ dir = output
 write_full_flagged_csv = true
 ```
 
-**Fixed in code (removed from `config.txt` — not results-affecting knobs a user would tune).** Each
-is a `src/` constant; listed here so the choice is auditable (per the user's "be sure" rule — remove
+**Fixed in code (removed from `config.txt` - not results-affecting knobs a user would tune).** Each
+is a `src/` constant; listed here so the choice is auditable (per the user's "be sure" rule - remove
 only what's clearly non-essential): NSE `EQUITY_L.csv` URL; data-source strategy (yfinance primary →
-Yahoo chart-API fallback — the only implemented sources); full weekly refetch (incremental is future
+Yahoo chart-API fallback - the only implemented sources); full weekly refetch (incremental is future
 work); fetch resilience (batch size, retries, backoff); cache dir `data/daily`; the bhavcopy-failover
 log threshold; weekly `resample_rule` = `W-FRI` (NSE week); zone `anchor` = swing-low week (the one
 designed anchoring); `find_peaks` min-distance (=3) and `prominence_scale` (=`max`, the validated
@@ -295,13 +295,13 @@ reference); ranking `tie_break` (liquidity) and `small_cohort_threshold` (=3); a
 filename pattern `top_recommended_for_<DATE>.txt`. *If the reviewer/greenlight judges any of these
 user-essential, promote it back to `config.txt`.*
 
-## 7. SCRIPT 1 — data fetcher (`scripts/fetch_data.py`)
+## 7. SCRIPT 1 - data fetcher (`scripts/fetch_data.py`)
 Produce `data/daily/<SYMBOL>.parquet` (split-adjusted daily OHLCV, ~6y) + `data/manifest.csv`.
 **Full weekly refetch** (not incremental) so the adjusted series is always internally consistent
 (new splits retroactively re-scale history). ~90 min for the full universe (measured).
 
 1. **Load config**; ensure dirs exist; **startup smoke-fetch** (one known symbol, e.g. `RELIANCE.NS`)
-   — abort loudly if it returns empty or an unexpected shape (guards against yfinance/Yahoo drift).
+   - abort loudly if it returns empty or an unexpected shape (guards against yfinance/Yahoo drift).
 2. **Universe** (`universe.py`): download `EQUITY_L.csv` with a **browser User-Agent**; if it returns
    non-CSV, **prime an NSE session** (GET `https://www.nseindia.com` first) then retry. **Strip the
    CSV's leading-space headers** (`' SERIES'` etc.). Keep `SERIES ∈ series`; build `(symbol, isin)`.
@@ -315,7 +315,7 @@ Produce `data/daily/<SYMBOL>.parquet` (split-adjusted daily OHLCV, ~6y) + `data/
    (`range={years}y&interval=1d&events=splits`, browser UA). **Throttle** `request_throttle_sec`.
    **One bad symbol never aborts the run** (catch, log, continue).
 4. **Validate & store** (`store.py`): require `≥ min_rows_daily` (1000) daily rows *and*
-   `≥ min_weekly_bars_for_zone` (200) weekly bars, else `insufficient_history` — the weekly EMA50
+   `≥ min_weekly_bars_for_zone` (200) weekly bars, else `insufficient_history` - the weekly EMA50
    zone is a hard filter and needs the depth (B1). Sanity: increasing unique dates, positive prices, `High≥Low`;
    flag (don't crash on) unexplained single-day moves > 50%. Write parquet (Appendix A).
 5. **`manifest.csv`**: `symbol,isin,ticker,source,rows,first_date,last_date,status,fetched_at`,
@@ -329,10 +329,10 @@ Produce `data/daily/<SYMBOL>.parquet` (split-adjusted daily OHLCV, ~6y) + `data/
 
 **Acceptance:** on `symbols_override=["BSE","RELIANCE","TCS"]` → 3 valid parquet, all `ok`, ~6y each.
 
-## 8. SCRIPT 2 — analyzer (`scripts/run_scanner.py`)
+## 8. SCRIPT 2 - analyzer (`scripts/run_scanner.py`)
 Per symbol (skip `status≠ok`), then rank across all flagged, then write the report.
 **Golden rule:** compute all indicators on the **full warmed** series, then slice the last
-`LOOKBACK_DAYS` for trough selection — never on a truncated slice.
+`LOOKBACK_DAYS` for trough selection - never on a truncated slice.
 
 ### 8.1 Indicators (`indicators.py`)
 ```
@@ -353,9 +353,9 @@ EMA11/22/50 = ema(wk.Close, {11,22,50})
 **Closed-week rule (no look-ahead):** a weekly bucket `W` (Friday label) is **closed** iff a later
 weekly bucket already has daily data, **or** the as-of/scan date is on/after that week's Friday
 label. Only the most-recent bucket can be "forming"; a swing low there defers to next week
-(conservative — never a false flag). **Residual (low severity, not fully solved):** if a week's
+(conservative - never a false flag). **Residual (low severity, not fully solved):** if a week's
 Friday is a holiday and the scan runs that weekend, that just-ended week may be deferred one extra
-week — a fully exact test needs the NSE trading calendar (a post-launch nicety). Acceptable for a
+week - a fully exact test needs the NSE trading calendar (a post-launch nicety). Acceptable for a
 weekly cadence.
 
 ### 8.2 Divergence (`divergence.py`)
@@ -381,16 +381,16 @@ divergence = momentum and price_ok and confirmed
 ```
 `neg_run_len` = length of the maximal `H<0` run containing the bar.
 
-### 8.3 Weekly EMA zone (`zone.py`) — only if divergence
+### 8.3 Weekly EMA zone (`zone.py`) - only if divergence
 **Precondition (B1):** the weekly series must have `≥ min_weekly_bars_for_zone` (200) bars, else the
-symbol was already skipped as `insufficient_history` at fetch — never compute an under-warmed EMA50
+symbol was already skipped as `insufficient_history` at fetch - never compute an under-warmed EMA50
 zone (it would corrupt this hard filter).
 `swing = swing_low_date(recent)`; `W` = the `W-FRI` bucket containing `swing`.
 If `W` not closed (§8.1) → **pending_week** (do not flag; list in the pending section §8.7).
 `band_lo/hi = min/max(EMA11,EMA22,EMA50 at W)`; `zone_ok = (W.Low ≤ band_hi) and (W.High ≥ band_lo)`.
 `zone_ok=True` → **flag=1**, else flag=0.
 
-### 8.4 RSI tag (`indicators`/pipeline) — shortlisted only; never filters
+### 8.4 RSI tag (`indicators`/pipeline) - shortlisted only; never filters
 `RSI_trough_value = min(RSI over [recent-K, recent+K])`;
 `RSI_check = "uncensored" if ≥ RSI_LOWER_BAND(30) else "censored"`.
 
@@ -405,41 +405,41 @@ For each flagged stock (five→six metrics, higher = better):
 |---|---|
 | `momentum` | `(H[recent] − H[prev]) / ATR14`  *(ATR-normalized; not ÷|H_prev|)* |
 | `zone_confluence` | `0.5·clamp(1 − (band_hi−band_lo)/Close_W, −1,1) + 0.5·clamp(1 − |Close_W − band_mid| / ((band_hi−band_lo)/2 + ε), −1,1)`, `band_mid=(band_lo+band_hi)/2` |
-| `rsi_quality` | `RSI_trough_value` (higher = healthier dip). *(`RSI_check` is reported and used as a tie-break; no numeric bonus — a small bonus vanishes after z-scoring — S5)* |
+| `rsi_quality` | `RSI_trough_value` (higher = healthier dip). *(`RSI_check` is reported and used as a tie-break; no numeric bonus - a small bonus vanishes after z-scoring - S5)* |
 | `liquidity` | `log10(liquidity)` |
 | `recency` | `1 − bars_since(recent)/RECENCY_BARS` |
 | `volume_expansion` | `Volume[recent] / median(Volume over last 20)` |
 `score = Σ weightᵢ · zscore(metricᵢ)`. **NaN-safe (B3):** z-scoring ignores NaNs when computing
-mean/std, and any NaN metric imputes to the cohort mean (contributes 0) — one bad metric can never
+mean/std, and any NaN metric imputes to the cohort mean (contributes 0) - one bad metric can never
 null the whole column/top-10; the ATR denominator of `momentum` is finite-guarded (§8.1).
 **Small-cohort guard:** if `n_flagged < small_cohort_threshold` or a metric's std==0, skip z-scoring
 that metric (contribute 0) and fall back to sorting by `momentum` then `liquidity`. Sort desc;
 **top 10** = focus, **all** flagged listed. `tie_break` = liquidity (then `uncensored` before
 `censored`). If `min_score` set, drop below it (never pad to 10). If >10 flag, highlight 10, list rest.
 
-### 8.7 Output — `output/top_recommended_for_<DATE>.txt` (UTF-8, human-readable)
+### 8.7 Output - `output/top_recommended_for_<DATE>.txt` (UTF-8, human-readable)
 **TRUTHFULNESS MANDATE (hard requirement).** Every value printed is **computed from the actually
-sourced data at run time — nothing hardcoded, sampled, placeholdered, or assumed.** The block below is
+sourced data at run time - nothing hardcoded, sampled, placeholdered, or assumed.** The block below is
 a **format template**; its numbers are illustrative (the BSE golden) and MUST be produced by the code,
 never copied in. A golden test asserts the printed values equal the computed values (§11). If a field
-can't be computed, print `n/a` — never invent it. Every listed stock must genuinely pass §8.2 + §8.3.
+can't be computed, print `n/a` - never invent it. Every listed stock must genuinely pass §8.2 + §8.3.
 
 **Two sections (per user requirement):**
-- **SECTION 1 — THE LIST:** one continuous numbered ranking (1, 2, 3, … `top_n`, then the remaining
+- **SECTION 1 - THE LIST:** one continuous numbered ranking (1, 2, 3, … `top_n`, then the remaining
   flagged names), compact columns.
-- **SECTION 2 — WHY EACH WAS CHOSEN (ELI5):** for every listed stock, plain-English what-it-satisfied
+- **SECTION 2 - WHY EACH WAS CHOSEN (ELI5):** for every listed stock, plain-English what-it-satisfied
   (the daily divergence, the weekly support zone, the RSI health tag), with the concrete numbers.
 
 ```
 =====================================================================
- NSE SCANNER — TOP RECOMMENDATIONS
+ NSE SCANNER - TOP RECOMMENDATIONS
  Data as-of : <DATE> (last trading day)        Generated: <timestamp> IST
  Setup      : Daily MACD-histogram bullish divergence + weekly EMA(11/22/50) support zone
  Universe   : <U> EQ scanned | <L> passed liquidity | <F> flagged | <P> pending week-close
  Settings   : <echo the exact config values actually used this run>
  Data source: yfinance (.NS, split-adjusted, dividends unadjusted)
 =====================================================================
- SECTION 1 — RANKED LIST   (#1..#<top_n> are the focus picks; the rest are the full flagged list)
+ SECTION 1 - RANKED LIST   (#1..#<top_n> are the focus picks; the rest are the full flagged list)
    #   SYMBOL       COMPANY                    SCORE   RSI          LIQ ₹cr/d   ZONE WEEK
    1   BSE          BSE Ltd                     2.41   uncensored       1599   2026-09-04
    2   ...
@@ -447,11 +447,11 @@ can't be computed, print `n/a` — never invent it. Every listed stock must genu
    ---- remaining flagged ----
    11  ...
 =====================================================================
- SECTION 2 — WHY EACH STOCK WAS CHOSEN (plain English)
+ SECTION 2 - WHY EACH STOCK WAS CHOSEN (plain English)
  ---------------------------------------------------------------------
- #1  BSE — BSE Ltd
+ #1  BSE - BSE Ltd
    In plain words: over recent weeks BSE kept making slightly lower price lows, but
-   daily MACD momentum was already turning up (higher lows) — an early sign the fall
+   daily MACD momentum was already turning up (higher lows) - an early sign the fall
    is losing steam. That low landed inside BSE's weekly support band (the 11/22/50-week
    average zone), and momentum was not deeply oversold. The setup's conditions were met.
    What it satisfied (checks + numbers):
@@ -467,24 +467,24 @@ can't be computed, print `n/a` — never invent it. Every listed stock must genu
  ---------------------------------------------------------------------
  #2  ...
 =====================================================================
- PENDING (weekly candle still forming — will confirm after the week closes): <symbols>
+ PENDING (weekly candle still forming - will confirm after the week closes): <symbols>
  NOTES
-  • "censored" RSI = the dip broke below 30 (weaker) — the stock is STILL listed (RSI only
+  • "censored" RSI = the dip broke below 30 (weaker) - the stock is STILL listed (RSI only
     labels, it never removes a stock).
   • Method: prominence-based troughs, MIN_SEGMENT_LEN=1 (blueprint §4). Every number above is
-    computed from sourced data as of <DATE>. Not investment advice — verify each chart.
+    computed from sourced data as of <DATE>. Not investment advice - verify each chart.
 =====================================================================
 ```
 **Single file per day (v1.5):** the report is the ONE deliverable file
 `output/top_recommended_for_<DATE>.txt`, keyed on the data as-of date and **overwritten** on
 re-run (the "Generated" timestamp inside updates). The run summary (counts, skips-by-reason,
-fetch failures) is **folded into a SCAN SUMMARY section** of that file — no separate log file.
+fetch failures) is **folded into a SCAN SUMMARY section** of that file - no separate log file.
 The machine-readable `output/flagged_<DATE>.csv` (every field per flagged stock, for audit) is
 written **only when `[output] write_full_flagged_csv = true`** (default **false** → exactly one
 file per day).
 
 ## 9. Edge cases & correctness rules
-Warm-up (~6y) then slice last 60 — no truncated indicators • **causality:** ≥K bars after `recent`
+Warm-up (~6y) then slice last 60 - no truncated indicators • **causality:** ≥K bars after `recent`
 (±K window fully known); never see beyond the as-of date • 60-bar boundary: detect on full series,
 keep troughs whose *date* ∈ last 60 • closed-week rule §8.1 • insufficient history (< ~4y / 200
 weekly bars, e.g. recent IPOs) → skip, protecting the weekly EMA50 zone (B1) • RSI 0/0 → 100 •
@@ -499,17 +499,17 @@ for audit; rights approximate) • one bad symbol never aborts.
 6. **Golden check** = BSE matches §4a/§8.7. 7. Full-universe run + README (Linux+Windows, schedule).
 
 ## 11. Validation & tests
-- **Golden (pinned):** `research/validate_pipeline.py` — BSE must flag with the §4a values
+- **Golden (pinned):** `research/validate_pipeline.py` - BSE must flag with the §4a values
   (Trough_prev 2026-08-21, Trough_recent 2026-09-02, week 2026-09-04, band [3178.3,3520.1],
   RSI 33.29 uncensored). The `src/` implementation must **reproduce this reference's outputs on the
   golden fixtures with the v1.2 fixes applied** (B1 history gate, B2 fetch counting, B3 NaN-safe
-  ranking, closed-week) — **do not copy the reference code**, which still carries the latent issues
+  ranking, closed-week) - **do not copy the reference code**, which still carries the latent issues
   those fixes address. *(The earlier `golden_test_bse.py` / `golden_test_variants.py` were
-  exploratory and are superseded — keep for history, do not treat as spec.)*
+  exploratory and are superseded - keep for history, do not treat as spec.)*
 - **Indicator unit tests** vs a small fixed input and vs TradingView values (±0.2%).
 - **Truthfulness test:** parse the generated `top_recommended_for_<DATE>.txt` and assert every printed
   number (troughs, EMAs, band, RSI, liquidity, score) equals the value the pipeline computed for that
-  stock — the report must contain zero hardcoded/placeholder data. For BSE it must print the real §4a
+  stock - the report must contain zero hardcoded/placeholder data. For BSE it must print the real §4a
   values. Also assert every listed stock actually passed §8.2 **and** §8.3.
 - **Determinism:** same data+config → identical `flagged_<DATE>.csv`.
 - **Scale smoke test:** full-universe run (~90 min expected); eyeball 3–5 flagged charts on TV,
@@ -523,24 +523,24 @@ ranking fixes, liquidity essential, **B1** weekly-history gate (≥200 weekly ba
 fetch (0% real failure on 200 random EQ; failed-only failover; yfinance==1.7.0 + smoke-fetch; ISIN
 rename tracking), **B3** NaN-safe ranking, feasibility (~88 min), yfinance 1.7.0 verified.
 **For user confirmation before/at greenlight:**
-1. **`TOLERANCE_PCT` = 1%** (D5) — confirm (vs 0.1% literal).
-2. **Liquidity floor ₹5 cr/day + ₹20 min price** — confirm the tradeability bar (raise for stricter).
-3. **Ranking weights** (§8.6) — confirm the six-metric composite and weights match your priorities
+1. **`TOLERANCE_PCT` = 1%** (D5) - confirm (vs 0.1% literal).
+2. **Liquidity floor ₹5 cr/day + ₹20 min price** - confirm the tradeability bar (raise for stricter).
+3. **Ranking weights** (§8.6) - confirm the six-metric composite and weights match your priorities
    (e.g., value momentum vs. support-confluence vs. liquidity differently?).
-4. **Universe scope** — full EQ (default) or use `index_filter` (NIFTY500 etc.) for reliability/speed?
-5. **`DIVERGENCE_SCOPE`** — keep spec-faithful `two_most_recent` (default) or `recent_vs_deepest_prior`?
-6. **Weekly zone leniency** — keep spec-literal wick-touch (default) or require Close/body in band?
+4. **Universe scope** - full EQ (default) or use `index_filter` (NIFTY500 etc.) for reliability/speed?
+5. **`DIVERGENCE_SCOPE`** - keep spec-faithful `two_most_recent` (default) or `recent_vs_deepest_prior`?
+6. **Weekly zone leniency** - keep spec-literal wick-touch (default) or require Close/body in band?
 
 **Remaining pre-implementation validation (do during build, not blocking greenlight):** TradingView
 per-name cross-check on 3–5 corporate-action names (§11).
 
 ---
-### Appendix A — parquet schema (`data/daily/<SYMBOL>.parquet`)
+### Appendix A - parquet schema (`data/daily/<SYMBOL>.parquet`)
 `date`(index) · `Open High Low Close`(split-adj, div-unadj Float) · `Volume`(Int) ·
 `AdjClose Dividends StockSplits`(audit) · `source`(Str) · `fetched_at`. File meta: `symbol, isin,
 adjustment="split_only"`.
 
-### Appendix B — Script 2 pseudo-code
+### Appendix B - Script 2 pseudo-code
 ```
 cfg=load_config()
 for sym in manifest.status=="ok":

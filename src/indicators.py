@@ -1,4 +1,4 @@
-"""Indicators — exactly per blueprint 8.1.
+"""Indicators - exactly per blueprint 8.1.
 
 All computed on the FULL warmed series (never a truncated slice).
 """

@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Deliverable 1 — data fetcher (blueprint 7). Thin entry point.
+"""Deliverable 1 - data fetcher (blueprint 7). Thin entry point.
 
   python scripts/fetch_data.py
 
@@ -51,7 +51,7 @@ def main() -> int:
 
     emit(f"[fetch] start {datetime.now(timezone.utc).isoformat()}  root={root}")
 
-    # 1) Startup smoke-fetch — abort loudly on drift.
+    # 1) Startup smoke-fetch - abort loudly on drift.
     try:
         fetchmod.smoke_fetch(cfg.data.history_years)
         emit("[fetch] smoke-fetch OK")
@@ -120,7 +120,7 @@ def main() -> int:
             })
             wmsg = f" warn={warns}" if warns else ""
             emit(f"[{i}/{total}] {sym:<14} {status:<20} rows={rows_n} src={source}{reason and ' '+reason or ''}{wmsg}")
-        except Exception as e:  # noqa: BLE001 — one bad symbol never aborts
+        except Exception as e:  # noqa: BLE001 - one bad symbol never aborts
             counts["failed"] += 1
             failed_syms.append(sym)
             manifest_rows.append({

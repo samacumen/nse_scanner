@@ -2,7 +2,7 @@
 
 Builds the BSE record through the real pipeline, renders the report, then
 parses the printed text back and asserts every printed number EQUALS the
-computed value (at the printed precision) — the report contains zero
+computed value (at the printed precision) - the report contains zero
 hardcoded/placeholder data. Also asserts the listed stock genuinely passed
 8.2 (divergence) AND 8.3 (zone).
 

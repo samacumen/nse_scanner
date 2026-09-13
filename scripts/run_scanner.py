@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Deliverable 2 — analyzer (blueprint 8, Appendix B). Thin entry point.
+"""Deliverable 2 - analyzer (blueprint 8, Appendix B). Thin entry point.
 
   python scripts/run_scanner.py
 
@@ -136,7 +136,7 @@ def main() -> int:
             continue
         try:
             df, meta = storemod.load_parquet(pq_path)
-        except Exception as e:  # noqa: BLE001 — one bad symbol never aborts
+        except Exception as e:  # noqa: BLE001 - one bad symbol never aborts
             emit(f"[scan] {sym}: load error {e}")
             skip_reasons["load_error"] = skip_reasons.get("load_error", 0) + 1
             continue
@@ -164,7 +164,7 @@ def main() -> int:
         else:
             skip_reasons[payload] = skip_reasons.get(payload, 0) + 1
             # count as "passed liquidity" ONLY if it cleared both the history gate and the
-            # liquidity filter (i.e. failed a later criterion) — never insufficient_history/illiquid
+            # liquidity filter (i.e. failed a later criterion) - never insufficient_history/illiquid
             if payload not in ("illiquid", "insufficient_history"):
                 n_liquid += 1
 

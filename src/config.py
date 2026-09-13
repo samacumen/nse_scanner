@@ -5,7 +5,7 @@ inline comments (# and ;). Types/ranges are validated here and exposed as
 typed attributes (cfg.section.key). Blank value = "unset/default" (None).
 
 Also holds the project-root path resolution (works on Linux and Windows,
-pathlib only, resolved relative to this file — never the cwd).
+pathlib only, resolved relative to this file - never the cwd).
 """
 from __future__ import annotations
 
