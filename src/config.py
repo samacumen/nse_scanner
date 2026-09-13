@@ -32,17 +32,21 @@ def _clean(raw: str | None) -> str | None:
 
 
 class _Section:
-    """Typed accessors over one INI section with clear error messages."""
+    """Typed accessors over one INI section.
+
+    A missing section or key is NOT an error: it falls back to the built-in
+    default defined in load_config(). This is what lets the everyday config.txt
+    stay short - anything it omits comes from advanced_config.txt, and anything
+    neither file sets uses the coded default.
+    """
 
     def __init__(self, parser: configparser.ConfigParser, name: str):
-        if not parser.has_section(name):
-            raise ConfigError(f"[{name}] section missing from {CONFIG_PATH}")
         self._p = parser
         self._name = name
 
     def _raw(self, key: str) -> str | None:
         if not self._p.has_option(self._name, key):
-            raise ConfigError(f"[{self._name}] missing required key '{key}'")
+            return None  # missing key -> use the coded default
         return _clean(self._p.get(self._name, key))
 
     def str_(self, key: str, default: str | None = None, allow_blank: bool = True):
@@ -131,8 +135,13 @@ def load_config(path: Path | str | None = None) -> SimpleNamespace:
     parser = configparser.ConfigParser(inline_comment_prefixes=("#", ";"))
     # Preserve key case (SERIES etc. are lower here, but be safe/predictable).
     parser.optionxform = str
-    with open(p, "r", encoding="utf-8") as fh:
-        parser.read_file(fh)
+    # The everyday settings live in config.txt; the rarely-changed method/tuning
+    # knobs live in an OPTIONAL advanced_config.txt next to it. Read advanced
+    # first so config.txt wins on any shared key; if advanced is absent, the
+    # coded defaults apply. Either file may omit any key.
+    advanced = p.parent / "advanced_config.txt"
+    to_read = ([str(advanced)] if advanced.exists() else []) + [str(p)]
+    parser.read(to_read, encoding="utf-8")
 
     U = _Section(parser, "universe")
     D = _Section(parser, "data")

@@ -1,0 +1,58 @@
+# ===== ADVANCED SETTINGS - rarely changed =====
+# These define the trading METHOD itself. The values below are the tested
+# defaults; you normally do NOT need to touch them. It is safe to change a
+# value, and it is safe to DELETE this whole file (the same defaults still
+# apply from the code). Everyday settings live in config.txt.
+# After any change here, just re-run:  python scripts/run_scanner.py
+# (except the [data] fetch knobs below, which apply on the next Step 1 download.)
+
+[macd]
+fast = 12                       # standard MACD fast EMA
+slow = 26                       # standard MACD slow EMA
+signal = 9                      # standard MACD signal EMA
+
+[divergence]
+lookback_days = 60              # recent trading days searched for the pattern (~3 months)
+price_window_k = 3              # days each side of a dip used to find its true low
+trough_detection = prominence   # prominence (tested default) | strict (literal textbook rule)
+min_segment_len = 1             # smallest momentum-dip width that counts
+prominence_frac = 0.10          # how pronounced a momentum dip must be (higher = stricter)
+divergence_scope = two_most_recent   # two_most_recent | recent_vs_deepest_prior
+min_trough_sep = 7              # fewest days apart the two compared dips must be
+tolerance_pct = 0.01            # how close two lows count as "equal" (0.01 = 1%, a double bottom)
+price_field = Low               # which price makes the "lower low": Low | Close
+require_confirmation = true     # only pick once momentum has turned back up (avoids falling knives)
+confirm_bars = 3                # rising days that count as "turned back up"
+recency_bars = 20               # the recent dip must be within this many days of now
+
+[weekly]
+ema_set = 11,22,50              # the three weekly averages forming the support band
+zone_test = range_overlap       # range_overlap (touch) | close_in_band (stricter: must close inside)
+min_weekly_bars_for_zone = 200  # weeks of history needed for a trustworthy 50-week average (~4y)
+
+[rsi]
+period = 14                     # RSI length (standard)
+smoothing = wilder              # wilder (matches TradingView) | sma
+lower_band = 30                 # oversold line: at/above = "uncensored", below = "censored"
+
+[liquidity]
+apply_as_filter = true          # turn the liquidity filter on/off
+window = 20                     # trading days used to measure average turnover
+
+[ranking]
+# How the top list is ordered. Bigger weight = more influence. They need not add to 1.
+weight_momentum = 0.30          # strength of the momentum turn
+weight_zone_confluence = 0.20   # how tight/centred the weekly support zone is
+weight_rsi_quality = 0.15       # healthier (higher) RSI at the low
+weight_liquidity = 0.15         # higher daily turnover
+weight_recency = 0.10           # fresher signal
+weight_volume_expansion = 0.10  # jump in volume on the reversal
+
+[data]
+# Download mechanics (apply on the next Step 1 fetch).
+request_throttle_sec = 0.5      # pause between downloads; raise if Yahoo rate-limits you
+min_rows_daily = 1000           # least history a stock needs or it's skipped (~4 years)
+refresh_if_older_than_hours = 120  # re-use cached files newer than this; 0 = always re-download
+
+[output]
+dir = output                    # folder where the report is written

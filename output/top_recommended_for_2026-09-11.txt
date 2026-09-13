@@ -1,6 +1,6 @@
 =====================================================================
  NSE SCANNER - TOP RECOMMENDATIONS
- Data as-of : 2026-09-11 (last trading day)        Generated: 2026-09-14 03:44 IST
+ Data as-of : 2026-09-11 (last trading day)        Generated: 2026-09-14 03:52 IST
  Setup      : Daily MACD-histogram bullish divergence + weekly EMA(11/22/50) support zone
  Universe   : 2292 NSE equities listed | 1577 had enough history and were scanned
               (715 skipped - too new for a 4-year weekly average) | 749 passed liquidity | 73 flagged | 0 pending

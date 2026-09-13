@@ -1,67 +1,29 @@
-# ===== NSE SCANNER SETTINGS - edit, save, re-run. =====
-# Change anything BELOW [data] (i.e. [macd]..[output]) -> just re-run:  python scripts/run_scanner.py
-#   (re-analyzes the ALREADY-DOWNLOADED ~2000 stocks; NO re-fetch)
-# Change [universe] or [data] -> re-download first:                     python scripts/fetch_data.py
+# ===== NSE SCANNER SETTINGS - the everyday knobs =====
+# Edit a value after "=", save, then re-run. Blank = use the default.
+# Change [universe] or [data] -> re-download first:  python scripts/fetch_data.py
+# Change [liquidity]/[ranking]/[output] -> just:      python scripts/run_scanner.py
+#
+# Rarely-changed method settings (MACD, divergence internals, RSI, ranking
+# weights, ...) live in advanced_config.txt - you can ignore that file.
 
 [universe]
-series = EQ                      # comma-separated, e.g. EQ,BE
-include_sme = false
-index_filter =                  # blank = all EQ; or NIFTY50 / NIFTY100 / NIFTY500 / SMALLCAP250 (join with +)
-max_symbols =                   # blank = all; small integer to test on a subset
-symbols_override =              # comma-separated to scan ONLY these (testing)
+index_filter =                  # blank = all stocks; or NIFTY50 / NIFTY100 / NIFTY500 / SMALLCAP250 (join with +)
+symbols_override =              # scan ONLY these, e.g. BSE,RELIANCE (great for a quick test); blank = full scan
+max_symbols =                   # blank = all; a number (e.g. 50) scans only that many (testing)
+series = EQ                     # NSE listing types to include (EQ = normal equities)
+include_sme = false            # include tiny SME-board stocks
 
 [data]
-history_years = 6
-price_adjustment = split_only   # split_only (matches TradingView) | total_return (incl. dividends)
-request_throttle_sec = 0.5      # raise if Yahoo rate-limits you
-min_rows_daily = 1000           # ~4y min history; else skipped (weekly EMA50 needs depth)
-refresh_if_older_than_hours = 120  # reuse cached files newer than this (resume); 0 = always refetch
-
-[macd]
-fast = 12
-slow = 26
-signal = 9
-
-[divergence]
-lookback_days = 60
-price_window_k = 3
-trough_detection = prominence   # prominence (default) | strict (literal spec)
-min_segment_len = 1
-prominence_frac = 0.10          # MIN_PROMINENCE = frac x max(|H|) over lookback
-divergence_scope = two_most_recent   # two_most_recent (spec) | recent_vs_deepest_prior
-min_trough_sep = 7
-tolerance_pct = 0.01            # 1% "equal low" band
-price_field = Low               # Low | Close
-require_confirmation = true
-confirm_bars = 3
-recency_bars = 20
-
-[weekly]
-ema_set = 11,22,50
-zone_test = range_overlap       # range_overlap (wick touch) | close_in_band (stricter)
-min_weekly_bars_for_zone = 200  # ~4y; the EMA50 zone is a hard filter and needs a warmed series
-
-[rsi]
-period = 14
-smoothing = wilder              # wilder | sma
-lower_band = 30
+history_years = 6               # years of price history to download per stock
+price_adjustment = split_only   # split_only (matches TradingView) | total_return (includes dividends)
 
 [liquidity]
-apply_as_filter = true
-window = 20
-min_median_traded_value_inr = 50000000   # Rs 5 cr/day
-min_price = 20                            # ignore sub-Rs 20 names
+min_median_traded_value_inr = 50000000   # ignore stocks trading less than this per day (Rs 5 crore)
+min_price = 20                            # ignore stocks priced below this (avoids penny stocks)
 
 [ranking]
-top_n = 10
-weight_momentum = 0.30
-weight_zone_confluence = 0.20
-weight_rsi_quality = 0.15
-weight_liquidity = 0.15
-weight_recency = 0.10
-weight_volume_expansion = 0.10
-min_score =                     # blank = no floor (never pad the list with weak names)
+top_n = 10                      # how many top picks to highlight
+min_score =                     # blank = show every qualifying stock (never pad the list with weak ones)
 
 [output]
-dir = output
-write_full_flagged_csv = false   # false = ONE .txt file per day; true = also write a machine-readable CSV
+write_full_flagged_csv = false  # false = one .txt report per day; true = also write a spreadsheet CSV

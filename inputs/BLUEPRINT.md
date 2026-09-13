@@ -195,11 +195,16 @@ nse_scanner/
 No OS-specific calls; `pathlib` paths. **Scheduling (optional, README):** Linux `cron` Saturday;
 Windows Task Scheduler weekly calling `.venv\Scripts\python.exe`.
 
-## 6. Configuration - one plain-text settings file the user edits (`config.txt`)
-**Every knob lives in `config.txt`** (INI format - plain text, heavily commented, editable in any
-editor; parsed by Python's stdlib `configparser`, so **no YAML dependency**). `src/config.py` loads
-it with `configparser.ConfigParser(inline_comment_prefixes=("#",";"))`, validates types/ranges, and
-exposes typed access. Blank value = "unset/default". Lists are comma-separated.
+## 6. Configuration - plain-text settings the user edits (`config.txt` + `advanced_config.txt`)
+**Settings are split across two INI files (v1.5)** parsed by stdlib `configparser` (no YAML): the
+everyday **`config.txt`** (universe scope, liquidity floor, `top_n`, `min_score`, CSV toggle,
+`history_years`, `price_adjustment`) and the rarely-changed **`advanced_config.txt`** (the method
+knobs: MACD, divergence internals, RSI, weekly-zone, ranking weights, fetch mechanics). `config.py`
+holds a built-in default for **every** parameter and reads `advanced_config.txt` first then
+`config.txt` (so the everyday file wins on any shared key); a **missing key or a missing/deleted
+`advanced_config.txt` falls back to the coded default**. This keeps the everyday file short while
+every spec §6 parameter stays fully configurable. Blank value = "unset/default"; lists are
+comma-separated.
 
 > **Re-analyze without re-downloading (user's explicit requirement).** The pipeline is split so the
 > **~2,000-stock download happens once** (Script 1 → `data/`), and **tuning is instant**: edit any
