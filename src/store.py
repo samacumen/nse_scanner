@@ -95,6 +95,27 @@ def load_parquet(path: Path):
     return df, meta
 
 
+def prune_stale_parquets(daily_dir: Path, keep_symbols) -> list:
+    """Delete data/daily/<SYM>.parquet whose symbol is NOT in keep_symbols.
+
+    Keeps the on-disk store equal to the current universe so old/delisted/renamed
+    or out-of-scope stocks don't accumulate. Only ever touches *.parquet files in
+    daily_dir. Returns the sorted list of removed symbols.
+    """
+    keep = {str(s).strip().upper() for s in keep_symbols}
+    removed = []
+    if not daily_dir.exists():
+        return removed
+    for f in sorted(daily_dir.glob("*.parquet")):
+        if f.stem.upper() not in keep:
+            try:
+                f.unlink()
+                removed.append(f.stem)
+            except OSError:
+                pass
+    return removed
+
+
 def write_manifest(rows: list, path: Path) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     pd.DataFrame(rows, columns=MANIFEST_COLUMNS).to_csv(path, index=False)

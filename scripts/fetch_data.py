@@ -134,6 +134,22 @@ def main() -> int:
 
     # 4/5) Manifest + summary.
     storemod.write_manifest(manifest_rows, data_dir / "manifest.csv")
+
+    # Prune stale on-disk data so old/delisted/out-of-scope stocks don't clog the
+    # disk. SKIP when scanning a testing subset (symbols_override / max_symbols),
+    # or the rest of a full download would be wrongly deleted.
+    testing_subset = bool(cfg.universe.symbols_override or cfg.universe.max_symbols)
+    if cfg.data.prune_stale and not testing_subset:
+        removed = storemod.prune_stale_parquets(daily_dir, set(uni["symbol"]))
+        if removed:
+            shown = ", ".join(removed[:15]) + (" ..." if len(removed) > 15 else "")
+            emit(f"[fetch] pruned {len(removed)} stale file(s) not in the current universe "
+                 f"(delisted/renamed/out-of-scope): {shown}")
+        else:
+            emit("[fetch] no stale data to prune (data/ already matches the universe)")
+    elif testing_subset:
+        emit("[fetch] pruning skipped (testing subset via symbols_override/max_symbols)")
+
     dt = time.time() - t0
     emit(f"[fetch] done in {dt:.0f}s "
          f"ok={counts['ok']} insufficient_history={counts['insufficient_history']} failed={counts['failed']}")

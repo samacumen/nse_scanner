@@ -55,6 +55,18 @@ Open the report in the `output/` folder.
   it **never re-downloads**.
 - So if you change a setting and want to re-analyze, **just run Step 2 again.**
 
+## Disk usage and data freshness
+- Each stock is stored as **one file** in `data/daily/`, **overwritten** on refresh - copies never
+  pile up.
+- Step 1 downloads about **6 years** of history per stock. That is just enough for the weekly
+  averages (the 50-week line needs ~4 years of data); any stock with too little history is
+  **skipped**, so the scan is never run on thin data and never guesses. The whole universe is only
+  about **150 MB**.
+- Step 1 also **deletes files for stocks that are no longer in your universe** (delisted, renamed, or
+  excluded by `index_filter`), so old data does not clog your disk. Testing subsets
+  (`symbols_override` / `max_symbols`) never trigger this. To keep everything instead, set
+  `prune_stale = false` in `advanced_config.txt`.
+
 ## Settings you can change (`config.txt`)
 Open **`config.txt`** in any text editor (Notepad is fine), change a value after `=`, and save.
 Blank = use the default. Lists are comma-separated (e.g. `BSE,RELIANCE`). This file holds just the

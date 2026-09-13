@@ -170,6 +170,7 @@ def load_config(path: Path | str | None = None) -> SimpleNamespace:
         refresh_if_older_than_hours=D.float_(
             "refresh_if_older_than_hours", default=120.0, lo=0.0
         ),
+        prune_stale=D.bool_("prune_stale", default=True),
     )
     macd = SimpleNamespace(
         fast=M.int_("fast", default=12, lo=1),

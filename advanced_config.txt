@@ -53,6 +53,7 @@ weight_volume_expansion = 0.10  # jump in volume on the reversal
 request_throttle_sec = 0.5      # pause between downloads; raise if Yahoo rate-limits you
 min_rows_daily = 1000           # least history a stock needs or it's skipped (~4 years)
 refresh_if_older_than_hours = 120  # re-use cached files newer than this; 0 = always re-download
+prune_stale = true              # after a full download, delete on-disk data for stocks no longer in your universe (keeps the disk tidy)
 
 [output]
 dir = output                    # folder where the report is written
