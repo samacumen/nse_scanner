@@ -6,7 +6,7 @@
 [universe]
 series = EQ                      # comma-separated, e.g. EQ,BE
 include_sme = false
-index_filter =                  # blank = all EQ; or NIFTY500 / NIFTY500+SMALLCAP250 (faster, cleaner)
+index_filter =                  # blank = all EQ; or NIFTY50 / NIFTY100 / NIFTY500 / SMALLCAP250 (join with +)
 max_symbols =                   # blank = all; small integer to test on a subset
 symbols_override =              # comma-separated to scan ONLY these (testing)
 

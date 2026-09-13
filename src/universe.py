@@ -17,6 +17,8 @@ import requests
 EQUITY_L_URL = "https://nsearchives.nseindia.com/content/equities/EQUITY_L.csv"
 NSE_HOME = "https://www.nseindia.com"
 INDEX_CSV = {
+    "NIFTY50": "https://nsearchives.nseindia.com/content/indices/ind_nifty50list.csv",
+    "NIFTY100": "https://nsearchives.nseindia.com/content/indices/ind_nifty100list.csv",
     "NIFTY500": "https://nsearchives.nseindia.com/content/indices/ind_nifty500list.csv",
     "SMALLCAP250": "https://nsearchives.nseindia.com/content/indices/ind_niftysmallcap250list.csv",
 }
