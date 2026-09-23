@@ -54,7 +54,8 @@ def test_troughs(bse_pipeline):
 def test_weekly_zone(bse_pipeline):
     cfg, df, H, rsi, div, zone = bse_pipeline
     assert zone.status == "ok"
-    assert zone.W.date().isoformat() == "2026-09-04"
+    assert zone.W.date().isoformat() == "2026-09-04"          # W-FRI bucket label (Friday)
+    assert zone.week_start.date().isoformat() == "2026-08-31"  # Zone_week_date = week start (Mon)
     assert abs(zone.band_lo - 3178.3) < 1.0
     assert abs(zone.band_hi - 3520.1) < 1.0
     assert zone.zone_ok is True

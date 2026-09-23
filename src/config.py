@@ -125,7 +125,7 @@ class _Section:
 def load_config(path: Path | str | None = None) -> SimpleNamespace:
     """Parse + validate config.txt; return nested SimpleNamespace.
 
-    Access like: cfg.macd.fast, cfg.divergence.trough_detection, ...
+    Access like: cfg.macd.fast, cfg.divergence.trough_pivot_k, ...
     Also cfg.raw (the flat dict of section->key->str for the report echo).
     """
     p = Path(path) if path is not None else CONFIG_PATH
@@ -182,18 +182,8 @@ def load_config(path: Path | str | None = None) -> SimpleNamespace:
 
     divergence = SimpleNamespace(
         lookback_days=V.int_("lookback_days", default=60, lo=2),
+        trough_pivot_k=V.int_("trough_pivot_k", default=3, lo=1),
         price_window_k=V.int_("price_window_k", default=3, lo=0),
-        trough_detection=V.choice_(
-            "trough_detection", {"prominence", "strict"}, default="prominence"
-        ),
-        min_segment_len=V.int_("min_segment_len", default=1, lo=1),
-        prominence_frac=V.float_("prominence_frac", default=0.10, lo=0.0),
-        divergence_scope=V.choice_(
-            "divergence_scope",
-            {"two_most_recent", "recent_vs_deepest_prior"},
-            default="two_most_recent",
-        ),
-        min_trough_sep=V.int_("min_trough_sep", default=7, lo=1),
         tolerance_pct=V.float_("tolerance_pct", default=0.01, lo=0.0),
         price_field=V.choice_("price_field", {"Low", "Close"}, default="Low"),
         require_confirmation=V.bool_("require_confirmation", default=True),

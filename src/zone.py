@@ -21,7 +21,8 @@ RESAMPLE_RULE = "W-FRI"
 class Zone:
     status: str                    # ok | pending_week | no_week | insufficient_weekly
     zone_ok: bool = False
-    W: Optional[pd.Timestamp] = None
+    W: Optional[pd.Timestamp] = None          # W-FRI bucket label (the week's Friday)
+    week_start: Optional[pd.Timestamp] = None  # first trading day in bucket W (spec 3.1 Zone_week_date)
     emas: dict = field(default_factory=dict)
     band_lo: float = float("nan")
     band_hi: float = float("nan")
@@ -52,8 +53,10 @@ def weekly_zone(daily: pd.DataFrame, swing_low_date, cfg) -> Zone:
     if not cand:
         return Zone(status="no_week")
     W = cand[0]  # W-FRI bucket containing the swing-low date
+    # Zone_week_date (spec 3.1) = the START date of candle W = its first trading day.
+    week_start = pd.Timestamp(daily.index.to_series().resample(RESAMPLE_RULE).min().loc[W])
     if not _closed(W, buckets, last_date):
-        return Zone(status="pending_week", W=W)
+        return Zone(status="pending_week", W=W, week_start=week_start)
 
     vals = {p: float(emas[p].loc[W]) for p in cfg.weekly.ema_set}
     lo = min(vals.values())
@@ -70,6 +73,7 @@ def weekly_zone(daily: pd.DataFrame, swing_low_date, cfg) -> Zone:
         status="ok",
         zone_ok=zone_ok,
         W=W,
+        week_start=week_start,
         emas=vals,
         band_lo=lo,
         band_hi=hi,

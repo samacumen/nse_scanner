@@ -37,10 +37,8 @@ def _settings_echo(cfg) -> str:
     d = cfg.divergence
     parts = [
         f"MACD {cfg.macd.fast}/{cfg.macd.slow}/{cfg.macd.signal}",
-        f"lookback={d.lookback_days} K={d.price_window_k}",
-        f"trough={d.trough_detection}(seg>={d.min_segment_len},prom={d.prominence_frac})",
-        f"scope={d.divergence_scope} sep={d.min_trough_sep} tol={d.tolerance_pct}",
-        f"price_field={d.price_field} confirm={d.require_confirmation}/{d.confirm_bars} recency={d.recency_bars}",
+        f"lookback={d.lookback_days} pivotK={d.trough_pivot_k} K={d.price_window_k}",
+        f"tol={d.tolerance_pct} price_field={d.price_field} confirm={d.require_confirmation}/{d.confirm_bars} recency={d.recency_bars}",
         f"weekEMA={cfg.weekly.ema_set} zone={cfg.weekly.zone_test} minWk={cfg.weekly.min_weekly_bars_for_zone}",
         f"RSI {cfg.rsi.period}/{cfg.rsi.smoothing}/lb{cfg.rsi.lower_band:g}",
         f"liq>={cfg.liquidity.min_median_traded_value_inr/1e7:g}cr&>={cfg.liquidity.min_price:g} win={cfg.liquidity.window}",
@@ -53,20 +51,24 @@ def _settings_echo(cfg) -> str:
 def _section1(ranked, cfg) -> list:
     lines = []
     lines.append(f" SECTION 1 - THE LIST   (#1..#{cfg.ranking.top_n} are the top picks; the rest is the full flagged list)")
+    lines.append("   PREV DIP / RECENT DIP = the two MACD-histogram trough dates; ZONE WK = start of the weekly EMA-zone candle")
     lines.append("")
-    lines.append(f"   {'#':>3}  {'SYMBOL':<12} {'COMPANY':<26} {'SCORE':>6}  {'RSI':<11} {'LIQ Rs cr/d':>11}  {'ZONE WEEK':<10}")
-    lines.append(f"   {'-'*3}  {'-'*12} {'-'*26} {'-'*6}  {'-'*11} {'-'*11}  {'-'*10}")
+    lines.append(f"   {'#':>3}  {'SYMBOL':<12} {'COMPANY':<20} {'SCORE':>6}  {'RSI':<11} "
+                 f"{'PREV DIP':<10} {'RECENT DIP':<10} {'ZONE WK':<10} {'LIQ cr/d':>8}")
+    lines.append(f"   {'-'*3}  {'-'*12} {'-'*20} {'-'*6}  {'-'*11} {'-'*10} {'-'*10} {'-'*10} {'-'*8}")
     top_n = cfg.ranking.top_n
     emitted_sep = False
     for r in ranked:
         if r["rank"] == top_n + 1 and not emitted_sep:
             lines.append("   ---- remaining flagged ----")
             emitted_sep = True
-        company = (r["company"] or "")[:26]
-        wk = r["W"].date().isoformat() if r.get("W") is not None else "n/a"
+        company = (r["company"] or "")[:20]
+        pv = r["prev_date"].date().isoformat() if r.get("prev_date") is not None else "n/a"
+        rc = r["recent_date"].date().isoformat() if r.get("recent_date") is not None else "n/a"
+        wk = r["week_start"].date().isoformat() if r.get("week_start") is not None else "n/a"
         lines.append(
-            f"   {r['rank']:>3}  {r['symbol']:<12} {company:<26} "
-            f"{_num(r['score']):>6}  {r['rsi_check']:<11} {_cr(r['liquidity']):>11}  {wk:<10}"
+            f"   {r['rank']:>3}  {r['symbol']:<12} {company:<20} "
+            f"{_num(r['score']):>6}  {r['rsi_check']:<11} {pv:<10} {rc:<10} {wk:<10} {_cr(r['liquidity']):>8}"
         )
     return lines
 
@@ -116,7 +118,7 @@ def _section2(ranked, cfg) -> list:
         )
         ema_str = ", ".join(f"EMA{p} {_num(r['ema_vals'].get(p), 1)}" for p in cfg.weekly.ema_set)
         lines.append(
-            f"     2) Weekly support zone (week of {r['W'].date()}): the weekly averages were\n"
+            f"     2) Weekly support zone (week of {r['week_start'].date()}): the weekly averages were\n"
             f"        {ema_str}.\n"
             f"        They formed a band {_num(r['band_lo'],1)} to {_num(r['band_hi'],1)}; that week's range "
             f"{_num(r['week_low'],1)} to {_num(r['week_high'],1)} {zone_word}.  "
@@ -179,7 +181,7 @@ def build_report_text(ranked, pending, meta, cfg) -> str:
             "no_divergence:criteria_not_met": "no valid bullish divergence",
             "no_divergence:no_causal_recent_trough": "no confirmed recent trough",
             "no_divergence:fewer_than_two_troughs": "fewer than two troughs",
-            "no_divergence:no_prior_trough_with_separation": "no separated prior trough",
+            "no_divergence:no_prior_trough": "only one trough (no prior)",
             "zone:zone_fail": "low not inside the weekly EMA zone",
         }
         for k, v in sorted(skips.items(), key=lambda x: -x[1]):
@@ -208,18 +210,19 @@ def _flagged_dataframe(ranked) -> pd.DataFrame:
             "company": r["company"],
             "isin": r["isin"],
             "score": r["score"],
-            "prev_date": r["prev_date"].date().isoformat(),
-            "h_prev": r["h_prev"],
+            "Trough_prev_date": r["prev_date"].date().isoformat(),
+            "Trough_prev_H": r["h_prev"],
             "pl_prev": r["pl_prev"],
-            "recent_date": r["recent_date"].date().isoformat(),
-            "h_recent": r["h_recent"],
-            "pl_recent": r["pl_recent"],
             "swing_prev_date": r["swing_prev_date"].date().isoformat(),
+            "Trough_recent_date": r["recent_date"].date().isoformat(),
+            "Trough_recent_H": r["h_recent"],
+            "pl_recent": r["pl_recent"],
             "swing_recent_date": r["swing_recent_date"].date().isoformat(),
             "momentum_ok": r["momentum_ok"],
             "price_ok": r["price_ok"],
             "confirmed": r["confirmed"],
-            "zone_week": r["W"].date().isoformat(),
+            "Zone_week_date": r["week_start"].date().isoformat(),
+            "weekly_bucket_fri": r["W"].date().isoformat(),
             **{f"ema{p}": v for p, v in r["ema_vals"].items()},
             "band_lo": r["band_lo"],
             "band_hi": r["band_hi"],
@@ -227,8 +230,8 @@ def _flagged_dataframe(ranked) -> pd.DataFrame:
             "week_high": r["week_high"],
             "week_close": r["week_close"],
             "zone_ok": r["zone_ok"],
-            "rsi_trough": r["rsi_trough"],
-            "rsi_check": r["rsi_check"],
+            "RSI_trough_value": r["rsi_trough"],
+            "RSI_check": r["rsi_check"],
             "liquidity_inr": r["liquidity"],
             "atr14": r["atr14"],
             "z_momentum": r["z"]["momentum"],

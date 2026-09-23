@@ -16,7 +16,8 @@ It also tags each pick's **RSI health**: `uncensored` = the dip held at/above RS
 ## What you get
 **One file per day**: `output/top_recommended_for_<date>.txt` (re-running the same day just
 updates it - the "Generated" time inside changes, but it stays a single file). It contains:
-1. **THE LIST** - ranked 1, 2, 3 ... (top 10 first, then any other qualifying names).
+1. **THE LIST** - ranked 1, 2, 3 ... (top 10 first, then any other qualifying names), each showing
+   the two MACD-trough dates and the support-zone week so you can check it on a chart.
 2. **WHY EACH WAS CHOSEN** - a simple explanation plus the exact numbers behind every check.
 3. **SCAN SUMMARY** - how many were scanned and why the rest were not selected.
 
@@ -101,7 +102,7 @@ The file is fully commented; the ones you're most likely to care about:
 | Setting (section) | What it does | Default |
 |---|---|---|
 | `lookback_days` (`[divergence]`) | Recent days searched for the pattern (~3 months). | 60 |
-| `prominence_frac` (`[divergence]`) | How pronounced a momentum dip must be. Higher = stricter, fewer picks. | 0.10 |
+| `trough_pivot_k` (`[divergence]`) | Bars on each side of a momentum dip that must be higher for it to count as a trough (a wider window = fewer, more distinct troughs). | 3 |
 | `tolerance_pct` (`[divergence]`) | How close two lows count as "equal" (a double bottom). `0.01` = 1%. | 0.01 |
 | `recency_bars` (`[divergence]`) | The recent dip must be within this many days of now. | 20 |
 | `require_confirmation` (`[divergence]`) | Only pick once momentum has turned back up. | true |
@@ -111,10 +112,9 @@ The file is fully commented; the ones you're most likely to care about:
 | `weight_*` (`[ranking]`) | How much each quality counts (momentum, zone, RSI, liquidity, recency, volume). | see file |
 | `request_throttle_sec` (`[data]`) | Pause between downloads; raise if Yahoo rate-limits you. | 0.5 |
 
-Every remaining knob - MACD `fast`/`slow`/`signal`, `price_window_k`, `min_segment_len`,
-`trough_detection`, `divergence_scope`, `min_trough_sep`, `price_field`, `confirm_bars`, `ema_set`,
-`min_weekly_bars_for_zone`, RSI `period`, `min_rows_daily`, `refresh_if_older_than_hours`, output
-`dir` - is in `advanced_config.txt` with a one-line explanation.
+Every remaining knob - MACD `fast`/`slow`/`signal`, `price_window_k`, `price_field`, `confirm_bars`,
+`ema_set`, `min_weekly_bars_for_zone`, RSI `period`, `min_rows_daily`, `refresh_if_older_than_hours`,
+output `dir` - is in `advanced_config.txt` with a one-line explanation.
 
 ## Quick test (a few seconds)
 Set `symbols_override = BSE,RELIANCE,FEDERALBNK` in `config.txt`, then run Step 1 and Step 2.

@@ -1,98 +1,138 @@
 =====================================================================
  NSE SCANNER - TOP RECOMMENDATIONS
- Data as-of : 2026-09-11 (last trading day)        Generated: 2026-09-14 03:52 IST
+ Data as-of : 2026-09-11 (last trading day)        Generated: 2026-09-23 23:42 IST
  Setup      : Daily MACD-histogram bullish divergence + weekly EMA(11/22/50) support zone
  Universe   : 2292 NSE equities listed | 1577 had enough history and were scanned
-              (715 skipped - too new for a 4-year weekly average) | 749 passed liquidity | 73 flagged | 0 pending
- Settings   : MACD 12/26/9 | lookback=60 K=3 | trough=prominence(seg>=1,prom=0.1) | scope=two_most_recent sep=7 tol=0.01 | price_field=Low confirm=True/3 recency=20 | weekEMA=[11, 22, 50] zone=range_overlap minWk=200 | RSI 14/wilder/lb30 | liq>=5cr&>=20 win=20 | adj=split_only | top_n=10
+              (715 skipped - too new for a 4-year weekly average) | 749 passed liquidity | 92 flagged | 0 pending
+ Settings   : MACD 12/26/9 | lookback=60 pivotK=3 K=3 | tol=0.01 price_field=Low confirm=True/3 recency=20 | weekEMA=[11, 22, 50] zone=range_overlap minWk=200 | RSI 14/wilder/lb30 | liq>=5cr&>=20 win=20 | adj=split_only | top_n=10
  Data source: yfinance (.NS, split_only, dividends unadjusted)
 =====================================================================
 
  SECTION 1 - THE LIST   (#1..#10 are the top picks; the rest is the full flagged list)
+   PREV DIP / RECENT DIP = the two MACD-histogram trough dates; ZONE WK = start of the weekly EMA-zone candle
 
-     #  SYMBOL       COMPANY                     SCORE  RSI         LIQ Rs cr/d  ZONE WEEK 
-   ---  ------------ -------------------------- ------  ----------- -----------  ----------
-     1  PHOENIXLTD   The Phoenix Mills Limited    1.36  uncensored           57  2026-09-04
-     2  ADANIGREEN   Adani Green Energy Limited   1.36  censored            143  2026-09-04
-     3  ADANIPORTS   Adani Ports and Special Ec   0.85  uncensored          312  2026-09-04
-     4  BBOX         Black Box Limited            0.62  uncensored           18  2026-09-04
-     5  YESBANK      Yes Bank Limited             0.61  uncensored          109  2026-09-04
-     6  GVPIL        GE Power India Limited       0.60  uncensored           15  2026-08-28
-     7  BSE          BSE Limited                  0.58  uncensored         1599  2026-09-04
-     8  EQUITASBNK   Equitas Small Finance Bank   0.57  uncensored           10  2026-09-11
-     9  TATASTEEL    Tata Steel Limited           0.57  uncensored          470  2026-09-04
-    10  GAIL         GAIL (India) Limited         0.54  uncensored          104  2026-08-28
+     #  SYMBOL       COMPANY               SCORE  RSI         PREV DIP   RECENT DIP ZONE WK    LIQ cr/d
+   ---  ------------ -------------------- ------  ----------- ---------- ---------- ---------- --------
+     1  RAMCOSYS     Ramco Systems Limite   1.28  uncensored  2026-07-29 2026-08-20 2026-08-17        6
+     2  PHOENIXLTD   The Phoenix Mills Li   1.23  uncensored  2026-07-31 2026-09-01 2026-08-31       57
+     3  J&KBANK      The Jammu & Kashmir    1.19  uncensored  2026-07-31 2026-09-02 2026-08-31       21
+     4  ADANIPORTS   Adani Ports and Spec   0.82  uncensored  2026-07-31 2026-09-01 2026-08-31      312
+     5  YESBANK      Yes Bank Limited       0.72  uncensored  2026-07-09 2026-08-28 2026-08-31      109
+     6  TATASTEEL    Tata Steel Limited     0.67  uncensored  2026-08-21 2026-09-03 2026-08-31      470
+     7  BSE          BSE Limited            0.65  uncensored  2026-08-21 2026-09-02 2026-08-31     1599
+     8  SPARC        Sun Pharma Advanced    0.60  uncensored  2026-07-23 2026-08-18 2026-08-17       13
+     9  ADANIGREEN   Adani Green Energy L   0.58  censored    2026-08-19 2026-09-01 2026-08-31      143
+    10  BBOX         Black Box Limited      0.58  uncensored  2026-07-22 2026-09-04 2026-08-31       18
    ---- remaining flagged ----
-    11  BAJAJCON     Bajaj Consumer Care Limite   0.48  censored             45  2026-08-28
-    12  CCL          CCL Products (India) Limit   0.40  uncensored           15  2026-09-04
-    13  GOKEX        Gokaldas Exports Limited     0.32  uncensored           14  2026-08-28
-    14  ADANIENT     Adani Enterprises Limited    0.28  uncensored          301  2026-09-04
-    15  DELHIVERY    Delhivery Limited            0.27  uncensored           63  2026-08-28
-    16  TRITURBINE   Triveni Turbine Limited      0.26  uncensored           22  2026-08-21
-    17  FEDERALBNK   The Federal Bank  Limited    0.25  uncensored          155  2026-09-11
-    18  MMTC         MMTC Limited                 0.21  uncensored            7  2026-09-04
-    19  VTL          Vardhman Textiles Limited    0.20  uncensored           10  2026-09-04
-    20  ELECON       Elecon Engineering Company   0.19  uncensored           12  2026-09-04
-    21  INDHOTEL     The Indian Hotels Company    0.18  uncensored           73  2026-09-04
-    22  TORNTPHARM   Torrent Pharmaceuticals Li   0.15  uncensored          129  2026-09-04
-    23  SPAL         S. P. Apparels Limited       0.14  uncensored            6  2026-08-21
-    24  SUPRIYA      Supriya Lifescience Limite   0.13  uncensored           18  2026-08-14
-    25  PCBL         PCBL Chemical Limited        0.13  uncensored           24  2026-09-04
-    26  NCC          NCC Limited                  0.11  uncensored           25  2026-08-21
-    27  NESTLEIND    Nestle India Limited         0.10  uncensored          174  2026-09-11
-    28  SCHAEFFLER   Schaeffler India Limited     0.09  uncensored           20  2026-08-28
-    29  VIYASH       Viyash Scientific Limited    0.08  uncensored           87  2026-08-21
-    30  INDIGO       InterGlobe Aviation Limite   0.06  uncensored          255  2026-09-11
-    31  LTTS         L&T Technology Services Li   0.06  uncensored           17  2026-09-04
-    32  RAIN         Rain Industries Limited      0.03  uncensored           79  2026-08-28
-    33  HOMEFIRST    Home First Finance Company   0.03  uncensored           15  2026-09-04
-    34  CAMS         Computer Age Management Se  -0.00  uncensored           96  2026-08-28
-    35  ADANIPOWER   Adani Power Limited         -0.00  uncensored          357  2026-08-21
-    36  AEGISLOG     Aegis Logistics Limited     -0.01  uncensored           87  2026-09-04
-    37  KIRLOSENG    Kirloskar Oil Engines Limi  -0.02  uncensored           81  2026-08-14
-    38  TIPSMUSIC    Tips Music Limited          -0.05  uncensored           11  2026-09-04
-    39  STARHEALTH   Star Health and Allied Ins  -0.05  uncensored           14  2026-09-04
-    40  PRIVISCL     Privi Speciality Chemicals  -0.07  censored             19  2026-09-04
-    41  POLYMED      Poly Medicure Limited       -0.08  uncensored           20  2026-09-11
-    42  GANECOS      Ganesha Ecosphere Limited   -0.10  uncensored            6  2026-09-04
-    43  MAYURUNIQ    Mayur Uniquoters Ltd        -0.11  uncensored            6  2026-09-11
-    44  PAISALO      Paisalo Digital Limited     -0.11  uncensored           67  2026-09-04
-    45  CAMPUS       Campus Activewear Limited   -0.12  uncensored            8  2026-08-21
-    46  IBULLSLTD    Indiabulls Limited          -0.14  uncensored           23  2026-08-21
-    47  ITDC         India Tourism Development   -0.16  uncensored            5  2026-09-04
-    48  PARAGMILK    Parag Milk Foods Limited    -0.16  uncensored           28  2026-08-21
-    49  ASTRAMICRO   Astra Microwave Products L  -0.18  uncensored           47  2026-08-28
-    50  ZYDUSLIFE    Zydus Lifesciences Limited  -0.19  uncensored          132  2026-08-28
-    51  SCHNEIDER    Schneider Electric Infrast  -0.20  uncensored           39  2026-08-28
-    52  GMDCLTD      Gujarat Mineral Developmen  -0.21  uncensored           42  2026-09-04
-    53  TIMKEN       Timken India Limited        -0.22  uncensored           10  2026-08-21
-    54  SAMMAANCAP   Sammaan Capital Limited     -0.27  uncensored           80  2026-08-21
-    55  SHAKTIPUMP   Shakti Pumps (India) Limit  -0.28  censored             15  2026-09-11
-    56  BIOCON       Biocon Limited              -0.30  uncensored           96  2026-09-11
-    57  PARACABLES   Paramount Communications L  -0.33  uncensored            9  2026-08-28
-    58  NOCIL        NOCIL Limited               -0.34  uncensored            8  2026-08-14
-    59  GODREJIND    Godrej Industries Limited   -0.36  censored              8  2026-08-28
-    60  3MINDIA      3M India Limited            -0.40  uncensored            6  2026-09-11
-    61  IDBI         IDBI Bank Limited           -0.40  uncensored           84  2026-08-21
-    62  AIAENG       AIA Engineering Limited     -0.40  uncensored           13  2026-08-28
-    63  TRIDENT      Trident Limited             -0.46  uncensored            5  2026-08-14
-    64  HBLENGINE    HBL Engineering Limited     -0.46  uncensored           53  2026-09-04
-    65  GLOBUSSPR    Globus Spirits Limited      -0.48  uncensored            6  2026-08-14
-    66  CARYSIL      CARYSIL LIMITED             -0.49  uncensored            8  2026-09-04
-    67  KRISHNADEF   Krishna Defence And Allied  -0.52  uncensored            8  2026-08-28
-    68  ELGIEQUIP    Elgi Equipments Limited     -0.57  uncensored           36  2026-08-14
-    69  WALCHANNAG   Walchandnagar Industries L  -0.62  censored             10  2026-09-04
-    70  SPLPETRO     Supreme Petrochem Limited   -0.62  uncensored            5  2026-08-28
-    71  ICIL         Indo Count Industries Limi  -0.64  uncensored           29  2026-08-21
-    72  IZMO         IZMO Limited                -0.68  censored              8  2026-08-28
-    73  JBMA         JBM Auto Limited            -0.99  uncensored           13  2026-08-21
+    11  EQUITASBNK   Equitas Small Financ   0.55  uncensored  2026-07-30 2026-09-08 2026-09-08       10
+    12  GAIL         GAIL (India) Limited   0.54  uncensored  2026-08-21 2026-08-28 2026-08-24      104
+    13  APOLLOHOSP   Apollo Hospitals Ent   0.49  uncensored  2026-08-21 2026-09-04 2026-08-31      252
+    14  KERNEX       Kernex Microsystems    0.47  uncensored  2026-08-19 2026-09-01 2026-08-31       43
+    15  SCI          Shipping Corporation   0.44  uncensored  2026-08-26 2026-09-02 2026-08-31       45
+    16  FEDERALBNK   The Federal Bank  Li   0.42  uncensored  2026-08-28 2026-09-07 2026-09-07      155
+    17  V2RETAIL     V2 Retail Limited      0.38  uncensored  2026-08-05 2026-09-04 2026-08-31       20
+    18  TORNTPHARM   Torrent Pharmaceutic   0.26  uncensored  2026-08-24 2026-09-07 2026-08-31      129
+    19  DELHIVERY    Delhivery Limited      0.24  uncensored  2026-07-24 2026-08-19 2026-08-24       63
+    20  SURYODAY     Suryoday Small Finan   0.23  uncensored  2026-07-31 2026-08-14 2026-08-17        5
+    21  TRITURBINE   Triveni Turbine Limi   0.23  uncensored  2026-07-10 2026-08-19 2026-08-17       22
+    22  INDHOTEL     The Indian Hotels Co   0.22  uncensored  2026-08-14 2026-08-28 2026-08-31       73
+    23  NESTLEIND    Nestle India Limited   0.20  uncensored  2026-08-20 2026-09-07 2026-09-07      174
+    24  PCBL         PCBL Chemical Limite   0.19  uncensored  2026-08-14 2026-09-03 2026-08-31       24
+    25  INDIGO       InterGlobe Aviation    0.17  uncensored  2026-08-24 2026-09-04 2026-09-08      255
+    26  LTTS         L&T Technology Servi   0.16  uncensored  2026-08-18 2026-08-27 2026-08-31       17
+    27  NCC          NCC Limited            0.15  uncensored  2026-07-09 2026-08-20 2026-08-17       25
+    28  MMTC         MMTC Limited           0.15  uncensored  2026-07-08 2026-09-02 2026-08-31        7
+    29  SPAL         S. P. Apparels Limit   0.14  uncensored  2026-07-23 2026-08-19 2026-08-17        6
+    30  SUPRIYA      Supriya Lifescience    0.14  uncensored  2026-07-10 2026-08-19 2026-08-10       18
+    31  EXIDEIND     Exide Industries Lim   0.13  uncensored  2026-08-27 2026-09-03 2026-09-07       89
+    32  APOLLO       Apollo Micro Systems   0.13  uncensored  2026-08-21 2026-09-02 2026-08-31      169
+    33  ELECON       Elecon Engineering C   0.11  uncensored  2026-07-24 2026-09-01 2026-08-31       12
+    34  ASTRAMICRO   Astra Microwave Prod   0.10  uncensored  2026-08-21 2026-09-02 2026-08-31       47
+    35  CAMS         Computer Age Managem   0.10  uncensored  2026-07-17 2026-08-20 2026-08-24       96
+    36  RAIN         Rain Industries Limi   0.10  uncensored  2026-08-18 2026-08-27 2026-08-24       79
+    37  BANCOINDIA   Banco Products (I) L   0.09  uncensored  2026-08-17 2026-09-02 2026-08-31        5
+    38  AEGISLOG     Aegis Logistics Limi   0.07  uncensored  2026-08-14 2026-09-02 2026-08-31       87
+    39  CCL          CCL Products (India)   0.05  censored    2026-08-04 2026-08-24 2026-08-17       15
+    40  TIPSMUSIC    Tips Music Limited     0.03  uncensored  2026-08-24 2026-09-02 2026-08-31       11
+    41  VIPIND       VIP Industries Limit   0.03  uncensored  2026-08-25 2026-09-02 2026-08-24       11
+    42  HOMEFIRST    Home First Finance C   0.02  uncensored  2026-07-29 2026-09-01 2026-08-31       15
+    43  KIRLOSENG    Kirloskar Oil Engine   0.01  uncensored  2026-08-13 2026-08-26 2026-08-24       81
+    44  POLYMED      Poly Medicure Limite  -0.01  uncensored  2026-08-27 2026-09-07 2026-09-07       20
+    45  PRIVISCL     Privi Speciality Che  -0.01  censored    2026-08-18 2026-09-02 2026-08-31       19
+    46  ICICIPRULI   ICICI Prudential Lif  -0.03  uncensored  2026-08-11 2026-08-19 2026-08-17       55
+    47  TIMKEN       Timken India Limited  -0.05  uncensored  2026-08-26 2026-09-08 2026-09-07       10
+    48  MAYURUNIQ    Mayur Uniquoters Ltd  -0.05  uncensored  2026-08-18 2026-09-03 2026-09-08        6
+    49  PAISALO      Paisalo Digital Limi  -0.08  uncensored  2026-08-07 2026-09-02 2026-08-31       67
+    50  PARAGMILK    Parag Milk Foods Lim  -0.08  uncensored  2026-07-24 2026-08-20 2026-08-17       28
+    51  ADANIPOWER   Adani Power Limited   -0.08  uncensored  2026-08-06 2026-08-17 2026-08-17      357
+    52  ITDC         India Tourism Develo  -0.09  uncensored  2026-08-11 2026-09-02 2026-08-31        5
+    53  KIMS         Krishna Institute of  -0.10  uncensored  2026-07-23 2026-08-26 2026-08-31       38
+    54  CAMPUS       Campus Activewear Li  -0.10  uncensored  2026-07-24 2026-08-18 2026-08-17        8
+    55  GMDCLTD      Gujarat Mineral Deve  -0.11  uncensored  2026-08-20 2026-09-02 2026-08-31       42
+    56  VTL          Vardhman Textiles Li  -0.12  uncensored  2026-08-13 2026-08-31 2026-08-31       10
+    57  ZYDUSLIFE    Zydus Lifesciences L  -0.13  uncensored  2026-07-28 2026-08-24 2026-08-24      132
+    58  ANTELOPUS    Antelopus Selan Ener  -0.13  uncensored  2026-08-14 2026-08-27 2026-08-24       18
+    59  GANECOS      Ganesha Ecosphere Li  -0.14  uncensored  2026-08-10 2026-08-28 2026-08-31        6
+    60  GOKEX        Gokaldas Exports Lim  -0.17  uncensored  2026-08-28 2026-09-03 2026-08-31       14
+    61  M&MFIN       Mahindra & Mahindra   -0.18  uncensored  2026-08-24 2026-09-01 2026-08-31       71
+    62  IIFLCAPS     IIFL Capital Service  -0.20  uncensored  2026-08-10 2026-08-20 2026-08-17        7
+    63  BIOCON       Biocon Limited        -0.20  uncensored  2026-08-17 2026-09-08 2026-09-07       96
+    64  STAR         Strides Pharma Scien  -0.21  uncensored  2026-08-05 2026-08-19 2026-08-17       28
+    65  SAMMAANCAP   Sammaan Capital Limi  -0.24  uncensored  2026-07-09 2026-08-20 2026-08-17       80
+    66  SMSPHARMA    SMS Pharmaceuticals   -0.26  uncensored  2026-08-06 2026-08-19 2026-08-17        5
+    67  PARACABLES   Paramount Communicat  -0.27  uncensored  2026-07-24 2026-08-27 2026-08-24        9
+    68  GODREJIND    Godrej Industries Li  -0.27  censored    2026-08-17 2026-08-26 2026-08-24        8
+    69  63MOONS      63 moons technologie  -0.28  uncensored  2026-08-20 2026-08-27 2026-08-24       21
+    70  NHPC         NHPC Limited          -0.30  uncensored  2026-08-11 2026-08-28 2026-08-31       68
+    71  AIAENG       AIA Engineering Limi  -0.31  uncensored  2026-07-23 2026-08-24 2026-08-24       13
+    72  JUSTDIAL     Just Dial Limited     -0.33  uncensored  2026-08-07 2026-08-27 2026-08-24       11
+    73  NOCIL        NOCIL Limited         -0.33  uncensored  2026-07-17 2026-08-19 2026-08-10        8
+    74  GVPIL        GE Power India Limit  -0.34  uncensored  2026-07-31 2026-08-25 2026-08-24       15
+    75  3MINDIA      3M India Limited      -0.38  uncensored  2026-08-21 2026-09-03 2026-09-08        6
+    76  TARC         TARC Limited          -0.38  uncensored  2026-08-19 2026-08-27 2026-08-31        7
+    77  HBLENGINE    HBL Engineering Limi  -0.39  uncensored  2026-08-18 2026-09-01 2026-08-31       53
+    78  CARYSIL      CARYSIL LIMITED       -0.40  uncensored  2026-07-24 2026-08-28 2026-08-31        8
+    79  CENTUM       Centum Electronics L  -0.40  uncensored  2026-08-19 2026-08-25 2026-08-24       18
+    80  LXCHEM       Laxmi Organic Indust  -0.43  uncensored  2026-08-13 2026-08-27 2026-08-31       12
+    81  TEMBO        Tembo Global Industr  -0.44  uncensored  2026-08-25 2026-09-03 2026-08-31        7
+    82  HONAUT       Honeywell Automation  -0.45  uncensored  2026-07-27 2026-08-19 2026-08-17        8
+    83  GLOBUSSPR    Globus Spirits Limit  -0.47  uncensored  2026-07-24 2026-08-14 2026-08-10        6
+    84  KRISHNADEF   Krishna Defence And   -0.49  uncensored  2026-08-17 2026-08-21 2026-08-24        8
+    85  ELGIEQUIP    Elgi Equipments Limi  -0.50  uncensored  2026-07-31 2026-08-13 2026-08-10       36
+    86  RAILTEL      Railtel Corporation   -0.54  uncensored  2026-07-24 2026-08-18 2026-08-17       11
+    87  SPLPETRO     Supreme Petrochem Li  -0.56  uncensored  2026-08-11 2026-08-24 2026-08-24        5
+    88  ICIL         Indo Count Industrie  -0.60  uncensored  2026-07-17 2026-08-17 2026-08-17       29
+    89  TRIDENT      Trident Limited       -0.64  uncensored  2026-07-28 2026-08-14 2026-08-10        5
+    90  KSL          Kalyani Steels Limit  -0.84  uncensored  2026-08-10 2026-08-18 2026-08-17       10
+    91  JBMA         JBM Auto Limited      -0.92  uncensored  2026-07-24 2026-08-17 2026-08-17       13
+    92  SHANTIGEAR   Shanthi Gears Limite  -1.07  censored    2026-08-13 2026-08-19 2026-08-17       19
 
 =====================================================================
 
  SECTION 2 - WHY EACH STOCK WAS CHOSEN (simple explanation)
 
  ---------------------------------------------------------------------
- #1  PHOENIXLTD  (The Phoenix Mills Limited)     score 1.36   RSI: uncensored
+ #1  RAMCOSYS  (Ramco Systems Limited)     score 1.28   RSI: uncensored
+
+   What happened: over recent weeks RAMCOSYS's price made a lower low (down to
+   537.15 on 2026-08-20), while its daily MACD momentum made a
+   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
+   inside RAMCOSYS's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
+
+   The checks it passed:
+     1) Divergence (daily): dip on 2026-07-29 (MACD -38.12, low 561.30 on 2026-08-03), then a
+        higher-momentum dip on 2026-08-20 (MACD -6.78, low 537.15 on 2026-08-21).
+        Momentum made a HIGHER low while price made a LOWER low, and the latest
+        dip was confirmed (momentum turned back up).  [OK]
+     2) Weekly support zone (week of 2026-08-17): the weekly averages were
+        EMA11 617.0, EMA22 582.1, EMA50 530.7.
+        They formed a band 530.7 to 617.0; that week's range 537.2 to 606.8 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 33.71 (at/above 30) => "uncensored"
+        (a healthy dip, not a panic sell-off).
+     4) Liquidity: about Rs 6 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+
+ ---------------------------------------------------------------------
+ #2  PHOENIXLTD  (The Phoenix Mills Limited)     score 1.23   RSI: uncensored
 
    What happened: over recent weeks PHOENIXLTD's price made a lower low (down to
    1867.70 on 2026-09-01), while its daily MACD momentum made a
@@ -104,7 +144,7 @@
         higher-momentum dip on 2026-09-01 (MACD -0.38, low 1867.70 on 2026-09-01).
         Momentum made a HIGHER low while price made a LOWER low, and the latest
         dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-09-04): the weekly averages were
+     2) Weekly support zone (week of 2026-08-31): the weekly averages were
         EMA11 1921.8, EMA22 1876.1, EMA50 1788.9.
         They formed a band 1788.9 to 1921.8; that week's range 1867.7 to 1971.0 overlapped the band.  [OK]
      3) RSI health: RSI at the low was 41.36 (at/above 30) => "uncensored"
@@ -112,27 +152,27 @@
      4) Liquidity: about Rs 57 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
  ---------------------------------------------------------------------
- #2  ADANIGREEN  (Adani Green Energy Limited)     score 1.36   RSI: censored
+ #3  J&KBANK  (The Jammu & Kashmir Bank Limited)     score 1.19   RSI: uncensored
 
-   What happened: over recent weeks ADANIGREEN's price made a lower low (down to
-   1214.90 on 2026-09-01), while its daily MACD momentum made a
+   What happened: over recent weeks J&KBANK's price made a lower low (down to
+   144.00 on 2026-09-02), while its daily MACD momentum made a
    HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
-   inside ADANIGREEN's weekly EMA 11/22/50 support band, and RSI dipped below 30 (a weaker sign).
+   inside J&KBANK's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
 
    The checks it passed:
-     1) Divergence (daily): dip on 2026-07-28 (MACD -22.66, low 1350.00 on 2026-07-30), then a
-        higher-momentum dip on 2026-09-01 (MACD -2.09, low 1214.90 on 2026-08-31).
+     1) Divergence (daily): dip on 2026-07-31 (MACD -3.87, low 146.70 on 2026-07-30), then a
+        higher-momentum dip on 2026-09-02 (MACD -0.08, low 144.00 on 2026-09-02).
         Momentum made a HIGHER low while price made a LOWER low, and the latest
         dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-09-04): the weekly averages were
-        EMA11 1364.8, EMA22 1325.6, EMA50 1225.4.
-        They formed a band 1225.4 to 1364.8; that week's range 1214.9 to 1310.9 overlapped the band.  [OK]
-     3) RSI health: RSI at the low was 29.17 (below 30) => "censored"
-        (a weaker dip; still listed (RSI only labels)).
-     4) Liquidity: about Rs 143 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+     2) Weekly support zone (week of 2026-08-31): the weekly averages were
+        EMA11 155.5, EMA22 149.2, EMA50 133.9.
+        They formed a band 133.9 to 155.5; that week's range 144.0 to 152.8 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 35.60 (at/above 30) => "uncensored"
+        (a healthy dip, not a panic sell-off).
+     4) Liquidity: about Rs 21 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
  ---------------------------------------------------------------------
- #3  ADANIPORTS  (Adani Ports and Special Economic Zone Limited)     score 0.85   RSI: uncensored
+ #4  ADANIPORTS  (Adani Ports and Special Economic Zone Limited)     score 0.82   RSI: uncensored
 
    What happened: over recent weeks ADANIPORTS's price made a lower low (down to
    1593.10 on 2026-09-01), while its daily MACD momentum made a
@@ -144,7 +184,7 @@
         higher-momentum dip on 2026-09-01 (MACD -0.82, low 1593.10 on 2026-08-31).
         Momentum made a HIGHER low while price made a LOWER low, and the latest
         dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-09-04): the weekly averages were
+     2) Weekly support zone (week of 2026-08-31): the weekly averages were
         EMA11 1728.2, EMA22 1700.7, EMA50 1601.1.
         They formed a band 1601.1 to 1728.2; that week's range 1593.1 to 1716.9 overlapped the band.  [OK]
      3) RSI health: RSI at the low was 30.86 (at/above 30) => "uncensored"
@@ -152,39 +192,19 @@
      4) Liquidity: about Rs 312 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
  ---------------------------------------------------------------------
- #4  BBOX  (Black Box Limited)     score 0.62   RSI: uncensored
-
-   What happened: over recent weeks BBOX's price made a lower low (down to
-   709.15 on 2026-09-04), while its daily MACD momentum made a
-   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
-   inside BBOX's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
-
-   The checks it passed:
-     1) Divergence (daily): dip on 2026-07-22 (MACD -17.45, low 759.00 on 2026-07-22), then a
-        higher-momentum dip on 2026-09-04 (MACD -0.92, low 709.15 on 2026-09-02).
-        Momentum made a HIGHER low while price made a LOWER low, and the latest
-        dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-09-04): the weekly averages were
-        EMA11 791.0, EMA22 775.9, EMA50 688.6.
-        They formed a band 688.6 to 791.0; that week's range 709.2 to 758.0 overlapped the band.  [OK]
-     3) RSI health: RSI at the low was 36.26 (at/above 30) => "uncensored"
-        (a healthy dip, not a panic sell-off).
-     4) Liquidity: about Rs 18 cr traded per day (above the Rs 5 cr minimum) => tradeable.
-
- ---------------------------------------------------------------------
- #5  YESBANK  (Yes Bank Limited)     score 0.61   RSI: uncensored
+ #5  YESBANK  (Yes Bank Limited)     score 0.72   RSI: uncensored
 
    What happened: over recent weeks YESBANK's price made a lower low (down to
-   21.82 on 2026-09-02), while its daily MACD momentum made a
+   21.82 on 2026-08-28), while its daily MACD momentum made a
    HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
    inside YESBANK's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
 
    The checks it passed:
-     1) Divergence (daily): dip on 2026-07-20 (MACD -0.19, low 22.71 on 2026-07-20), then a
-        higher-momentum dip on 2026-09-02 (MACD -0.02, low 21.82 on 2026-09-02).
+     1) Divergence (daily): dip on 2026-07-09 (MACD -0.24, low 23.32 on 2026-07-08), then a
+        higher-momentum dip on 2026-08-28 (MACD -0.04, low 21.82 on 2026-09-02).
         Momentum made a HIGHER low while price made a LOWER low, and the latest
         dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-09-04): the weekly averages were
+     2) Weekly support zone (week of 2026-08-31): the weekly averages were
         EMA11 22.8, EMA22 22.5, EMA50 21.9.
         They formed a band 21.9 to 22.8; that week's range 21.8 to 22.8 overlapped the band.  [OK]
      3) RSI health: RSI at the low was 34.53 (at/above 30) => "uncensored"
@@ -192,67 +212,7 @@
      4) Liquidity: about Rs 109 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
  ---------------------------------------------------------------------
- #6  GVPIL  (GE Power India Limited)     score 0.60   RSI: uncensored
-
-   What happened: over recent weeks GVPIL's price made a lower low (down to
-   637.35 on 2026-08-25), while its daily MACD momentum made a
-   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
-   inside GVPIL's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
-
-   The checks it passed:
-     1) Divergence (daily): dip on 2026-07-14 (MACD -25.87, low 780.00 on 2026-07-14), then a
-        higher-momentum dip on 2026-08-25 (MACD -8.31, low 637.35 on 2026-08-26).
-        Momentum made a HIGHER low while price made a LOWER low, and the latest
-        dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-08-28): the weekly averages were
-        EMA11 747.3, EMA22 708.8, EMA50 584.6.
-        They formed a band 584.6 to 747.3; that week's range 637.3 to 681.0 overlapped the band.  [OK]
-     3) RSI health: RSI at the low was 31.26 (at/above 30) => "uncensored"
-        (a healthy dip, not a panic sell-off).
-     4) Liquidity: about Rs 15 cr traded per day (above the Rs 5 cr minimum) => tradeable.
-
- ---------------------------------------------------------------------
- #7  BSE  (BSE Limited)     score 0.58   RSI: uncensored
-
-   What happened: over recent weeks BSE's price made a lower low (down to
-   3131.50 on 2026-09-02), while its daily MACD momentum made a
-   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
-   inside BSE's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
-
-   The checks it passed:
-     1) Divergence (daily): dip on 2026-08-21 (MACD -18.13, low 3223.00 on 2026-08-21), then a
-        higher-momentum dip on 2026-09-02 (MACD -3.49, low 3131.50 on 2026-09-02).
-        Momentum made a HIGHER low while price made a LOWER low, and the latest
-        dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-09-04): the weekly averages were
-        EMA11 3520.1, EMA22 3498.0, EMA50 3178.3.
-        They formed a band 3178.3 to 3520.1; that week's range 3131.5 to 3474.0 overlapped the band.  [OK]
-     3) RSI health: RSI at the low was 33.29 (at/above 30) => "uncensored"
-        (a healthy dip, not a panic sell-off).
-     4) Liquidity: about Rs 1599 cr traded per day (above the Rs 5 cr minimum) => tradeable.
-
- ---------------------------------------------------------------------
- #8  EQUITASBNK  (Equitas Small Finance Bank Limited)     score 0.57   RSI: uncensored
-
-   What happened: over recent weeks EQUITASBNK's price made an equal low (a possible double bottom) (down to
-   71.03 on 2026-09-08), while its daily MACD momentum made a
-   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
-   inside EQUITASBNK's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
-
-   The checks it passed:
-     1) Divergence (daily): dip on 2026-07-30 (MACD -0.98, low 70.61 on 2026-07-29), then a
-        higher-momentum dip on 2026-09-08 (MACD -0.21, low 71.03 on 2026-09-09).
-        Momentum made a HIGHER low while price made an EQUAL low (within tolerance), and the latest
-        dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-09-11): the weekly averages were
-        EMA11 74.4, EMA22 72.6, EMA50 69.2.
-        They formed a band 69.2 to 74.4; that week's range 71.0 to 73.8 overlapped the band.  [OK]
-     3) RSI health: RSI at the low was 38.27 (at/above 30) => "uncensored"
-        (a healthy dip, not a panic sell-off).
-     4) Liquidity: about Rs 10 cr traded per day (above the Rs 5 cr minimum) => tradeable.
-
- ---------------------------------------------------------------------
- #9  TATASTEEL  (Tata Steel Limited)     score 0.57   RSI: uncensored
+ #6  TATASTEEL  (Tata Steel Limited)     score 0.67   RSI: uncensored
 
    What happened: over recent weeks TATASTEEL's price made a lower low (down to
    181.40 on 2026-09-03), while its daily MACD momentum made a
@@ -264,7 +224,7 @@
         higher-momentum dip on 2026-09-03 (MACD -0.03, low 181.40 on 2026-08-31).
         Momentum made a HIGHER low while price made a LOWER low, and the latest
         dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-09-04): the weekly averages were
+     2) Weekly support zone (week of 2026-08-31): the weekly averages were
         EMA11 189.0, EMA22 191.6, EMA50 187.0.
         They formed a band 187.0 to 191.6; that week's range 181.4 to 189.9 overlapped the band.  [OK]
      3) RSI health: RSI at the low was 42.57 (at/above 30) => "uncensored"
@@ -272,19 +232,119 @@
      4) Liquidity: about Rs 470 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
  ---------------------------------------------------------------------
- #10  GAIL  (GAIL (India) Limited)     score 0.54   RSI: uncensored
+ #7  BSE  (BSE Limited)     score 0.65   RSI: uncensored
+
+   What happened: over recent weeks BSE's price made a lower low (down to
+   3131.50 on 2026-09-02), while its daily MACD momentum made a
+   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
+   inside BSE's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
+
+   The checks it passed:
+     1) Divergence (daily): dip on 2026-08-21 (MACD -18.13, low 3223.00 on 2026-08-21), then a
+        higher-momentum dip on 2026-09-02 (MACD -3.49, low 3131.50 on 2026-09-02).
+        Momentum made a HIGHER low while price made a LOWER low, and the latest
+        dip was confirmed (momentum turned back up).  [OK]
+     2) Weekly support zone (week of 2026-08-31): the weekly averages were
+        EMA11 3520.1, EMA22 3498.0, EMA50 3178.3.
+        They formed a band 3178.3 to 3520.1; that week's range 3131.5 to 3474.0 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 33.29 (at/above 30) => "uncensored"
+        (a healthy dip, not a panic sell-off).
+     4) Liquidity: about Rs 1599 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+
+ ---------------------------------------------------------------------
+ #8  SPARC  (Sun Pharma Advanced Research Company Limited)     score 0.60   RSI: uncensored
+
+   What happened: over recent weeks SPARC's price made a lower low (down to
+   191.88 on 2026-08-18), while its daily MACD momentum made a
+   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
+   inside SPARC's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
+
+   The checks it passed:
+     1) Divergence (daily): dip on 2026-07-23 (MACD -6.79, low 207.41 on 2026-07-28), then a
+        higher-momentum dip on 2026-08-18 (MACD -1.35, low 191.88 on 2026-08-18).
+        Momentum made a HIGHER low while price made a LOWER low, and the latest
+        dip was confirmed (momentum turned back up).  [OK]
+     2) Weekly support zone (week of 2026-08-17): the weekly averages were
+        EMA11 209.6, EMA22 196.5, EMA50 177.2.
+        They formed a band 177.2 to 209.6; that week's range 191.9 to 203.2 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 31.52 (at/above 30) => "uncensored"
+        (a healthy dip, not a panic sell-off).
+     4) Liquidity: about Rs 13 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+
+ ---------------------------------------------------------------------
+ #9  ADANIGREEN  (Adani Green Energy Limited)     score 0.58   RSI: censored
+
+   What happened: over recent weeks ADANIGREEN's price made a lower low (down to
+   1214.90 on 2026-09-01), while its daily MACD momentum made a
+   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
+   inside ADANIGREEN's weekly EMA 11/22/50 support band, and RSI dipped below 30 (a weaker sign).
+
+   The checks it passed:
+     1) Divergence (daily): dip on 2026-08-19 (MACD -4.61, low 1281.10 on 2026-08-19), then a
+        higher-momentum dip on 2026-09-01 (MACD -2.09, low 1214.90 on 2026-08-31).
+        Momentum made a HIGHER low while price made a LOWER low, and the latest
+        dip was confirmed (momentum turned back up).  [OK]
+     2) Weekly support zone (week of 2026-08-31): the weekly averages were
+        EMA11 1364.8, EMA22 1325.6, EMA50 1225.4.
+        They formed a band 1225.4 to 1364.8; that week's range 1214.9 to 1310.9 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 29.17 (below 30) => "censored"
+        (a weaker dip; still listed (RSI only labels)).
+     4) Liquidity: about Rs 143 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+
+ ---------------------------------------------------------------------
+ #10  BBOX  (Black Box Limited)     score 0.58   RSI: uncensored
+
+   What happened: over recent weeks BBOX's price made a lower low (down to
+   709.15 on 2026-09-04), while its daily MACD momentum made a
+   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
+   inside BBOX's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
+
+   The checks it passed:
+     1) Divergence (daily): dip on 2026-07-22 (MACD -17.45, low 759.00 on 2026-07-22), then a
+        higher-momentum dip on 2026-09-04 (MACD -0.92, low 709.15 on 2026-09-02).
+        Momentum made a HIGHER low while price made a LOWER low, and the latest
+        dip was confirmed (momentum turned back up).  [OK]
+     2) Weekly support zone (week of 2026-08-31): the weekly averages were
+        EMA11 791.0, EMA22 775.9, EMA50 688.6.
+        They formed a band 688.6 to 791.0; that week's range 709.2 to 758.0 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 36.26 (at/above 30) => "uncensored"
+        (a healthy dip, not a panic sell-off).
+     4) Liquidity: about Rs 18 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+
+ ---------------------------------------------------------------------
+ #11  EQUITASBNK  (Equitas Small Finance Bank Limited)     score 0.55   RSI: uncensored
+
+   What happened: over recent weeks EQUITASBNK's price made an equal low (a possible double bottom) (down to
+   71.03 on 2026-09-08), while its daily MACD momentum made a
+   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
+   inside EQUITASBNK's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
+
+   The checks it passed:
+     1) Divergence (daily): dip on 2026-07-30 (MACD -0.98, low 70.61 on 2026-07-29), then a
+        higher-momentum dip on 2026-09-08 (MACD -0.21, low 71.03 on 2026-09-09).
+        Momentum made a HIGHER low while price made an EQUAL low (within tolerance), and the latest
+        dip was confirmed (momentum turned back up).  [OK]
+     2) Weekly support zone (week of 2026-09-08): the weekly averages were
+        EMA11 74.4, EMA22 72.6, EMA50 69.2.
+        They formed a band 69.2 to 74.4; that week's range 71.0 to 73.8 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 38.27 (at/above 30) => "uncensored"
+        (a healthy dip, not a panic sell-off).
+     4) Liquidity: about Rs 10 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+
+ ---------------------------------------------------------------------
+ #12  GAIL  (GAIL (India) Limited)     score 0.54   RSI: uncensored
 
    What happened: over recent weeks GAIL's price made a lower low (down to
-   170.11 on 2026-09-02), while its daily MACD momentum made a
+   170.11 on 2026-08-28), while its daily MACD momentum made a
    HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
    inside GAIL's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
 
    The checks it passed:
      1) Divergence (daily): dip on 2026-08-21 (MACD -0.51, low 170.70 on 2026-08-19), then a
-        higher-momentum dip on 2026-09-02 (MACD -0.12, low 170.11 on 2026-08-28).
+        higher-momentum dip on 2026-08-28 (MACD -0.34, low 170.11 on 2026-08-28).
         Momentum made a HIGHER low while price made a LOWER low, and the latest
         dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-08-28): the weekly averages were
+     2) Weekly support zone (week of 2026-08-24): the weekly averages were
         EMA11 172.0, EMA22 169.6, EMA50 170.1.
         They formed a band 169.6 to 172.0; that week's range 170.1 to 176.3 overlapped the band.  [OK]
      3) RSI health: RSI at the low was 44.29 (at/above 30) => "uncensored"
@@ -292,127 +352,67 @@
      4) Liquidity: about Rs 104 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
  ---------------------------------------------------------------------
- #11  BAJAJCON  (Bajaj Consumer Care Limited)     score 0.48   RSI: censored
+ #13  APOLLOHOSP  (Apollo Hospitals Enterprise Limited)     score 0.49   RSI: uncensored
 
-   What happened: over recent weeks BAJAJCON's price made a lower low (down to
-   447.85 on 2026-08-25), while its daily MACD momentum made a
+   What happened: over recent weeks APOLLOHOSP's price made an equal low (a possible double bottom) (down to
+   8640.00 on 2026-09-04), while its daily MACD momentum made a
    HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
-   inside BAJAJCON's weekly EMA 11/22/50 support band, and RSI dipped below 30 (a weaker sign).
+   inside APOLLOHOSP's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
 
    The checks it passed:
-     1) Divergence (daily): dip on 2026-07-21 (MACD -14.09, low 517.20 on 2026-07-22), then a
-        higher-momentum dip on 2026-08-25 (MACD -5.10, low 447.85 on 2026-08-27).
+     1) Divergence (daily): dip on 2026-08-21 (MACD -26.56, low 8591.50 on 2026-08-24), then a
+        higher-momentum dip on 2026-09-04 (MACD -15.19, low 8640.00 on 2026-09-02).
+        Momentum made a HIGHER low while price made an EQUAL low (within tolerance), and the latest
+        dip was confirmed (momentum turned back up).  [OK]
+     2) Weekly support zone (week of 2026-08-31): the weekly averages were
+        EMA11 8710.3, EMA22 8465.3, EMA50 8013.8.
+        They formed a band 8013.8 to 8710.3; that week's range 8640.0 to 8902.0 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 43.09 (at/above 30) => "uncensored"
+        (a healthy dip, not a panic sell-off).
+     4) Liquidity: about Rs 252 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+
+ ---------------------------------------------------------------------
+ #14  KERNEX  (Kernex Microsystems (India) Limited)     score 0.47   RSI: uncensored
+
+   What happened: over recent weeks KERNEX's price made a lower low (down to
+   1611.60 on 2026-09-01), while its daily MACD momentum made a
+   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
+   inside KERNEX's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
+
+   The checks it passed:
+     1) Divergence (daily): dip on 2026-08-19 (MACD -69.24, low 1711.70 on 2026-08-17), then a
+        higher-momentum dip on 2026-09-01 (MACD -37.59, low 1611.60 on 2026-09-01).
         Momentum made a HIGHER low while price made a LOWER low, and the latest
         dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-08-28): the weekly averages were
-        EMA11 523.1, EMA22 504.3, EMA50 426.5.
-        They formed a band 426.5 to 523.1; that week's range 447.9 to 481.9 overlapped the band.  [OK]
-     3) RSI health: RSI at the low was 29.34 (below 30) => "censored"
-        (a weaker dip; still listed (RSI only labels)).
+     2) Weekly support zone (week of 2026-08-31): the weekly averages were
+        EMA11 1971.0, EMA22 1829.8, EMA50 1550.9.
+        They formed a band 1550.9 to 1971.0; that week's range 1611.6 to 1869.7 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 32.87 (at/above 30) => "uncensored"
+        (a healthy dip, not a panic sell-off).
+     4) Liquidity: about Rs 43 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+
+ ---------------------------------------------------------------------
+ #15  SCI  (Shipping Corporation Of India Limited)     score 0.44   RSI: uncensored
+
+   What happened: over recent weeks SCI's price made a lower low (down to
+   282.60 on 2026-09-02), while its daily MACD momentum made a
+   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
+   inside SCI's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
+
+   The checks it passed:
+     1) Divergence (daily): dip on 2026-08-26 (MACD -0.71, low 286.75 on 2026-08-25), then a
+        higher-momentum dip on 2026-09-02 (MACD -0.48, low 282.60 on 2026-09-02).
+        Momentum made a HIGHER low while price made a LOWER low, and the latest
+        dip was confirmed (momentum turned back up).  [OK]
+     2) Weekly support zone (week of 2026-08-31): the weekly averages were
+        EMA11 294.1, EMA22 288.0, EMA50 267.8.
+        They formed a band 267.8 to 294.1; that week's range 282.6 to 300.2 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 46.11 (at/above 30) => "uncensored"
+        (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 45 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
  ---------------------------------------------------------------------
- #12  CCL  (CCL Products (India) Limited)     score 0.40   RSI: uncensored
-
-   What happened: over recent weeks CCL's price made a lower low (down to
-   1066.70 on 2026-08-31), while its daily MACD momentum made a
-   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
-   inside CCL's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
-
-   The checks it passed:
-     1) Divergence (daily): dip on 2026-08-04 (MACD -10.08, low 1106.00 on 2026-08-04), then a
-        higher-momentum dip on 2026-08-31 (MACD -1.01, low 1066.70 on 2026-08-31).
-        Momentum made a HIGHER low while price made a LOWER low, and the latest
-        dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-09-04): the weekly averages were
-        EMA11 1128.1, EMA22 1111.9, EMA50 1038.4.
-        They formed a band 1038.4 to 1128.1; that week's range 1066.7 to 1125.0 overlapped the band.  [OK]
-     3) RSI health: RSI at the low was 35.89 (at/above 30) => "uncensored"
-        (a healthy dip, not a panic sell-off).
-     4) Liquidity: about Rs 15 cr traded per day (above the Rs 5 cr minimum) => tradeable.
-
- ---------------------------------------------------------------------
- #13  GOKEX  (Gokaldas Exports Limited)     score 0.32   RSI: uncensored
-
-   What happened: over recent weeks GOKEX's price made a lower low (down to
-   765.00 on 2026-08-28), while its daily MACD momentum made a
-   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
-   inside GOKEX's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
-
-   The checks it passed:
-     1) Divergence (daily): dip on 2026-07-23 (MACD -10.50, low 788.05 on 2026-07-23), then a
-        higher-momentum dip on 2026-08-28 (MACD -2.28, low 765.00 on 2026-08-28).
-        Momentum made a HIGHER low while price made a LOWER low, and the latest
-        dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-08-28): the weekly averages were
-        EMA11 788.6, EMA22 769.1, EMA50 768.6.
-        They formed a band 768.6 to 788.6; that week's range 765.0 to 805.2 overlapped the band.  [OK]
-     3) RSI health: RSI at the low was 39.31 (at/above 30) => "uncensored"
-        (a healthy dip, not a panic sell-off).
-     4) Liquidity: about Rs 14 cr traded per day (above the Rs 5 cr minimum) => tradeable.
-
- ---------------------------------------------------------------------
- #14  ADANIENT  (Adani Enterprises Limited)     score 0.28   RSI: uncensored
-
-   What happened: over recent weeks ADANIENT's price made a lower low (down to
-   2830.50 on 2026-09-03), while its daily MACD momentum made a
-   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
-   inside ADANIENT's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
-
-   The checks it passed:
-     1) Divergence (daily): dip on 2026-07-28 (MACD -29.01, low 2972.70 on 2026-07-29), then a
-        higher-momentum dip on 2026-09-03 (MACD -16.80, low 2830.50 on 2026-09-02).
-        Momentum made a HIGHER low while price made a LOWER low, and the latest
-        dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-09-04): the weekly averages were
-        EMA11 2999.2, EMA22 2851.2, EMA50 2644.8.
-        They formed a band 2644.8 to 2999.2; that week's range 2830.5 to 3165.0 overlapped the band.  [OK]
-     3) RSI health: RSI at the low was 35.22 (at/above 30) => "uncensored"
-        (a healthy dip, not a panic sell-off).
-     4) Liquidity: about Rs 301 cr traded per day (above the Rs 5 cr minimum) => tradeable.
-
- ---------------------------------------------------------------------
- #15  DELHIVERY  (Delhivery Limited)     score 0.27   RSI: uncensored
-
-   What happened: over recent weeks DELHIVERY's price made a lower low (down to
-   441.20 on 2026-08-19), while its daily MACD momentum made a
-   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
-   inside DELHIVERY's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
-
-   The checks it passed:
-     1) Divergence (daily): dip on 2026-07-24 (MACD -6.84, low 458.15 on 2026-07-24), then a
-        higher-momentum dip on 2026-08-19 (MACD -2.37, low 441.20 on 2026-08-24).
-        Momentum made a HIGHER low while price made a LOWER low, and the latest
-        dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-08-28): the weekly averages were
-        EMA11 468.8, EMA22 462.6, EMA50 443.8.
-        They formed a band 443.8 to 468.8; that week's range 439.1 to 471.0 overlapped the band.  [OK]
-     3) RSI health: RSI at the low was 34.56 (at/above 30) => "uncensored"
-        (a healthy dip, not a panic sell-off).
-     4) Liquidity: about Rs 63 cr traded per day (above the Rs 5 cr minimum) => tradeable.
-
- ---------------------------------------------------------------------
- #16  TRITURBINE  (Triveni Turbine Limited)     score 0.26   RSI: uncensored
-
-   What happened: over recent weeks TRITURBINE's price made a lower low (down to
-   561.05 on 2026-08-19), while its daily MACD momentum made a
-   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
-   inside TRITURBINE's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
-
-   The checks it passed:
-     1) Divergence (daily): dip on 2026-07-10 (MACD -10.68, low 595.00 on 2026-07-13), then a
-        higher-momentum dip on 2026-08-19 (MACD -3.39, low 561.05 on 2026-08-19).
-        Momentum made a HIGHER low while price made a LOWER low, and the latest
-        dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-08-21): the weekly averages were
-        EMA11 612.5, EMA22 601.0, EMA50 579.1.
-        They formed a band 579.1 to 612.5; that week's range 561.0 to 601.9 overlapped the band.  [OK]
-     3) RSI health: RSI at the low was 34.86 (at/above 30) => "uncensored"
-        (a healthy dip, not a panic sell-off).
-     4) Liquidity: about Rs 22 cr traded per day (above the Rs 5 cr minimum) => tradeable.
-
- ---------------------------------------------------------------------
- #17  FEDERALBNK  (The Federal Bank  Limited)     score 0.25   RSI: uncensored
+ #16  FEDERALBNK  (The Federal Bank  Limited)     score 0.42   RSI: uncensored
 
    What happened: over recent weeks FEDERALBNK's price made a lower low (down to
    337.60 on 2026-09-07), while its daily MACD momentum made a
@@ -420,11 +420,11 @@
    inside FEDERALBNK's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
 
    The checks it passed:
-     1) Divergence (daily): dip on 2026-08-14 (MACD -2.16, low 349.65 on 2026-08-17), then a
+     1) Divergence (daily): dip on 2026-08-28 (MACD -2.54, low 341.55 on 2026-08-31), then a
         higher-momentum dip on 2026-09-07 (MACD -1.77, low 337.60 on 2026-09-07).
         Momentum made a HIGHER low while price made a LOWER low, and the latest
         dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-09-11): the weekly averages were
+     2) Weekly support zone (week of 2026-09-07): the weekly averages were
         EMA11 342.0, EMA22 326.5, EMA50 293.4.
         They formed a band 293.4 to 342.0; that week's range 337.6 to 347.0 overlapped the band.  [OK]
      3) RSI health: RSI at the low was 43.28 (at/above 30) => "uncensored"
@@ -432,87 +432,27 @@
      4) Liquidity: about Rs 155 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
  ---------------------------------------------------------------------
- #18  MMTC  (MMTC Limited)     score 0.21   RSI: uncensored
+ #17  V2RETAIL  (V2 Retail Limited)     score 0.38   RSI: uncensored
 
-   What happened: over recent weeks MMTC's price made a lower low (down to
-   61.41 on 2026-09-02), while its daily MACD momentum made a
+   What happened: over recent weeks V2RETAIL's price made a lower low (down to
+   211.31 on 2026-09-04), while its daily MACD momentum made a
    HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
-   inside MMTC's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
+   inside V2RETAIL's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
 
    The checks it passed:
-     1) Divergence (daily): dip on 2026-07-08 (MACD -0.98, low 62.67 on 2026-07-08), then a
-        higher-momentum dip on 2026-09-02 (MACD -0.19, low 61.41 on 2026-09-02).
+     1) Divergence (daily): dip on 2026-08-05 (MACD -0.25, low 213.91 on 2026-08-04), then a
+        higher-momentum dip on 2026-09-04 (MACD -0.13, low 211.31 on 2026-09-04).
         Momentum made a HIGHER low while price made a LOWER low, and the latest
         dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-09-04): the weekly averages were
-        EMA11 64.4, EMA22 64.4, EMA50 64.5.
-        They formed a band 64.4 to 64.5; that week's range 61.4 to 66.2 overlapped the band.  [OK]
-     3) RSI health: RSI at the low was 41.37 (at/above 30) => "uncensored"
+     2) Weekly support zone (week of 2026-08-31): the weekly averages were
+        EMA11 219.9, EMA22 218.4, EMA50 209.4.
+        They formed a band 209.4 to 219.9; that week's range 211.3 to 224.9 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 42.79 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
-     4) Liquidity: about Rs 7 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+     4) Liquidity: about Rs 20 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
  ---------------------------------------------------------------------
- #19  VTL  (Vardhman Textiles Limited)     score 0.20   RSI: uncensored
-
-   What happened: over recent weeks VTL's price made a lower low (down to
-   567.00 on 2026-08-31), while its daily MACD momentum made a
-   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
-   inside VTL's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
-
-   The checks it passed:
-     1) Divergence (daily): dip on 2026-08-03 (MACD -5.11, low 576.00 on 2026-08-03), then a
-        higher-momentum dip on 2026-08-31 (MACD -0.69, low 567.00 on 2026-08-31).
-        Momentum made a HIGHER low while price made a LOWER low, and the latest
-        dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-09-04): the weekly averages were
-        EMA11 604.8, EMA22 592.7, EMA50 550.4.
-        They formed a band 550.4 to 604.8; that week's range 567.0 to 637.8 overlapped the band.  [OK]
-     3) RSI health: RSI at the low was 33.03 (at/above 30) => "uncensored"
-        (a healthy dip, not a panic sell-off).
-     4) Liquidity: about Rs 10 cr traded per day (above the Rs 5 cr minimum) => tradeable.
-
- ---------------------------------------------------------------------
- #20  ELECON  (Elecon Engineering Company Limited)     score 0.19   RSI: uncensored
-
-   What happened: over recent weeks ELECON's price made a lower low (down to
-   406.20 on 2026-09-01), while its daily MACD momentum made a
-   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
-   inside ELECON's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
-
-   The checks it passed:
-     1) Divergence (daily): dip on 2026-07-24 (MACD -8.17, low 412.85 on 2026-07-28), then a
-        higher-momentum dip on 2026-09-01 (MACD -0.72, low 406.20 on 2026-09-02).
-        Momentum made a HIGHER low while price made a LOWER low, and the latest
-        dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-09-04): the weekly averages were
-        EMA11 452.5, EMA22 463.7, EMA50 481.2.
-        They formed a band 452.5 to 481.2; that week's range 406.2 to 457.0 overlapped the band.  [OK]
-     3) RSI health: RSI at the low was 35.36 (at/above 30) => "uncensored"
-        (a healthy dip, not a panic sell-off).
-     4) Liquidity: about Rs 12 cr traded per day (above the Rs 5 cr minimum) => tradeable.
-
- ---------------------------------------------------------------------
- #21  INDHOTEL  (The Indian Hotels Company Limited)     score 0.18   RSI: uncensored
-
-   What happened: over recent weeks INDHOTEL's price made a lower low (down to
-   701.55 on 2026-08-28), while its daily MACD momentum made a
-   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
-   inside INDHOTEL's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
-
-   The checks it passed:
-     1) Divergence (daily): dip on 2026-08-14 (MACD -3.60, low 712.50 on 2026-08-18), then a
-        higher-momentum dip on 2026-08-28 (MACD -2.19, low 701.55 on 2026-08-31).
-        Momentum made a HIGHER low while price made a LOWER low, and the latest
-        dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-09-04): the weekly averages were
-        EMA11 716.5, EMA22 704.4, EMA50 700.9.
-        They formed a band 700.9 to 716.5; that week's range 701.5 to 737.9 overlapped the band.  [OK]
-     3) RSI health: RSI at the low was 36.59 (at/above 30) => "uncensored"
-        (a healthy dip, not a panic sell-off).
-     4) Liquidity: about Rs 73 cr traded per day (above the Rs 5 cr minimum) => tradeable.
-
- ---------------------------------------------------------------------
- #22  TORNTPHARM  (Torrent Pharmaceuticals Limited)     score 0.15   RSI: uncensored
+ #18  TORNTPHARM  (Torrent Pharmaceuticals Limited)     score 0.26   RSI: uncensored
 
    What happened: over recent weeks TORNTPHARM's price made a lower low (down to
    4823.00 on 2026-09-07), while its daily MACD momentum made a
@@ -524,7 +464,7 @@
         higher-momentum dip on 2026-09-07 (MACD -11.92, low 4823.00 on 2026-09-04).
         Momentum made a HIGHER low while price made a LOWER low, and the latest
         dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-09-04): the weekly averages were
+     2) Weekly support zone (week of 2026-08-31): the weekly averages were
         EMA11 4834.7, EMA22 4652.8, EMA50 4291.1.
         They formed a band 4291.1 to 4834.7; that week's range 4823.0 to 5066.0 overlapped the band.  [OK]
      3) RSI health: RSI at the low was 44.70 (at/above 30) => "uncensored"
@@ -532,87 +472,87 @@
      4) Liquidity: about Rs 129 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
  ---------------------------------------------------------------------
- #23  SPAL  (S. P. Apparels Limited)     score 0.14   RSI: uncensored
+ #19  DELHIVERY  (Delhivery Limited)     score 0.24   RSI: uncensored
 
-   What happened: over recent weeks SPAL's price made a lower low (down to
-   908.25 on 2026-08-19), while its daily MACD momentum made a
+   What happened: over recent weeks DELHIVERY's price made a lower low (down to
+   441.20 on 2026-08-19), while its daily MACD momentum made a
    HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
-   inside SPAL's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
+   inside DELHIVERY's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
 
    The checks it passed:
-     1) Divergence (daily): dip on 2026-07-23 (MACD -28.16, low 940.20 on 2026-07-23), then a
-        higher-momentum dip on 2026-08-19 (MACD -11.83, low 908.25 on 2026-08-21).
+     1) Divergence (daily): dip on 2026-07-24 (MACD -6.84, low 458.15 on 2026-07-24), then a
+        higher-momentum dip on 2026-08-19 (MACD -2.37, low 441.20 on 2026-08-24).
         Momentum made a HIGHER low while price made a LOWER low, and the latest
         dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-08-21): the weekly averages were
-        EMA11 966.3, EMA22 912.8, EMA50 842.0.
-        They formed a band 842.0 to 966.3; that week's range 908.2 to 966.0 overlapped the band.  [OK]
-     3) RSI health: RSI at the low was 39.35 (at/above 30) => "uncensored"
+     2) Weekly support zone (week of 2026-08-24): the weekly averages were
+        EMA11 468.8, EMA22 462.6, EMA50 443.8.
+        They formed a band 443.8 to 468.8; that week's range 439.1 to 471.0 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 34.56 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
-     4) Liquidity: about Rs 6 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+     4) Liquidity: about Rs 63 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
  ---------------------------------------------------------------------
- #24  SUPRIYA  (Supriya Lifescience Limited)     score 0.13   RSI: uncensored
+ #20  SURYODAY  (Suryoday Small Finance Bank Limited)     score 0.23   RSI: uncensored
 
-   What happened: over recent weeks SUPRIYA's price made a lower low (down to
-   740.45 on 2026-08-19), while its daily MACD momentum made a
+   What happened: over recent weeks SURYODAY's price made a lower low (down to
+   150.00 on 2026-08-14), while its daily MACD momentum made a
    HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
-   inside SUPRIYA's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
+   inside SURYODAY's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
 
    The checks it passed:
-     1) Divergence (daily): dip on 2026-07-10 (MACD -19.96, low 835.50 on 2026-07-07), then a
-        higher-momentum dip on 2026-08-19 (MACD -9.44, low 740.45 on 2026-08-14).
+     1) Divergence (daily): dip on 2026-07-31 (MACD -3.57, low 158.52 on 2026-07-30), then a
+        higher-momentum dip on 2026-08-14 (MACD -1.53, low 150.00 on 2026-08-17).
         Momentum made a HIGHER low while price made a LOWER low, and the latest
         dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-08-14): the weekly averages were
-        EMA11 854.6, EMA22 818.5, EMA50 761.4.
-        They formed a band 761.4 to 854.6; that week's range 740.5 to 940.0 overlapped the band.  [OK]
-     3) RSI health: RSI at the low was 35.54 (at/above 30) => "uncensored"
+     2) Weekly support zone (week of 2026-08-17): the weekly averages were
+        EMA11 166.1, EMA22 161.9, EMA50 152.9.
+        They formed a band 152.9 to 166.1; that week's range 150.0 to 160.0 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 31.74 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
-     4) Liquidity: about Rs 18 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+     4) Liquidity: about Rs 5 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
  ---------------------------------------------------------------------
- #25  PCBL  (PCBL Chemical Limited)     score 0.13   RSI: uncensored
+ #21  TRITURBINE  (Triveni Turbine Limited)     score 0.23   RSI: uncensored
 
-   What happened: over recent weeks PCBL's price made an equal low (a possible double bottom) (down to
-   310.70 on 2026-09-03), while its daily MACD momentum made a
+   What happened: over recent weeks TRITURBINE's price made a lower low (down to
+   561.05 on 2026-08-19), while its daily MACD momentum made a
    HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
-   inside PCBL's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
+   inside TRITURBINE's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
 
    The checks it passed:
-     1) Divergence (daily): dip on 2026-08-14 (MACD -2.55, low 308.15 on 2026-08-17), then a
-        higher-momentum dip on 2026-09-03 (MACD -0.92, low 310.70 on 2026-09-02).
-        Momentum made a HIGHER low while price made an EQUAL low (within tolerance), and the latest
-        dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-09-04): the weekly averages were
-        EMA11 314.0, EMA22 308.4, EMA50 315.7.
-        They formed a band 308.4 to 315.7; that week's range 310.7 to 322.7 overlapped the band.  [OK]
-     3) RSI health: RSI at the low was 45.21 (at/above 30) => "uncensored"
-        (a healthy dip, not a panic sell-off).
-     4) Liquidity: about Rs 24 cr traded per day (above the Rs 5 cr minimum) => tradeable.
-
- ---------------------------------------------------------------------
- #26  NCC  (NCC Limited)     score 0.11   RSI: uncensored
-
-   What happened: over recent weeks NCC's price made a lower low (down to
-   138.24 on 2026-08-20), while its daily MACD momentum made a
-   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
-   inside NCC's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
-
-   The checks it passed:
-     1) Divergence (daily): dip on 2026-07-09 (MACD -0.94, low 140.82 on 2026-07-14), then a
-        higher-momentum dip on 2026-08-20 (MACD -0.17, low 138.24 on 2026-08-18).
+     1) Divergence (daily): dip on 2026-07-10 (MACD -10.68, low 595.00 on 2026-07-13), then a
+        higher-momentum dip on 2026-08-19 (MACD -3.39, low 561.05 on 2026-08-19).
         Momentum made a HIGHER low while price made a LOWER low, and the latest
         dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-08-21): the weekly averages were
-        EMA11 146.1, EMA22 149.8, EMA50 164.7.
-        They formed a band 146.1 to 164.7; that week's range 138.2 to 151.4 overlapped the band.  [OK]
-     3) RSI health: RSI at the low was 41.44 (at/above 30) => "uncensored"
+     2) Weekly support zone (week of 2026-08-17): the weekly averages were
+        EMA11 612.5, EMA22 601.0, EMA50 579.1.
+        They formed a band 579.1 to 612.5; that week's range 561.0 to 601.9 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 34.86 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
-     4) Liquidity: about Rs 25 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+     4) Liquidity: about Rs 22 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
  ---------------------------------------------------------------------
- #27  NESTLEIND  (Nestle India Limited)     score 0.10   RSI: uncensored
+ #22  INDHOTEL  (The Indian Hotels Company Limited)     score 0.22   RSI: uncensored
+
+   What happened: over recent weeks INDHOTEL's price made a lower low (down to
+   701.55 on 2026-08-28), while its daily MACD momentum made a
+   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
+   inside INDHOTEL's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
+
+   The checks it passed:
+     1) Divergence (daily): dip on 2026-08-14 (MACD -3.60, low 712.50 on 2026-08-18), then a
+        higher-momentum dip on 2026-08-28 (MACD -2.19, low 701.55 on 2026-08-31).
+        Momentum made a HIGHER low while price made a LOWER low, and the latest
+        dip was confirmed (momentum turned back up).  [OK]
+     2) Weekly support zone (week of 2026-08-31): the weekly averages were
+        EMA11 716.5, EMA22 704.4, EMA50 700.9.
+        They formed a band 700.9 to 716.5; that week's range 701.5 to 737.9 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 36.59 (at/above 30) => "uncensored"
+        (a healthy dip, not a panic sell-off).
+     4) Liquidity: about Rs 73 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+
+ ---------------------------------------------------------------------
+ #23  NESTLEIND  (Nestle India Limited)     score 0.20   RSI: uncensored
 
    What happened: over recent weeks NESTLEIND's price made a lower low (down to
    1377.70 on 2026-09-07), while its daily MACD momentum made a
@@ -624,7 +564,7 @@
         higher-momentum dip on 2026-09-07 (MACD -9.01, low 1377.70 on 2026-09-10).
         Momentum made a HIGHER low while price made a LOWER low, and the latest
         dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-09-11): the weekly averages were
+     2) Weekly support zone (week of 2026-09-07): the weekly averages were
         EMA11 1440.4, EMA22 1416.3, EMA50 1352.3.
         They formed a band 1352.3 to 1440.4; that week's range 1373.5 to 1415.1 overlapped the band.  [OK]
      3) RSI health: RSI at the low was 33.45 (at/above 30) => "uncensored"
@@ -632,47 +572,27 @@
      4) Liquidity: about Rs 174 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
  ---------------------------------------------------------------------
- #28  SCHAEFFLER  (Schaeffler India Limited)     score 0.09   RSI: uncensored
+ #24  PCBL  (PCBL Chemical Limited)     score 0.19   RSI: uncensored
 
-   What happened: over recent weeks SCHAEFFLER's price made a lower low (down to
-   3975.10 on 2026-08-25), while its daily MACD momentum made a
+   What happened: over recent weeks PCBL's price made an equal low (a possible double bottom) (down to
+   310.70 on 2026-09-03), while its daily MACD momentum made a
    HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
-   inside SCHAEFFLER's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
+   inside PCBL's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
 
    The checks it passed:
-     1) Divergence (daily): dip on 2026-08-07 (MACD -10.75, low 4005.20 on 2026-08-10), then a
-        higher-momentum dip on 2026-08-25 (MACD -6.59, low 3975.10 on 2026-08-25).
-        Momentum made a HIGHER low while price made a LOWER low, and the latest
+     1) Divergence (daily): dip on 2026-08-14 (MACD -2.55, low 308.15 on 2026-08-17), then a
+        higher-momentum dip on 2026-09-03 (MACD -0.92, low 310.70 on 2026-09-02).
+        Momentum made a HIGHER low while price made an EQUAL low (within tolerance), and the latest
         dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-08-28): the weekly averages were
-        EMA11 4071.1, EMA22 4065.7, EMA50 3999.9.
-        They formed a band 3999.9 to 4071.1; that week's range 3975.1 to 4084.0 overlapped the band.  [OK]
-     3) RSI health: RSI at the low was 41.78 (at/above 30) => "uncensored"
+     2) Weekly support zone (week of 2026-08-31): the weekly averages were
+        EMA11 314.0, EMA22 308.4, EMA50 315.7.
+        They formed a band 308.4 to 315.7; that week's range 310.7 to 322.7 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 45.21 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
-     4) Liquidity: about Rs 20 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+     4) Liquidity: about Rs 24 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
  ---------------------------------------------------------------------
- #29  VIYASH  (Viyash Scientific Limited)     score 0.08   RSI: uncensored
-
-   What happened: over recent weeks VIYASH's price made a lower low (down to
-   245.30 on 2026-08-18), while its daily MACD momentum made a
-   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
-   inside VIYASH's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
-
-   The checks it passed:
-     1) Divergence (daily): dip on 2026-07-24 (MACD -4.62, low 248.00 on 2026-07-24), then a
-        higher-momentum dip on 2026-08-18 (MACD -1.25, low 245.30 on 2026-08-17).
-        Momentum made a HIGHER low while price made a LOWER low, and the latest
-        dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-08-21): the weekly averages were
-        EMA11 261.3, EMA22 248.4, EMA50 226.2.
-        They formed a band 226.2 to 261.3; that week's range 245.3 to 278.8 overlapped the band.  [OK]
-     3) RSI health: RSI at the low was 41.28 (at/above 30) => "uncensored"
-        (a healthy dip, not a panic sell-off).
-     4) Liquidity: about Rs 87 cr traded per day (above the Rs 5 cr minimum) => tradeable.
-
- ---------------------------------------------------------------------
- #30  INDIGO  (InterGlobe Aviation Limited)     score 0.06   RSI: uncensored
+ #25  INDIGO  (InterGlobe Aviation Limited)     score 0.17   RSI: uncensored
 
    What happened: over recent weeks INDIGO's price made a lower low (down to
    4877.00 on 2026-09-04), while its daily MACD momentum made a
@@ -684,7 +604,7 @@
         higher-momentum dip on 2026-09-04 (MACD -30.82, low 4877.00 on 2026-09-10).
         Momentum made a HIGHER low while price made a LOWER low, and the latest
         dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-09-11): the weekly averages were
+     2) Weekly support zone (week of 2026-09-08): the weekly averages were
         EMA11 5072.9, EMA22 4993.1, EMA50 4965.4.
         They formed a band 4965.4 to 5072.9; that week's range 4822.0 to 5022.5 overlapped the band.  [OK]
      3) RSI health: RSI at the low was 36.15 (at/above 30) => "uncensored"
@@ -692,7 +612,7 @@
      4) Liquidity: about Rs 255 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
  ---------------------------------------------------------------------
- #31  LTTS  (L&T Technology Services Limited)     score 0.06   RSI: uncensored
+ #26  LTTS  (L&T Technology Services Limited)     score 0.16   RSI: uncensored
 
    What happened: over recent weeks LTTS's price made an equal low (a possible double bottom) (down to
    3490.50 on 2026-08-27), while its daily MACD momentum made a
@@ -704,7 +624,7 @@
         higher-momentum dip on 2026-08-27 (MACD -10.61, low 3490.50 on 2026-08-31).
         Momentum made a HIGHER low while price made an EQUAL low (within tolerance), and the latest
         dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-09-04): the weekly averages were
+     2) Weekly support zone (week of 2026-08-31): the weekly averages were
         EMA11 3488.0, EMA22 3503.4, EMA50 3714.0.
         They formed a band 3488.0 to 3714.0; that week's range 3462.0 to 3675.0 overlapped the band.  [OK]
      3) RSI health: RSI at the low was 51.53 (at/above 30) => "uncensored"
@@ -712,47 +632,167 @@
      4) Liquidity: about Rs 17 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
  ---------------------------------------------------------------------
- #32  RAIN  (Rain Industries Limited)     score 0.03   RSI: uncensored
+ #27  NCC  (NCC Limited)     score 0.15   RSI: uncensored
 
-   What happened: over recent weeks RAIN's price made a lower low (down to
-   193.10 on 2026-08-27), while its daily MACD momentum made a
+   What happened: over recent weeks NCC's price made a lower low (down to
+   138.24 on 2026-08-20), while its daily MACD momentum made a
    HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
-   inside RAIN's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
+   inside NCC's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
 
    The checks it passed:
-     1) Divergence (daily): dip on 2026-08-18 (MACD -3.74, low 200.90 on 2026-08-18), then a
-        higher-momentum dip on 2026-08-27 (MACD -2.64, low 193.10 on 2026-08-27).
+     1) Divergence (daily): dip on 2026-07-09 (MACD -0.94, low 140.82 on 2026-07-14), then a
+        higher-momentum dip on 2026-08-20 (MACD -0.17, low 138.24 on 2026-08-18).
         Momentum made a HIGHER low while price made a LOWER low, and the latest
         dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-08-28): the weekly averages were
-        EMA11 202.2, EMA22 186.1, EMA50 165.9.
-        They formed a band 165.9 to 202.2; that week's range 193.1 to 218.3 overlapped the band.  [OK]
-     3) RSI health: RSI at the low was 39.11 (at/above 30) => "uncensored"
+     2) Weekly support zone (week of 2026-08-17): the weekly averages were
+        EMA11 146.1, EMA22 149.8, EMA50 164.7.
+        They formed a band 146.1 to 164.7; that week's range 138.2 to 151.4 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 41.44 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
-     4) Liquidity: about Rs 79 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+     4) Liquidity: about Rs 25 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
  ---------------------------------------------------------------------
- #33  HOMEFIRST  (Home First Finance Company India Limited)     score 0.03   RSI: uncensored
+ #28  MMTC  (MMTC Limited)     score 0.15   RSI: uncensored
 
-   What happened: over recent weeks HOMEFIRST's price made an equal low (a possible double bottom) (down to
-   1151.90 on 2026-09-01), while its daily MACD momentum made a
+   What happened: over recent weeks MMTC's price made a lower low (down to
+   61.41 on 2026-09-02), while its daily MACD momentum made a
    HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
-   inside HOMEFIRST's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
+   inside MMTC's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
 
    The checks it passed:
-     1) Divergence (daily): dip on 2026-07-29 (MACD -11.63, low 1150.00 on 2026-07-29), then a
-        higher-momentum dip on 2026-09-01 (MACD -0.43, low 1151.90 on 2026-09-01).
-        Momentum made a HIGHER low while price made an EQUAL low (within tolerance), and the latest
+     1) Divergence (daily): dip on 2026-07-08 (MACD -0.98, low 62.67 on 2026-07-08), then a
+        higher-momentum dip on 2026-09-02 (MACD -0.19, low 61.41 on 2026-09-02).
+        Momentum made a HIGHER low while price made a LOWER low, and the latest
         dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-09-04): the weekly averages were
-        EMA11 1185.3, EMA22 1163.5, EMA50 1148.6.
-        They formed a band 1148.6 to 1185.3; that week's range 1151.9 to 1229.0 overlapped the band.  [OK]
-     3) RSI health: RSI at the low was 41.85 (at/above 30) => "uncensored"
+     2) Weekly support zone (week of 2026-08-31): the weekly averages were
+        EMA11 64.4, EMA22 64.4, EMA50 64.5.
+        They formed a band 64.4 to 64.5; that week's range 61.4 to 66.2 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 41.37 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
-     4) Liquidity: about Rs 15 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+     4) Liquidity: about Rs 7 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
  ---------------------------------------------------------------------
- #34  CAMS  (Computer Age Management Services Limited)     score -0.00   RSI: uncensored
+ #29  SPAL  (S. P. Apparels Limited)     score 0.14   RSI: uncensored
+
+   What happened: over recent weeks SPAL's price made a lower low (down to
+   908.25 on 2026-08-19), while its daily MACD momentum made a
+   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
+   inside SPAL's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
+
+   The checks it passed:
+     1) Divergence (daily): dip on 2026-07-23 (MACD -28.16, low 940.20 on 2026-07-23), then a
+        higher-momentum dip on 2026-08-19 (MACD -11.83, low 908.25 on 2026-08-21).
+        Momentum made a HIGHER low while price made a LOWER low, and the latest
+        dip was confirmed (momentum turned back up).  [OK]
+     2) Weekly support zone (week of 2026-08-17): the weekly averages were
+        EMA11 966.3, EMA22 912.8, EMA50 842.0.
+        They formed a band 842.0 to 966.3; that week's range 908.2 to 966.0 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 39.35 (at/above 30) => "uncensored"
+        (a healthy dip, not a panic sell-off).
+     4) Liquidity: about Rs 6 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+
+ ---------------------------------------------------------------------
+ #30  SUPRIYA  (Supriya Lifescience Limited)     score 0.14   RSI: uncensored
+
+   What happened: over recent weeks SUPRIYA's price made a lower low (down to
+   740.45 on 2026-08-19), while its daily MACD momentum made a
+   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
+   inside SUPRIYA's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
+
+   The checks it passed:
+     1) Divergence (daily): dip on 2026-07-10 (MACD -19.96, low 835.50 on 2026-07-07), then a
+        higher-momentum dip on 2026-08-19 (MACD -9.44, low 740.45 on 2026-08-14).
+        Momentum made a HIGHER low while price made a LOWER low, and the latest
+        dip was confirmed (momentum turned back up).  [OK]
+     2) Weekly support zone (week of 2026-08-10): the weekly averages were
+        EMA11 854.6, EMA22 818.5, EMA50 761.4.
+        They formed a band 761.4 to 854.6; that week's range 740.5 to 940.0 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 35.54 (at/above 30) => "uncensored"
+        (a healthy dip, not a panic sell-off).
+     4) Liquidity: about Rs 18 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+
+ ---------------------------------------------------------------------
+ #31  EXIDEIND  (Exide Industries Limited)     score 0.13   RSI: uncensored
+
+   What happened: over recent weeks EXIDEIND's price made a lower low (down to
+   415.55 on 2026-09-03), while its daily MACD momentum made a
+   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
+   inside EXIDEIND's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
+
+   The checks it passed:
+     1) Divergence (daily): dip on 2026-08-27 (MACD -6.29, low 434.00 on 2026-09-01), then a
+        higher-momentum dip on 2026-09-03 (MACD -6.08, low 415.55 on 2026-09-08).
+        Momentum made a HIGHER low while price made a LOWER low, and the latest
+        dip was confirmed (momentum turned back up).  [OK]
+     2) Weekly support zone (week of 2026-09-07): the weekly averages were
+        EMA11 431.7, EMA22 412.1, EMA50 391.3.
+        They formed a band 391.3 to 431.7; that week's range 409.7 to 427.5 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 33.54 (at/above 30) => "uncensored"
+        (a healthy dip, not a panic sell-off).
+     4) Liquidity: about Rs 89 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+
+ ---------------------------------------------------------------------
+ #32  APOLLO  (Apollo Micro Systems Limited)     score 0.13   RSI: uncensored
+
+   What happened: over recent weeks APOLLO's price made a lower low (down to
+   374.35 on 2026-09-02), while its daily MACD momentum made a
+   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
+   inside APOLLO's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
+
+   The checks it passed:
+     1) Divergence (daily): dip on 2026-08-21 (MACD -0.39, low 380.30 on 2026-08-21), then a
+        higher-momentum dip on 2026-09-02 (MACD -0.24, low 374.35 on 2026-09-02).
+        Momentum made a HIGHER low while price made a LOWER low, and the latest
+        dip was confirmed (momentum turned back up).  [OK]
+     2) Weekly support zone (week of 2026-08-31): the weekly averages were
+        EMA11 388.5, EMA22 364.9, EMA50 312.4.
+        They formed a band 312.4 to 388.5; that week's range 374.4 to 393.0 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 40.96 (at/above 30) => "uncensored"
+        (a healthy dip, not a panic sell-off).
+     4) Liquidity: about Rs 169 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+
+ ---------------------------------------------------------------------
+ #33  ELECON  (Elecon Engineering Company Limited)     score 0.11   RSI: uncensored
+
+   What happened: over recent weeks ELECON's price made a lower low (down to
+   406.20 on 2026-09-01), while its daily MACD momentum made a
+   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
+   inside ELECON's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
+
+   The checks it passed:
+     1) Divergence (daily): dip on 2026-07-24 (MACD -8.17, low 412.85 on 2026-07-28), then a
+        higher-momentum dip on 2026-09-01 (MACD -0.72, low 406.20 on 2026-09-02).
+        Momentum made a HIGHER low while price made a LOWER low, and the latest
+        dip was confirmed (momentum turned back up).  [OK]
+     2) Weekly support zone (week of 2026-08-31): the weekly averages were
+        EMA11 452.5, EMA22 463.7, EMA50 481.2.
+        They formed a band 452.5 to 481.2; that week's range 406.2 to 457.0 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 35.36 (at/above 30) => "uncensored"
+        (a healthy dip, not a panic sell-off).
+     4) Liquidity: about Rs 12 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+
+ ---------------------------------------------------------------------
+ #34  ASTRAMICRO  (Astra Microwave Products Limited)     score 0.10   RSI: uncensored
+
+   What happened: over recent weeks ASTRAMICRO's price made a lower low (down to
+   1631.00 on 2026-09-02), while its daily MACD momentum made a
+   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
+   inside ASTRAMICRO's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
+
+   The checks it passed:
+     1) Divergence (daily): dip on 2026-08-21 (MACD -15.46, low 1642.90 on 2026-08-24), then a
+        higher-momentum dip on 2026-09-02 (MACD -6.73, low 1631.00 on 2026-09-02).
+        Momentum made a HIGHER low while price made a LOWER low, and the latest
+        dip was confirmed (momentum turned back up).  [OK]
+     2) Weekly support zone (week of 2026-08-31): the weekly averages were
+        EMA11 1689.9, EMA22 1544.2, EMA50 1310.3.
+        They formed a band 1310.3 to 1689.9; that week's range 1631.0 to 1741.0 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 42.26 (at/above 30) => "uncensored"
+        (a healthy dip, not a panic sell-off).
+     4) Liquidity: about Rs 47 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+
+ ---------------------------------------------------------------------
+ #35  CAMS  (Computer Age Management Services Limited)     score 0.10   RSI: uncensored
 
    What happened: over recent weeks CAMS's price made an equal low (a possible double bottom) (down to
    742.30 on 2026-08-20), while its daily MACD momentum made a
@@ -764,7 +804,7 @@
         higher-momentum dip on 2026-08-20 (MACD -4.73, low 742.30 on 2026-08-25).
         Momentum made a HIGHER low while price made an EQUAL low (within tolerance), and the latest
         dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-08-28): the weekly averages were
+     2) Weekly support zone (week of 2026-08-24): the weekly averages were
         EMA11 769.8, EMA22 763.6, EMA50 758.3.
         They formed a band 758.3 to 769.8; that week's range 739.0 to 762.0 overlapped the band.  [OK]
      3) RSI health: RSI at the low was 38.21 (at/above 30) => "uncensored"
@@ -772,27 +812,47 @@
      4) Liquidity: about Rs 96 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
  ---------------------------------------------------------------------
- #35  ADANIPOWER  (Adani Power Limited)     score -0.00   RSI: uncensored
+ #36  RAIN  (Rain Industries Limited)     score 0.10   RSI: uncensored
 
-   What happened: over recent weeks ADANIPOWER's price made a lower low (down to
-   201.77 on 2026-08-17), while its daily MACD momentum made a
+   What happened: over recent weeks RAIN's price made a lower low (down to
+   193.10 on 2026-08-27), while its daily MACD momentum made a
    HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
-   inside ADANIPOWER's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
+   inside RAIN's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
 
    The checks it passed:
-     1) Divergence (daily): dip on 2026-07-29 (MACD -0.85, low 207.11 on 2026-07-30), then a
-        higher-momentum dip on 2026-08-17 (MACD -0.26, low 201.77 on 2026-08-17).
+     1) Divergence (daily): dip on 2026-08-18 (MACD -3.74, low 200.90 on 2026-08-18), then a
+        higher-momentum dip on 2026-08-27 (MACD -2.64, low 193.10 on 2026-08-27).
         Momentum made a HIGHER low while price made a LOWER low, and the latest
         dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-08-21): the weekly averages were
-        EMA11 211.9, EMA22 204.3, EMA50 180.5.
-        They formed a band 180.5 to 211.9; that week's range 201.8 to 208.7 overlapped the band.  [OK]
-     3) RSI health: RSI at the low was 34.91 (at/above 30) => "uncensored"
+     2) Weekly support zone (week of 2026-08-24): the weekly averages were
+        EMA11 202.2, EMA22 186.1, EMA50 165.9.
+        They formed a band 165.9 to 202.2; that week's range 193.1 to 218.3 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 39.11 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
-     4) Liquidity: about Rs 357 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+     4) Liquidity: about Rs 79 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
  ---------------------------------------------------------------------
- #36  AEGISLOG  (Aegis Logistics Limited)     score -0.01   RSI: uncensored
+ #37  BANCOINDIA  (Banco Products (I) Limited)     score 0.09   RSI: uncensored
+
+   What happened: over recent weeks BANCOINDIA's price made an equal low (a possible double bottom) (down to
+   610.15 on 2026-09-02), while its daily MACD momentum made a
+   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
+   inside BANCOINDIA's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
+
+   The checks it passed:
+     1) Divergence (daily): dip on 2026-08-17 (MACD -3.92, low 604.65 on 2026-08-17), then a
+        higher-momentum dip on 2026-09-02 (MACD -0.13, low 610.15 on 2026-09-02).
+        Momentum made a HIGHER low while price made an EQUAL low (within tolerance), and the latest
+        dip was confirmed (momentum turned back up).  [OK]
+     2) Weekly support zone (week of 2026-08-31): the weekly averages were
+        EMA11 637.3, EMA22 637.8, EMA50 623.9.
+        They formed a band 623.9 to 637.8; that week's range 610.2 to 631.9 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 40.80 (at/above 30) => "uncensored"
+        (a healthy dip, not a panic sell-off).
+     4) Liquidity: about Rs 5 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+
+ ---------------------------------------------------------------------
+ #38  AEGISLOG  (Aegis Logistics Limited)     score 0.07   RSI: uncensored
 
    What happened: over recent weeks AEGISLOG's price made a lower low (down to
    1180.00 on 2026-09-02), while its daily MACD momentum made a
@@ -804,7 +864,7 @@
         higher-momentum dip on 2026-09-02 (MACD -16.55, low 1180.00 on 2026-09-01).
         Momentum made a HIGHER low while price made a LOWER low, and the latest
         dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-09-04): the weekly averages were
+     2) Weekly support zone (week of 2026-08-31): the weekly averages were
         EMA11 1239.4, EMA22 1101.2, EMA50 937.1.
         They formed a band 937.1 to 1239.4; that week's range 1180.0 to 1327.3 overlapped the band.  [OK]
      3) RSI health: RSI at the low was 41.13 (at/above 30) => "uncensored"
@@ -812,27 +872,27 @@
      4) Liquidity: about Rs 87 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
  ---------------------------------------------------------------------
- #37  KIRLOSENG  (Kirloskar Oil Engines Limited)     score -0.02   RSI: uncensored
+ #39  CCL  (CCL Products (India) Limited)     score 0.05   RSI: censored
 
-   What happened: over recent weeks KIRLOSENG's price made a lower low (down to
-   2041.10 on 2026-08-13), while its daily MACD momentum made a
+   What happened: over recent weeks CCL's price made a lower low (down to
+   1075.10 on 2026-08-24), while its daily MACD momentum made a
    HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
-   inside KIRLOSENG's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
+   inside CCL's weekly EMA 11/22/50 support band, and RSI dipped below 30 (a weaker sign).
 
    The checks it passed:
-     1) Divergence (daily): dip on 2026-07-23 (MACD -43.35, low 2132.40 on 2026-07-24), then a
-        higher-momentum dip on 2026-08-13 (MACD -22.99, low 2041.10 on 2026-08-12).
+     1) Divergence (daily): dip on 2026-08-04 (MACD -10.08, low 1106.00 on 2026-08-04), then a
+        higher-momentum dip on 2026-08-24 (MACD -5.25, low 1075.10 on 2026-08-21).
         Momentum made a HIGHER low while price made a LOWER low, and the latest
         dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-08-14): the weekly averages were
-        EMA11 2112.4, EMA22 1927.2, EMA50 1596.9.
-        They formed a band 1596.9 to 2112.4; that week's range 2041.1 to 2150.7 overlapped the band.  [OK]
-     3) RSI health: RSI at the low was 37.98 (at/above 30) => "uncensored"
-        (a healthy dip, not a panic sell-off).
-     4) Liquidity: about Rs 81 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+     2) Weekly support zone (week of 2026-08-17): the weekly averages were
+        EMA11 1134.4, EMA22 1111.5, EMA50 1032.1.
+        They formed a band 1032.1 to 1134.4; that week's range 1075.1 to 1144.4 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 28.76 (below 30) => "censored"
+        (a weaker dip; still listed (RSI only labels)).
+     4) Liquidity: about Rs 15 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
  ---------------------------------------------------------------------
- #38  TIPSMUSIC  (Tips Music Limited)     score -0.05   RSI: uncensored
+ #40  TIPSMUSIC  (Tips Music Limited)     score 0.03   RSI: uncensored
 
    What happened: over recent weeks TIPSMUSIC's price made a lower low (down to
    628.20 on 2026-09-02), while its daily MACD momentum made a
@@ -844,7 +904,7 @@
         higher-momentum dip on 2026-09-02 (MACD -1.69, low 628.20 on 2026-09-02).
         Momentum made a HIGHER low while price made a LOWER low, and the latest
         dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-09-04): the weekly averages were
+     2) Weekly support zone (week of 2026-08-31): the weekly averages were
         EMA11 657.6, EMA22 643.1, EMA50 618.6.
         They formed a band 618.6 to 657.6; that week's range 628.2 to 662.4 overlapped the band.  [OK]
      3) RSI health: RSI at the low was 38.87 (at/above 30) => "uncensored"
@@ -852,47 +912,67 @@
      4) Liquidity: about Rs 11 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
  ---------------------------------------------------------------------
- #39  STARHEALTH  (Star Health and Allied Insurance Company Limited)     score -0.05   RSI: uncensored
+ #41  VIPIND  (VIP Industries Limited)     score 0.03   RSI: uncensored
 
-   What happened: over recent weeks STARHEALTH's price made a lower low (down to
-   551.00 on 2026-09-04), while its daily MACD momentum made a
+   What happened: over recent weeks VIPIND's price made an equal low (a possible double bottom) (down to
+   299.85 on 2026-09-02), while its daily MACD momentum made a
    HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
-   inside STARHEALTH's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
+   inside VIPIND's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
 
    The checks it passed:
-     1) Divergence (daily): dip on 2026-08-10 (MACD -3.80, low 553.35 on 2026-08-10), then a
-        higher-momentum dip on 2026-09-04 (MACD -2.69, low 551.00 on 2026-09-02).
-        Momentum made a HIGHER low while price made a LOWER low, and the latest
+     1) Divergence (daily): dip on 2026-08-25 (MACD -0.82, low 298.00 on 2026-08-25), then a
+        higher-momentum dip on 2026-09-02 (MACD -0.35, low 299.85 on 2026-08-28).
+        Momentum made a HIGHER low while price made an EQUAL low (within tolerance), and the latest
         dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-09-04): the weekly averages were
-        EMA11 569.2, EMA22 550.2, EMA50 517.0.
-        They formed a band 517.0 to 569.2; that week's range 551.0 to 578.0 overlapped the band.  [OK]
-     3) RSI health: RSI at the low was 36.18 (at/above 30) => "uncensored"
+     2) Weekly support zone (week of 2026-08-24): the weekly averages were
+        EMA11 306.6, EMA22 315.0, EMA50 340.9.
+        They formed a band 306.6 to 340.9; that week's range 298.0 to 312.8 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 48.56 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
-     4) Liquidity: about Rs 14 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+     4) Liquidity: about Rs 11 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
  ---------------------------------------------------------------------
- #40  PRIVISCL  (Privi Speciality Chemicals Limited)     score -0.07   RSI: censored
+ #42  HOMEFIRST  (Home First Finance Company India Limited)     score 0.02   RSI: uncensored
 
-   What happened: over recent weeks PRIVISCL's price made a lower low (down to
-   3303.30 on 2026-09-02), while its daily MACD momentum made a
+   What happened: over recent weeks HOMEFIRST's price made an equal low (a possible double bottom) (down to
+   1151.90 on 2026-09-01), while its daily MACD momentum made a
    HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
-   inside PRIVISCL's weekly EMA 11/22/50 support band, and RSI dipped below 30 (a weaker sign).
+   inside HOMEFIRST's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
 
    The checks it passed:
-     1) Divergence (daily): dip on 2026-08-18 (MACD -25.85, low 3409.00 on 2026-08-18), then a
-        higher-momentum dip on 2026-09-02 (MACD -12.36, low 3303.30 on 2026-09-02).
-        Momentum made a HIGHER low while price made a LOWER low, and the latest
+     1) Divergence (daily): dip on 2026-07-29 (MACD -11.63, low 1150.00 on 2026-07-29), then a
+        higher-momentum dip on 2026-09-01 (MACD -0.43, low 1151.90 on 2026-09-01).
+        Momentum made a HIGHER low while price made an EQUAL low (within tolerance), and the latest
         dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-09-04): the weekly averages were
-        EMA11 3483.7, EMA22 3392.4, EMA50 3104.2.
-        They formed a band 3104.2 to 3483.7; that week's range 3303.3 to 3494.0 overlapped the band.  [OK]
-     3) RSI health: RSI at the low was 29.53 (below 30) => "censored"
-        (a weaker dip; still listed (RSI only labels)).
-     4) Liquidity: about Rs 19 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+     2) Weekly support zone (week of 2026-08-31): the weekly averages were
+        EMA11 1185.3, EMA22 1163.5, EMA50 1148.6.
+        They formed a band 1148.6 to 1185.3; that week's range 1151.9 to 1229.0 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 41.85 (at/above 30) => "uncensored"
+        (a healthy dip, not a panic sell-off).
+     4) Liquidity: about Rs 15 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
  ---------------------------------------------------------------------
- #41  POLYMED  (Poly Medicure Limited)     score -0.08   RSI: uncensored
+ #43  KIRLOSENG  (Kirloskar Oil Engines Limited)     score 0.01   RSI: uncensored
+
+   What happened: over recent weeks KIRLOSENG's price made a lower low (down to
+   2024.10 on 2026-08-26), while its daily MACD momentum made a
+   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
+   inside KIRLOSENG's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
+
+   The checks it passed:
+     1) Divergence (daily): dip on 2026-08-13 (MACD -22.99, low 2041.10 on 2026-08-12), then a
+        higher-momentum dip on 2026-08-26 (MACD -8.12, low 2024.10 on 2026-08-27).
+        Momentum made a HIGHER low while price made a LOWER low, and the latest
+        dip was confirmed (momentum turned back up).  [OK]
+     2) Weekly support zone (week of 2026-08-24): the weekly averages were
+        EMA11 2112.6, EMA22 1958.0, EMA50 1636.6.
+        They formed a band 1636.6 to 2112.6; that week's range 2024.1 to 2144.4 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 39.27 (at/above 30) => "uncensored"
+        (a healthy dip, not a panic sell-off).
+     4) Liquidity: about Rs 81 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+
+ ---------------------------------------------------------------------
+ #44  POLYMED  (Poly Medicure Limited)     score -0.01   RSI: uncensored
 
    What happened: over recent weeks POLYMED's price made an equal low (a possible double bottom) (down to
    1682.30 on 2026-09-07), while its daily MACD momentum made a
@@ -904,7 +984,7 @@
         higher-momentum dip on 2026-09-07 (MACD -8.00, low 1682.30 on 2026-09-08).
         Momentum made a HIGHER low while price made an EQUAL low (within tolerance), and the latest
         dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-09-11): the weekly averages were
+     2) Weekly support zone (week of 2026-09-07): the weekly averages were
         EMA11 1689.9, EMA22 1642.9, EMA50 1686.0.
         They formed a band 1642.9 to 1689.9; that week's range 1682.3 to 1767.8 overlapped the band.  [OK]
      3) RSI health: RSI at the low was 45.16 (at/above 30) => "uncensored"
@@ -912,27 +992,67 @@
      4) Liquidity: about Rs 20 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
  ---------------------------------------------------------------------
- #42  GANECOS  (Ganesha Ecosphere Limited)     score -0.10   RSI: uncensored
+ #45  PRIVISCL  (Privi Speciality Chemicals Limited)     score -0.01   RSI: censored
 
-   What happened: over recent weeks GANECOS's price made a lower low (down to
-   1001.80 on 2026-08-28), while its daily MACD momentum made a
+   What happened: over recent weeks PRIVISCL's price made a lower low (down to
+   3303.30 on 2026-09-02), while its daily MACD momentum made a
    HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
-   inside GANECOS's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
+   inside PRIVISCL's weekly EMA 11/22/50 support band, and RSI dipped below 30 (a weaker sign).
 
    The checks it passed:
-     1) Divergence (daily): dip on 2026-08-10 (MACD -26.04, low 1022.00 on 2026-08-11), then a
-        higher-momentum dip on 2026-08-28 (MACD -8.38, low 1001.80 on 2026-09-02).
+     1) Divergence (daily): dip on 2026-08-18 (MACD -25.85, low 3409.00 on 2026-08-18), then a
+        higher-momentum dip on 2026-09-02 (MACD -12.36, low 3303.30 on 2026-09-02).
         Momentum made a HIGHER low while price made a LOWER low, and the latest
         dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-09-04): the weekly averages were
-        EMA11 1051.4, EMA22 1026.8, EMA50 1058.7.
-        They formed a band 1026.8 to 1058.7; that week's range 962.5 to 1041.7 overlapped the band.  [OK]
-     3) RSI health: RSI at the low was 35.83 (at/above 30) => "uncensored"
-        (a healthy dip, not a panic sell-off).
-     4) Liquidity: about Rs 6 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+     2) Weekly support zone (week of 2026-08-31): the weekly averages were
+        EMA11 3483.7, EMA22 3392.4, EMA50 3104.2.
+        They formed a band 3104.2 to 3483.7; that week's range 3303.3 to 3494.0 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 29.53 (below 30) => "censored"
+        (a weaker dip; still listed (RSI only labels)).
+     4) Liquidity: about Rs 19 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
  ---------------------------------------------------------------------
- #43  MAYURUNIQ  (Mayur Uniquoters Ltd)     score -0.11   RSI: uncensored
+ #46  ICICIPRULI  (ICICI Prudential Life Insurance Company Limited)     score -0.03   RSI: uncensored
+
+   What happened: over recent weeks ICICIPRULI's price made an equal low (a possible double bottom) (down to
+   493.85 on 2026-08-19), while its daily MACD momentum made a
+   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
+   inside ICICIPRULI's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
+
+   The checks it passed:
+     1) Divergence (daily): dip on 2026-08-11 (MACD -1.41, low 491.05 on 2026-08-10), then a
+        higher-momentum dip on 2026-08-19 (MACD -1.35, low 493.85 on 2026-08-19).
+        Momentum made a HIGHER low while price made an EQUAL low (within tolerance), and the latest
+        dip was confirmed (momentum turned back up).  [OK]
+     2) Weekly support zone (week of 2026-08-17): the weekly averages were
+        EMA11 508.3, EMA22 523.6, EMA50 557.9.
+        They formed a band 508.3 to 557.9; that week's range 493.9 to 520.6 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 44.64 (at/above 30) => "uncensored"
+        (a healthy dip, not a panic sell-off).
+     4) Liquidity: about Rs 55 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+
+ ---------------------------------------------------------------------
+ #47  TIMKEN  (Timken India Limited)     score -0.05   RSI: uncensored
+
+   What happened: over recent weeks TIMKEN's price made an equal low (a possible double bottom) (down to
+   3080.20 on 2026-09-08), while its daily MACD momentum made a
+   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
+   inside TIMKEN's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
+
+   The checks it passed:
+     1) Divergence (daily): dip on 2026-08-26 (MACD -12.91, low 3069.50 on 2026-08-21), then a
+        higher-momentum dip on 2026-09-08 (MACD -4.25, low 3080.20 on 2026-09-08).
+        Momentum made a HIGHER low while price made an EQUAL low (within tolerance), and the latest
+        dip was confirmed (momentum turned back up).  [OK]
+     2) Weekly support zone (week of 2026-09-07): the weekly averages were
+        EMA11 3257.7, EMA22 3301.1, EMA50 3270.6.
+        They formed a band 3257.7 to 3301.1; that week's range 3080.2 to 3321.0 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 41.13 (at/above 30) => "uncensored"
+        (a healthy dip, not a panic sell-off).
+     4) Liquidity: about Rs 10 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+
+ ---------------------------------------------------------------------
+ #48  MAYURUNIQ  (Mayur Uniquoters Ltd)     score -0.05   RSI: uncensored
 
    What happened: over recent weeks MAYURUNIQ's price made a lower low (down to
    702.00 on 2026-09-03), while its daily MACD momentum made a
@@ -944,7 +1064,7 @@
         higher-momentum dip on 2026-09-03 (MACD -1.04, low 702.00 on 2026-09-08).
         Momentum made a HIGHER low while price made a LOWER low, and the latest
         dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-09-11): the weekly averages were
+     2) Weekly support zone (week of 2026-09-08): the weekly averages were
         EMA11 753.7, EMA22 722.3, EMA50 654.2.
         They formed a band 654.2 to 753.7; that week's range 702.0 to 765.9 overlapped the band.  [OK]
      3) RSI health: RSI at the low was 40.53 (at/above 30) => "uncensored"
@@ -952,7 +1072,7 @@
      4) Liquidity: about Rs 6 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
  ---------------------------------------------------------------------
- #44  PAISALO  (Paisalo Digital Limited)     score -0.11   RSI: uncensored
+ #49  PAISALO  (Paisalo Digital Limited)     score -0.08   RSI: uncensored
 
    What happened: over recent weeks PAISALO's price made a lower low (down to
    65.11 on 2026-09-02), while its daily MACD momentum made a
@@ -964,7 +1084,7 @@
         higher-momentum dip on 2026-09-02 (MACD -0.36, low 65.11 on 2026-09-01).
         Momentum made a HIGHER low while price made a LOWER low, and the latest
         dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-09-04): the weekly averages were
+     2) Weekly support zone (week of 2026-08-31): the weekly averages were
         EMA11 67.6, EMA22 61.0, EMA50 51.7.
         They formed a band 51.7 to 67.6; that week's range 65.1 to 74.2 overlapped the band.  [OK]
      3) RSI health: RSI at the low was 38.50 (at/above 30) => "uncensored"
@@ -972,67 +1092,7 @@
      4) Liquidity: about Rs 67 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
  ---------------------------------------------------------------------
- #45  CAMPUS  (Campus Activewear Limited)     score -0.12   RSI: uncensored
-
-   What happened: over recent weeks CAMPUS's price made an equal low (a possible double bottom) (down to
-   215.80 on 2026-08-18), while its daily MACD momentum made a
-   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
-   inside CAMPUS's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
-
-   The checks it passed:
-     1) Divergence (daily): dip on 2026-07-24 (MACD -1.02, low 215.55 on 2026-07-24), then a
-        higher-momentum dip on 2026-08-18 (MACD -0.00, low 215.80 on 2026-08-19).
-        Momentum made a HIGHER low while price made an EQUAL low (within tolerance), and the latest
-        dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-08-21): the weekly averages were
-        EMA11 229.0, EMA22 235.4, EMA50 247.0.
-        They formed a band 229.0 to 247.0; that week's range 215.8 to 233.3 overlapped the band.  [OK]
-     3) RSI health: RSI at the low was 40.51 (at/above 30) => "uncensored"
-        (a healthy dip, not a panic sell-off).
-     4) Liquidity: about Rs 8 cr traded per day (above the Rs 5 cr minimum) => tradeable.
-
- ---------------------------------------------------------------------
- #46  IBULLSLTD  (Indiabulls Limited)     score -0.14   RSI: uncensored
-
-   What happened: over recent weeks IBULLSLTD's price made an equal low (a possible double bottom) (down to
-   25.50 on 2026-08-21), while its daily MACD momentum made a
-   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
-   inside IBULLSLTD's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
-
-   The checks it passed:
-     1) Divergence (daily): dip on 2026-08-03 (MACD -0.60, low 25.40 on 2026-07-31), then a
-        higher-momentum dip on 2026-08-21 (MACD -0.38, low 25.50 on 2026-08-21).
-        Momentum made a HIGHER low while price made an EQUAL low (within tolerance), and the latest
-        dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-08-21): the weekly averages were
-        EMA11 26.4, EMA22 23.6, EMA50 20.0.
-        They formed a band 20.0 to 26.4; that week's range 25.5 to 29.2 overlapped the band.  [OK]
-     3) RSI health: RSI at the low was 38.66 (at/above 30) => "uncensored"
-        (a healthy dip, not a panic sell-off).
-     4) Liquidity: about Rs 23 cr traded per day (above the Rs 5 cr minimum) => tradeable.
-
- ---------------------------------------------------------------------
- #47  ITDC  (India Tourism Development Corporation Limited)     score -0.16   RSI: uncensored
-
-   What happened: over recent weeks ITDC's price made a lower low (down to
-   630.00 on 2026-09-02), while its daily MACD momentum made a
-   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
-   inside ITDC's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
-
-   The checks it passed:
-     1) Divergence (daily): dip on 2026-07-31 (MACD -9.69, low 692.50 on 2026-07-30), then a
-        higher-momentum dip on 2026-09-02 (MACD -6.64, low 630.00 on 2026-09-02).
-        Momentum made a HIGHER low while price made a LOWER low, and the latest
-        dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-09-04): the weekly averages were
-        EMA11 665.5, EMA22 636.9, EMA50 605.6.
-        They formed a band 605.6 to 665.5; that week's range 630.0 to 677.6 overlapped the band.  [OK]
-     3) RSI health: RSI at the low was 34.80 (at/above 30) => "uncensored"
-        (a healthy dip, not a panic sell-off).
-     4) Liquidity: about Rs 5 cr traded per day (above the Rs 5 cr minimum) => tradeable.
-
- ---------------------------------------------------------------------
- #48  PARAGMILK  (Parag Milk Foods Limited)     score -0.16   RSI: uncensored
+ #50  PARAGMILK  (Parag Milk Foods Limited)     score -0.08   RSI: uncensored
 
    What happened: over recent weeks PARAGMILK's price made a lower low (down to
    205.00 on 2026-08-20), while its daily MACD momentum made a
@@ -1044,7 +1104,7 @@
         higher-momentum dip on 2026-08-20 (MACD -1.19, low 205.00 on 2026-08-17).
         Momentum made a HIGHER low while price made a LOWER low, and the latest
         dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-08-21): the weekly averages were
+     2) Weekly support zone (week of 2026-08-17): the weekly averages were
         EMA11 222.1, EMA22 225.2, EMA50 230.8.
         They formed a band 222.1 to 230.8; that week's range 205.0 to 229.9 overlapped the band.  [OK]
      3) RSI health: RSI at the low was 35.90 (at/above 30) => "uncensored"
@@ -1052,67 +1112,87 @@
      4) Liquidity: about Rs 28 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
  ---------------------------------------------------------------------
- #49  ASTRAMICRO  (Astra Microwave Products Limited)     score -0.18   RSI: uncensored
+ #51  ADANIPOWER  (Adani Power Limited)     score -0.08   RSI: uncensored
 
-   What happened: over recent weeks ASTRAMICRO's price made a lower low (down to
-   1642.90 on 2026-08-21), while its daily MACD momentum made a
+   What happened: over recent weeks ADANIPOWER's price made a lower low (down to
+   201.77 on 2026-08-17), while its daily MACD momentum made a
    HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
-   inside ASTRAMICRO's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
+   inside ADANIPOWER's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
 
    The checks it passed:
-     1) Divergence (daily): dip on 2026-07-30 (MACD -16.63, low 1688.00 on 2026-07-28), then a
-        higher-momentum dip on 2026-08-21 (MACD -15.46, low 1642.90 on 2026-08-24).
+     1) Divergence (daily): dip on 2026-08-06 (MACD -0.27, low 206.70 on 2026-08-06), then a
+        higher-momentum dip on 2026-08-17 (MACD -0.26, low 201.77 on 2026-08-17).
         Momentum made a HIGHER low while price made a LOWER low, and the latest
         dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-08-28): the weekly averages were
-        EMA11 1682.1, EMA22 1526.6, EMA50 1293.2.
-        They formed a band 1293.2 to 1682.1; that week's range 1642.9 to 1726.9 overlapped the band.  [OK]
-     3) RSI health: RSI at the low was 43.33 (at/above 30) => "uncensored"
+     2) Weekly support zone (week of 2026-08-17): the weekly averages were
+        EMA11 211.9, EMA22 204.3, EMA50 180.5.
+        They formed a band 180.5 to 211.9; that week's range 201.8 to 208.7 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 34.91 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
-     4) Liquidity: about Rs 47 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+     4) Liquidity: about Rs 357 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
  ---------------------------------------------------------------------
- #50  ZYDUSLIFE  (Zydus Lifesciences Limited)     score -0.19   RSI: uncensored
+ #52  ITDC  (India Tourism Development Corporation Limited)     score -0.09   RSI: uncensored
 
-   What happened: over recent weeks ZYDUSLIFE's price made a lower low (down to
-   1092.60 on 2026-08-24), while its daily MACD momentum made a
+   What happened: over recent weeks ITDC's price made a lower low (down to
+   630.00 on 2026-09-02), while its daily MACD momentum made a
    HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
-   inside ZYDUSLIFE's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
+   inside ITDC's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
 
    The checks it passed:
-     1) Divergence (daily): dip on 2026-07-28 (MACD -8.39, low 1095.20 on 2026-07-28), then a
-        higher-momentum dip on 2026-08-24 (MACD -5.04, low 1092.60 on 2026-08-25).
+     1) Divergence (daily): dip on 2026-08-11 (MACD -9.59, low 667.15 on 2026-08-12), then a
+        higher-momentum dip on 2026-09-02 (MACD -6.64, low 630.00 on 2026-09-02).
         Momentum made a HIGHER low while price made a LOWER low, and the latest
         dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-08-28): the weekly averages were
-        EMA11 1119.5, EMA22 1073.2, EMA50 1016.2.
-        They formed a band 1016.2 to 1119.5; that week's range 1092.6 to 1198.9 overlapped the band.  [OK]
-     3) RSI health: RSI at the low was 43.89 (at/above 30) => "uncensored"
+     2) Weekly support zone (week of 2026-08-31): the weekly averages were
+        EMA11 665.5, EMA22 636.9, EMA50 605.6.
+        They formed a band 605.6 to 665.5; that week's range 630.0 to 677.6 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 34.80 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
-     4) Liquidity: about Rs 132 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+     4) Liquidity: about Rs 5 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
  ---------------------------------------------------------------------
- #51  SCHNEIDER  (Schneider Electric Infrastructure Limited)     score -0.20   RSI: uncensored
+ #53  KIMS  (Krishna Institute of Medical Sciences Limited)     score -0.10   RSI: uncensored
 
-   What happened: over recent weeks SCHNEIDER's price made a lower low (down to
-   1134.90 on 2026-08-25), while its daily MACD momentum made a
+   What happened: over recent weeks KIMS's price made a lower low (down to
+   750.10 on 2026-08-26), while its daily MACD momentum made a
    HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
-   inside SCHNEIDER's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
+   inside KIMS's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
 
    The checks it passed:
-     1) Divergence (daily): dip on 2026-07-17 (MACD -24.08, low 1263.10 on 2026-07-20), then a
-        higher-momentum dip on 2026-08-25 (MACD -22.86, low 1134.90 on 2026-08-25).
+     1) Divergence (daily): dip on 2026-07-23 (MACD -5.77, low 778.10 on 2026-07-22), then a
+        higher-momentum dip on 2026-08-26 (MACD -5.50, low 750.10 on 2026-08-31).
         Momentum made a HIGHER low while price made a LOWER low, and the latest
         dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-08-28): the weekly averages were
-        EMA11 1286.5, EMA22 1222.1, EMA50 1069.7.
-        They formed a band 1069.7 to 1286.5; that week's range 1134.9 to 1225.0 overlapped the band.  [OK]
-     3) RSI health: RSI at the low was 33.64 (at/above 30) => "uncensored"
+     2) Weekly support zone (week of 2026-08-31): the weekly averages were
+        EMA11 784.6, EMA22 765.7, EMA50 724.8.
+        They formed a band 724.8 to 784.6; that week's range 748.3 to 778.5 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 33.23 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
-     4) Liquidity: about Rs 39 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+     4) Liquidity: about Rs 38 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
  ---------------------------------------------------------------------
- #52  GMDCLTD  (Gujarat Mineral Development Corporation Limited)     score -0.21   RSI: uncensored
+ #54  CAMPUS  (Campus Activewear Limited)     score -0.10   RSI: uncensored
+
+   What happened: over recent weeks CAMPUS's price made an equal low (a possible double bottom) (down to
+   215.80 on 2026-08-18), while its daily MACD momentum made a
+   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
+   inside CAMPUS's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
+
+   The checks it passed:
+     1) Divergence (daily): dip on 2026-07-24 (MACD -1.02, low 215.55 on 2026-07-24), then a
+        higher-momentum dip on 2026-08-18 (MACD -0.00, low 215.80 on 2026-08-19).
+        Momentum made a HIGHER low while price made an EQUAL low (within tolerance), and the latest
+        dip was confirmed (momentum turned back up).  [OK]
+     2) Weekly support zone (week of 2026-08-17): the weekly averages were
+        EMA11 229.0, EMA22 235.4, EMA50 247.0.
+        They formed a band 229.0 to 247.0; that week's range 215.8 to 233.3 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 40.51 (at/above 30) => "uncensored"
+        (a healthy dip, not a panic sell-off).
+     4) Liquidity: about Rs 8 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+
+ ---------------------------------------------------------------------
+ #55  GMDCLTD  (Gujarat Mineral Development Corporation Limited)     score -0.11   RSI: uncensored
 
    What happened: over recent weeks GMDCLTD's price made a lower low (down to
    555.55 on 2026-09-02), while its daily MACD momentum made a
@@ -1124,7 +1204,7 @@
         higher-momentum dip on 2026-09-02 (MACD -1.08, low 555.55 on 2026-09-02).
         Momentum made a HIGHER low while price made a LOWER low, and the latest
         dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-09-04): the weekly averages were
+     2) Weekly support zone (week of 2026-08-31): the weekly averages were
         EMA11 581.8, EMA22 590.9, EMA50 565.5.
         They formed a band 565.5 to 590.9; that week's range 555.5 to 573.9 overlapped the band.  [OK]
      3) RSI health: RSI at the low was 41.03 (at/above 30) => "uncensored"
@@ -1132,67 +1212,147 @@
      4) Liquidity: about Rs 42 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
  ---------------------------------------------------------------------
- #53  TIMKEN  (Timken India Limited)     score -0.22   RSI: uncensored
+ #56  VTL  (Vardhman Textiles Limited)     score -0.12   RSI: uncensored
 
-   What happened: over recent weeks TIMKEN's price made a lower low (down to
-   3069.50 on 2026-08-26), while its daily MACD momentum made a
+   What happened: over recent weeks VTL's price made a lower low (down to
+   567.00 on 2026-08-31), while its daily MACD momentum made a
    HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
-   inside TIMKEN's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
+   inside VTL's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
 
    The checks it passed:
-     1) Divergence (daily): dip on 2026-07-09 (MACD -48.00, low 3140.00 on 2026-07-14), then a
-        higher-momentum dip on 2026-08-26 (MACD -12.91, low 3069.50 on 2026-08-21).
+     1) Divergence (daily): dip on 2026-08-13 (MACD -1.12, low 587.65 on 2026-08-18), then a
+        higher-momentum dip on 2026-08-31 (MACD -0.69, low 567.00 on 2026-08-31).
         Momentum made a HIGHER low while price made a LOWER low, and the latest
         dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-08-21): the weekly averages were
-        EMA11 3298.2, EMA22 3333.7, EMA50 3280.4.
-        They formed a band 3280.4 to 3333.7; that week's range 3069.5 to 3324.7 overlapped the band.  [OK]
-     3) RSI health: RSI at the low was 34.78 (at/above 30) => "uncensored"
+     2) Weekly support zone (week of 2026-08-31): the weekly averages were
+        EMA11 604.8, EMA22 592.7, EMA50 550.4.
+        They formed a band 550.4 to 604.8; that week's range 567.0 to 637.8 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 33.03 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 10 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
  ---------------------------------------------------------------------
- #54  SAMMAANCAP  (Sammaan Capital Limited)     score -0.27   RSI: uncensored
+ #57  ZYDUSLIFE  (Zydus Lifesciences Limited)     score -0.13   RSI: uncensored
 
-   What happened: over recent weeks SAMMAANCAP's price made a lower low (down to
-   145.00 on 2026-08-20), while its daily MACD momentum made a
+   What happened: over recent weeks ZYDUSLIFE's price made a lower low (down to
+   1092.60 on 2026-08-24), while its daily MACD momentum made a
    HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
-   inside SAMMAANCAP's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
+   inside ZYDUSLIFE's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
 
    The checks it passed:
-     1) Divergence (daily): dip on 2026-07-09 (MACD -1.91, low 159.89 on 2026-07-14), then a
-        higher-momentum dip on 2026-08-20 (MACD -1.03, low 145.00 on 2026-08-18).
+     1) Divergence (daily): dip on 2026-07-28 (MACD -8.39, low 1095.20 on 2026-07-28), then a
+        higher-momentum dip on 2026-08-24 (MACD -5.04, low 1092.60 on 2026-08-25).
         Momentum made a HIGHER low while price made a LOWER low, and the latest
         dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-08-21): the weekly averages were
-        EMA11 160.4, EMA22 159.4, EMA50 154.4.
-        They formed a band 154.4 to 160.4; that week's range 145.0 to 158.5 overlapped the band.  [OK]
-     3) RSI health: RSI at the low was 34.27 (at/above 30) => "uncensored"
+     2) Weekly support zone (week of 2026-08-24): the weekly averages were
+        EMA11 1119.5, EMA22 1073.2, EMA50 1016.2.
+        They formed a band 1016.2 to 1119.5; that week's range 1092.6 to 1198.9 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 43.89 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
-     4) Liquidity: about Rs 80 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+     4) Liquidity: about Rs 132 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
  ---------------------------------------------------------------------
- #55  SHAKTIPUMP  (Shakti Pumps (India) Limited)     score -0.28   RSI: censored
+ #58  ANTELOPUS  (Antelopus Selan Energy Limited)     score -0.13   RSI: uncensored
 
-   What happened: over recent weeks SHAKTIPUMP's price made a lower low (down to
-   465.00 on 2026-09-07), while its daily MACD momentum made a
+   What happened: over recent weeks ANTELOPUS's price made a lower low (down to
+   773.70 on 2026-08-27), while its daily MACD momentum made a
    HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
-   inside SHAKTIPUMP's weekly EMA 11/22/50 support band, and RSI dipped below 30 (a weaker sign).
+   inside ANTELOPUS's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
 
    The checks it passed:
-     1) Divergence (daily): dip on 2026-07-28 (MACD -5.40, low 513.00 on 2026-07-28), then a
-        higher-momentum dip on 2026-09-07 (MACD -1.30, low 465.00 on 2026-09-07).
+     1) Divergence (daily): dip on 2026-08-14 (MACD -7.44, low 776.45 on 2026-08-14), then a
+        higher-momentum dip on 2026-08-27 (MACD -3.29, low 773.70 on 2026-08-26).
         Momentum made a HIGHER low while price made a LOWER low, and the latest
         dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-09-11): the weekly averages were
-        EMA11 512.0, EMA22 534.0, EMA50 597.2.
-        They formed a band 512.0 to 597.2; that week's range 465.0 to 524.5 overlapped the band.  [OK]
-     3) RSI health: RSI at the low was 25.69 (below 30) => "censored"
-        (a weaker dip; still listed (RSI only labels)).
-     4) Liquidity: about Rs 15 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+     2) Weekly support zone (week of 2026-08-24): the weekly averages were
+        EMA11 795.3, EMA22 751.6, EMA50 679.8.
+        They formed a band 679.8 to 795.3; that week's range 773.7 to 809.0 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 43.52 (at/above 30) => "uncensored"
+        (a healthy dip, not a panic sell-off).
+     4) Liquidity: about Rs 18 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
  ---------------------------------------------------------------------
- #56  BIOCON  (Biocon Limited)     score -0.30   RSI: uncensored
+ #59  GANECOS  (Ganesha Ecosphere Limited)     score -0.14   RSI: uncensored
+
+   What happened: over recent weeks GANECOS's price made a lower low (down to
+   1001.80 on 2026-08-28), while its daily MACD momentum made a
+   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
+   inside GANECOS's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
+
+   The checks it passed:
+     1) Divergence (daily): dip on 2026-08-10 (MACD -26.04, low 1022.00 on 2026-08-11), then a
+        higher-momentum dip on 2026-08-28 (MACD -8.38, low 1001.80 on 2026-09-02).
+        Momentum made a HIGHER low while price made a LOWER low, and the latest
+        dip was confirmed (momentum turned back up).  [OK]
+     2) Weekly support zone (week of 2026-08-31): the weekly averages were
+        EMA11 1051.4, EMA22 1026.8, EMA50 1058.7.
+        They formed a band 1026.8 to 1058.7; that week's range 962.5 to 1041.7 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 35.83 (at/above 30) => "uncensored"
+        (a healthy dip, not a panic sell-off).
+     4) Liquidity: about Rs 6 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+
+ ---------------------------------------------------------------------
+ #60  GOKEX  (Gokaldas Exports Limited)     score -0.17   RSI: uncensored
+
+   What happened: over recent weeks GOKEX's price made a lower low (down to
+   763.00 on 2026-09-03), while its daily MACD momentum made a
+   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
+   inside GOKEX's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
+
+   The checks it passed:
+     1) Divergence (daily): dip on 2026-08-28 (MACD -2.28, low 765.00 on 2026-08-28), then a
+        higher-momentum dip on 2026-09-03 (MACD -1.97, low 763.00 on 2026-09-03).
+        Momentum made a HIGHER low while price made a LOWER low, and the latest
+        dip was confirmed (momentum turned back up).  [OK]
+     2) Weekly support zone (week of 2026-08-31): the weekly averages were
+        EMA11 788.7, EMA22 770.8, EMA50 769.4.
+        They formed a band 769.4 to 788.7; that week's range 763.0 to 802.5 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 40.44 (at/above 30) => "uncensored"
+        (a healthy dip, not a panic sell-off).
+     4) Liquidity: about Rs 14 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+
+ ---------------------------------------------------------------------
+ #61  M&MFIN  (Mahindra & Mahindra Financial Services Limited)     score -0.18   RSI: uncensored
+
+   What happened: over recent weeks M&MFIN's price made a lower low (down to
+   360.30 on 2026-09-01), while its daily MACD momentum made a
+   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
+   inside M&MFIN's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
+
+   The checks it passed:
+     1) Divergence (daily): dip on 2026-08-24 (MACD -4.80, low 377.05 on 2026-08-24), then a
+        higher-momentum dip on 2026-09-01 (MACD -4.73, low 360.30 on 2026-09-02).
+        Momentum made a HIGHER low while price made a LOWER low, and the latest
+        dip was confirmed (momentum turned back up).  [OK]
+     2) Weekly support zone (week of 2026-08-31): the weekly averages were
+        EMA11 363.9, EMA22 349.1, EMA50 332.1.
+        They formed a band 332.1 to 363.9; that week's range 360.3 to 381.0 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 41.38 (at/above 30) => "uncensored"
+        (a healthy dip, not a panic sell-off).
+     4) Liquidity: about Rs 71 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+
+ ---------------------------------------------------------------------
+ #62  IIFLCAPS  (IIFL Capital Services Limited)     score -0.20   RSI: uncensored
+
+   What happened: over recent weeks IIFLCAPS's price made an equal low (a possible double bottom) (down to
+   332.90 on 2026-08-20), while its daily MACD momentum made a
+   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
+   inside IIFLCAPS's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
+
+   The checks it passed:
+     1) Divergence (daily): dip on 2026-08-10 (MACD -0.37, low 332.50 on 2026-08-11), then a
+        higher-momentum dip on 2026-08-20 (MACD -0.07, low 332.90 on 2026-08-21).
+        Momentum made a HIGHER low while price made an EQUAL low (within tolerance), and the latest
+        dip was confirmed (momentum turned back up).  [OK]
+     2) Weekly support zone (week of 2026-08-17): the weekly averages were
+        EMA11 336.0, EMA22 331.7, EMA50 320.8.
+        They formed a band 320.8 to 336.0; that week's range 332.9 to 337.0 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 38.29 (at/above 30) => "uncensored"
+        (a healthy dip, not a panic sell-off).
+     4) Liquidity: about Rs 7 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+
+ ---------------------------------------------------------------------
+ #63  BIOCON  (Biocon Limited)     score -0.20   RSI: uncensored
 
    What happened: over recent weeks BIOCON's price made a lower low (down to
    384.65 on 2026-09-08), while its daily MACD momentum made a
@@ -1204,7 +1364,7 @@
         higher-momentum dip on 2026-09-08 (MACD -2.13, low 384.65 on 2026-09-11).
         Momentum made a HIGHER low while price made a LOWER low, and the latest
         dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-09-11): the weekly averages were
+     2) Weekly support zone (week of 2026-09-07): the weekly averages were
         EMA11 410.4, EMA22 407.2, EMA50 393.1.
         They formed a band 393.1 to 410.4; that week's range 384.6 to 404.0 overlapped the band.  [OK]
      3) RSI health: RSI at the low was 30.03 (at/above 30) => "uncensored"
@@ -1212,7 +1372,67 @@
      4) Liquidity: about Rs 96 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
  ---------------------------------------------------------------------
- #57  PARACABLES  (Paramount Communications Limited)     score -0.33   RSI: uncensored
+ #64  STAR  (Strides Pharma Science Limited)     score -0.21   RSI: uncensored
+
+   What happened: over recent weeks STAR's price made a lower low (down to
+   931.30 on 2026-08-19), while its daily MACD momentum made a
+   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
+   inside STAR's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
+
+   The checks it passed:
+     1) Divergence (daily): dip on 2026-08-05 (MACD -6.50, low 963.00 on 2026-08-05), then a
+        higher-momentum dip on 2026-08-19 (MACD -3.47, low 931.30 on 2026-08-19).
+        Momentum made a HIGHER low while price made a LOWER low, and the latest
+        dip was confirmed (momentum turned back up).  [OK]
+     2) Weekly support zone (week of 2026-08-17): the weekly averages were
+        EMA11 1029.0, EMA22 1023.5, EMA50 975.4.
+        They formed a band 975.4 to 1029.0; that week's range 931.3 to 1056.0 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 33.66 (at/above 30) => "uncensored"
+        (a healthy dip, not a panic sell-off).
+     4) Liquidity: about Rs 28 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+
+ ---------------------------------------------------------------------
+ #65  SAMMAANCAP  (Sammaan Capital Limited)     score -0.24   RSI: uncensored
+
+   What happened: over recent weeks SAMMAANCAP's price made a lower low (down to
+   145.00 on 2026-08-20), while its daily MACD momentum made a
+   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
+   inside SAMMAANCAP's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
+
+   The checks it passed:
+     1) Divergence (daily): dip on 2026-07-09 (MACD -1.91, low 159.89 on 2026-07-14), then a
+        higher-momentum dip on 2026-08-20 (MACD -1.03, low 145.00 on 2026-08-18).
+        Momentum made a HIGHER low while price made a LOWER low, and the latest
+        dip was confirmed (momentum turned back up).  [OK]
+     2) Weekly support zone (week of 2026-08-17): the weekly averages were
+        EMA11 160.4, EMA22 159.4, EMA50 154.4.
+        They formed a band 154.4 to 160.4; that week's range 145.0 to 158.5 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 34.27 (at/above 30) => "uncensored"
+        (a healthy dip, not a panic sell-off).
+     4) Liquidity: about Rs 80 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+
+ ---------------------------------------------------------------------
+ #66  SMSPHARMA  (SMS Pharmaceuticals Limited)     score -0.26   RSI: uncensored
+
+   What happened: over recent weeks SMSPHARMA's price made a lower low (down to
+   351.00 on 2026-08-19), while its daily MACD momentum made a
+   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
+   inside SMSPHARMA's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
+
+   The checks it passed:
+     1) Divergence (daily): dip on 2026-08-06 (MACD -3.43, low 355.50 on 2026-08-06), then a
+        higher-momentum dip on 2026-08-19 (MACD -1.13, low 351.00 on 2026-08-21).
+        Momentum made a HIGHER low while price made a LOWER low, and the latest
+        dip was confirmed (momentum turned back up).  [OK]
+     2) Weekly support zone (week of 2026-08-17): the weekly averages were
+        EMA11 377.1, EMA22 375.8, EMA50 349.1.
+        They formed a band 349.1 to 377.1; that week's range 351.0 to 364.3 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 37.82 (at/above 30) => "uncensored"
+        (a healthy dip, not a panic sell-off).
+     4) Liquidity: about Rs 5 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+
+ ---------------------------------------------------------------------
+ #67  PARACABLES  (Paramount Communications Limited)     score -0.27   RSI: uncensored
 
    What happened: over recent weeks PARACABLES's price made a lower low (down to
    58.28 on 2026-08-27), while its daily MACD momentum made a
@@ -1224,7 +1444,7 @@
         higher-momentum dip on 2026-08-27 (MACD -0.64, low 58.28 on 2026-08-27).
         Momentum made a HIGHER low while price made a LOWER low, and the latest
         dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-08-28): the weekly averages were
+     2) Weekly support zone (week of 2026-08-24): the weekly averages were
         EMA11 63.6, EMA22 59.1, EMA50 53.8.
         They formed a band 53.8 to 63.6; that week's range 58.3 to 63.5 overlapped the band.  [OK]
      3) RSI health: RSI at the low was 34.39 (at/above 30) => "uncensored"
@@ -1232,27 +1452,7 @@
      4) Liquidity: about Rs 9 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
  ---------------------------------------------------------------------
- #58  NOCIL  (NOCIL Limited)     score -0.34   RSI: uncensored
-
-   What happened: over recent weeks NOCIL's price made an equal low (a possible double bottom) (down to
-   160.50 on 2026-08-19), while its daily MACD momentum made a
-   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
-   inside NOCIL's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
-
-   The checks it passed:
-     1) Divergence (daily): dip on 2026-07-17 (MACD -2.15, low 160.36 on 2026-07-20), then a
-        higher-momentum dip on 2026-08-19 (MACD -0.38, low 160.50 on 2026-08-14).
-        Momentum made a HIGHER low while price made an EQUAL low (within tolerance), and the latest
-        dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-08-14): the weekly averages were
-        EMA11 166.5, EMA22 165.8, EMA50 170.3.
-        They formed a band 165.8 to 170.3; that week's range 160.5 to 170.0 overlapped the band.  [OK]
-     3) RSI health: RSI at the low was 42.12 (at/above 30) => "uncensored"
-        (a healthy dip, not a panic sell-off).
-     4) Liquidity: about Rs 8 cr traded per day (above the Rs 5 cr minimum) => tradeable.
-
- ---------------------------------------------------------------------
- #59  GODREJIND  (Godrej Industries Limited)     score -0.36   RSI: censored
+ #68  GODREJIND  (Godrej Industries Limited)     score -0.27   RSI: censored
 
    What happened: over recent weeks GODREJIND's price made a lower low (down to
    1125.10 on 2026-08-26), while its daily MACD momentum made a
@@ -1264,7 +1464,7 @@
         higher-momentum dip on 2026-08-26 (MACD -15.98, low 1125.10 on 2026-08-27).
         Momentum made a HIGHER low while price made a LOWER low, and the latest
         dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-08-28): the weekly averages were
+     2) Weekly support zone (week of 2026-08-24): the weekly averages were
         EMA11 1226.5, EMA22 1171.4, EMA50 1112.1.
         They formed a band 1112.1 to 1226.5; that week's range 1125.1 to 1250.0 overlapped the band.  [OK]
      3) RSI health: RSI at the low was 29.32 (below 30) => "censored"
@@ -1272,47 +1472,47 @@
      4) Liquidity: about Rs 8 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
  ---------------------------------------------------------------------
- #60  3MINDIA  (3M India Limited)     score -0.40   RSI: uncensored
+ #69  63MOONS  (63 moons technologies limited)     score -0.28   RSI: uncensored
 
-   What happened: over recent weeks 3MINDIA's price made a lower low (down to
-   32620.00 on 2026-09-03), while its daily MACD momentum made a
+   What happened: over recent weeks 63MOONS's price made a lower low (down to
+   739.10 on 2026-08-27), while its daily MACD momentum made a
    HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
-   inside 3MINDIA's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
+   inside 63MOONS's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
 
    The checks it passed:
-     1) Divergence (daily): dip on 2026-08-21 (MACD -330.13, low 33290.00 on 2026-08-21), then a
-        higher-momentum dip on 2026-09-03 (MACD -177.28, low 32620.00 on 2026-09-08).
+     1) Divergence (daily): dip on 2026-08-20 (MACD -14.78, low 753.00 on 2026-08-18), then a
+        higher-momentum dip on 2026-08-27 (MACD -11.71, low 739.10 on 2026-08-27).
         Momentum made a HIGHER low while price made a LOWER low, and the latest
         dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-09-11): the weekly averages were
-        EMA11 33910.2, EMA22 33763.5, EMA50 33204.1.
-        They formed a band 33204.1 to 33910.2; that week's range 32400.0 to 33330.0 overlapped the band.  [OK]
-     3) RSI health: RSI at the low was 34.54 (at/above 30) => "uncensored"
+     2) Weekly support zone (week of 2026-08-24): the weekly averages were
+        EMA11 760.0, EMA22 725.3, EMA50 715.2.
+        They formed a band 715.2 to 760.0; that week's range 739.1 to 822.0 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 42.28 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
-     4) Liquidity: about Rs 6 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+     4) Liquidity: about Rs 21 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
  ---------------------------------------------------------------------
- #61  IDBI  (IDBI Bank Limited)     score -0.40   RSI: uncensored
+ #70  NHPC  (NHPC Limited)     score -0.30   RSI: uncensored
 
-   What happened: over recent weeks IDBI's price made an equal low (a possible double bottom) (down to
-   80.50 on 2026-08-19), while its daily MACD momentum made a
+   What happened: over recent weeks NHPC's price made a lower low (down to
+   74.30 on 2026-08-28), while its daily MACD momentum made a
    HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
-   inside IDBI's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
+   inside NHPC's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
 
    The checks it passed:
-     1) Divergence (daily): dip on 2026-07-09 (MACD -0.68, low 80.17 on 2026-07-08), then a
-        higher-momentum dip on 2026-08-19 (MACD -0.46, low 80.50 on 2026-08-19).
-        Momentum made a HIGHER low while price made an EQUAL low (within tolerance), and the latest
+     1) Divergence (daily): dip on 2026-08-11 (MACD -0.32, low 76.00 on 2026-08-12), then a
+        higher-momentum dip on 2026-08-28 (MACD -0.11, low 74.30 on 2026-08-31).
+        Momentum made a HIGHER low while price made a LOWER low, and the latest
         dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-08-21): the weekly averages were
-        EMA11 82.5, EMA22 83.2, EMA50 86.1.
-        They formed a band 82.5 to 86.1; that week's range 80.5 to 82.8 overlapped the band.  [OK]
-     3) RSI health: RSI at the low was 37.06 (at/above 30) => "uncensored"
+     2) Weekly support zone (week of 2026-08-31): the weekly averages were
+        EMA11 77.1, EMA22 77.7, EMA50 78.8.
+        They formed a band 77.1 to 78.8; that week's range 74.3 to 77.2 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 34.00 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
-     4) Liquidity: about Rs 84 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+     4) Liquidity: about Rs 68 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
  ---------------------------------------------------------------------
- #62  AIAENG  (AIA Engineering Limited)     score -0.40   RSI: uncensored
+ #71  AIAENG  (AIA Engineering Limited)     score -0.31   RSI: uncensored
 
    What happened: over recent weeks AIAENG's price made a lower low (down to
    4223.00 on 2026-08-24), while its daily MACD momentum made a
@@ -1324,7 +1524,7 @@
         higher-momentum dip on 2026-08-24 (MACD -36.02, low 4223.00 on 2026-08-27).
         Momentum made a HIGHER low while price made a LOWER low, and the latest
         dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-08-28): the weekly averages were
+     2) Weekly support zone (week of 2026-08-24): the weekly averages were
         EMA11 4464.1, EMA22 4339.2, EMA50 4055.3.
         They formed a band 4055.3 to 4464.1; that week's range 4192.2 to 4366.9 overlapped the band.  [OK]
      3) RSI health: RSI at the low was 31.49 (at/above 30) => "uncensored"
@@ -1332,27 +1532,107 @@
      4) Liquidity: about Rs 13 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
  ---------------------------------------------------------------------
- #63  TRIDENT  (Trident Limited)     score -0.46   RSI: uncensored
+ #72  JUSTDIAL  (Just Dial Limited)     score -0.33   RSI: uncensored
 
-   What happened: over recent weeks TRIDENT's price made a lower low (down to
-   24.14 on 2026-08-14), while its daily MACD momentum made a
+   What happened: over recent weeks JUSTDIAL's price made a lower low (down to
+   637.30 on 2026-08-27), while its daily MACD momentum made a
    HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
-   inside TRIDENT's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
+   inside JUSTDIAL's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
 
    The checks it passed:
-     1) Divergence (daily): dip on 2026-07-15 (MACD -0.14, low 24.92 on 2026-07-17), then a
-        higher-momentum dip on 2026-08-14 (MACD -0.04, low 24.14 on 2026-08-14).
+     1) Divergence (daily): dip on 2026-08-07 (MACD -13.17, low 671.00 on 2026-08-10), then a
+        higher-momentum dip on 2026-08-27 (MACD -7.50, low 637.30 on 2026-08-27).
         Momentum made a HIGHER low while price made a LOWER low, and the latest
         dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-08-14): the weekly averages were
-        EMA11 25.1, EMA22 25.3, EMA50 26.4.
-        They formed a band 25.1 to 26.4; that week's range 24.1 to 25.2 overlapped the band.  [OK]
-     3) RSI health: RSI at the low was 35.99 (at/above 30) => "uncensored"
+     2) Weekly support zone (week of 2026-08-24): the weekly averages were
+        EMA11 656.9, EMA22 631.7, EMA50 666.1.
+        They formed a band 631.7 to 666.1; that week's range 637.3 to 704.5 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 38.51 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
-     4) Liquidity: about Rs 5 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+     4) Liquidity: about Rs 11 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
  ---------------------------------------------------------------------
- #64  HBLENGINE  (HBL Engineering Limited)     score -0.46   RSI: uncensored
+ #73  NOCIL  (NOCIL Limited)     score -0.33   RSI: uncensored
+
+   What happened: over recent weeks NOCIL's price made an equal low (a possible double bottom) (down to
+   160.50 on 2026-08-19), while its daily MACD momentum made a
+   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
+   inside NOCIL's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
+
+   The checks it passed:
+     1) Divergence (daily): dip on 2026-07-17 (MACD -2.15, low 160.36 on 2026-07-20), then a
+        higher-momentum dip on 2026-08-19 (MACD -0.38, low 160.50 on 2026-08-14).
+        Momentum made a HIGHER low while price made an EQUAL low (within tolerance), and the latest
+        dip was confirmed (momentum turned back up).  [OK]
+     2) Weekly support zone (week of 2026-08-10): the weekly averages were
+        EMA11 166.5, EMA22 165.8, EMA50 170.3.
+        They formed a band 165.8 to 170.3; that week's range 160.5 to 170.0 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 42.12 (at/above 30) => "uncensored"
+        (a healthy dip, not a panic sell-off).
+     4) Liquidity: about Rs 8 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+
+ ---------------------------------------------------------------------
+ #74  GVPIL  (GE Power India Limited)     score -0.34   RSI: uncensored
+
+   What happened: over recent weeks GVPIL's price made a lower low (down to
+   637.35 on 2026-08-25), while its daily MACD momentum made a
+   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
+   inside GVPIL's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
+
+   The checks it passed:
+     1) Divergence (daily): dip on 2026-07-31 (MACD -9.02, low 700.00 on 2026-08-03), then a
+        higher-momentum dip on 2026-08-25 (MACD -8.31, low 637.35 on 2026-08-26).
+        Momentum made a HIGHER low while price made a LOWER low, and the latest
+        dip was confirmed (momentum turned back up).  [OK]
+     2) Weekly support zone (week of 2026-08-24): the weekly averages were
+        EMA11 747.3, EMA22 708.8, EMA50 584.6.
+        They formed a band 584.6 to 747.3; that week's range 637.3 to 681.0 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 31.26 (at/above 30) => "uncensored"
+        (a healthy dip, not a panic sell-off).
+     4) Liquidity: about Rs 15 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+
+ ---------------------------------------------------------------------
+ #75  3MINDIA  (3M India Limited)     score -0.38   RSI: uncensored
+
+   What happened: over recent weeks 3MINDIA's price made a lower low (down to
+   32620.00 on 2026-09-03), while its daily MACD momentum made a
+   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
+   inside 3MINDIA's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
+
+   The checks it passed:
+     1) Divergence (daily): dip on 2026-08-21 (MACD -330.13, low 33290.00 on 2026-08-21), then a
+        higher-momentum dip on 2026-09-03 (MACD -177.28, low 32620.00 on 2026-09-08).
+        Momentum made a HIGHER low while price made a LOWER low, and the latest
+        dip was confirmed (momentum turned back up).  [OK]
+     2) Weekly support zone (week of 2026-09-08): the weekly averages were
+        EMA11 33910.2, EMA22 33763.5, EMA50 33204.1.
+        They formed a band 33204.1 to 33910.2; that week's range 32400.0 to 33330.0 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 34.54 (at/above 30) => "uncensored"
+        (a healthy dip, not a panic sell-off).
+     4) Liquidity: about Rs 6 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+
+ ---------------------------------------------------------------------
+ #76  TARC  (TARC Limited)     score -0.38   RSI: uncensored
+
+   What happened: over recent weeks TARC's price made a lower low (down to
+   116.57 on 2026-08-27), while its daily MACD momentum made a
+   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
+   inside TARC's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
+
+   The checks it passed:
+     1) Divergence (daily): dip on 2026-08-19 (MACD -1.59, low 119.31 on 2026-08-20), then a
+        higher-momentum dip on 2026-08-27 (MACD -1.09, low 116.57 on 2026-08-31).
+        Momentum made a HIGHER low while price made a LOWER low, and the latest
+        dip was confirmed (momentum turned back up).  [OK]
+     2) Weekly support zone (week of 2026-08-31): the weekly averages were
+        EMA11 126.3, EMA22 129.4, EMA50 138.5.
+        They formed a band 126.3 to 138.5; that week's range 116.6 to 128.0 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 34.57 (at/above 30) => "uncensored"
+        (a healthy dip, not a panic sell-off).
+     4) Liquidity: about Rs 7 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+
+ ---------------------------------------------------------------------
+ #77  HBLENGINE  (HBL Engineering Limited)     score -0.39   RSI: uncensored
 
    What happened: over recent weeks HBLENGINE's price made a lower low (down to
    648.00 on 2026-09-01), while its daily MACD momentum made a
@@ -1364,7 +1644,7 @@
         higher-momentum dip on 2026-09-01 (MACD -1.04, low 648.00 on 2026-09-02).
         Momentum made a HIGHER low while price made a LOWER low, and the latest
         dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-09-04): the weekly averages were
+     2) Weekly support zone (week of 2026-08-31): the weekly averages were
         EMA11 720.4, EMA22 741.0, EMA50 743.5.
         They formed a band 720.4 to 743.5; that week's range 648.0 to 724.0 overlapped the band.  [OK]
      3) RSI health: RSI at the low was 35.82 (at/above 30) => "uncensored"
@@ -1372,27 +1652,7 @@
      4) Liquidity: about Rs 53 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
  ---------------------------------------------------------------------
- #65  GLOBUSSPR  (Globus Spirits Limited)     score -0.48   RSI: uncensored
-
-   What happened: over recent weeks GLOBUSSPR's price made an equal low (a possible double bottom) (down to
-   860.10 on 2026-08-14), while its daily MACD momentum made a
-   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
-   inside GLOBUSSPR's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
-
-   The checks it passed:
-     1) Divergence (daily): dip on 2026-07-24 (MACD -7.63, low 853.05 on 2026-07-24), then a
-        higher-momentum dip on 2026-08-14 (MACD -2.22, low 860.10 on 2026-08-11).
-        Momentum made a HIGHER low while price made an EQUAL low (within tolerance), and the latest
-        dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-08-14): the weekly averages were
-        EMA11 897.2, EMA22 913.4, EMA50 947.7.
-        They formed a band 897.2 to 947.7; that week's range 860.1 to 912.7 overlapped the band.  [OK]
-     3) RSI health: RSI at the low was 42.58 (at/above 30) => "uncensored"
-        (a healthy dip, not a panic sell-off).
-     4) Liquidity: about Rs 6 cr traded per day (above the Rs 5 cr minimum) => tradeable.
-
- ---------------------------------------------------------------------
- #66  CARYSIL  (CARYSIL LIMITED)     score -0.49   RSI: uncensored
+ #78  CARYSIL  (CARYSIL LIMITED)     score -0.40   RSI: uncensored
 
    What happened: over recent weeks CARYSIL's price made an equal low (a possible double bottom) (down to
    1095.10 on 2026-08-28), while its daily MACD momentum made a
@@ -1404,7 +1664,7 @@
         higher-momentum dip on 2026-08-28 (MACD -8.93, low 1095.10 on 2026-08-31).
         Momentum made a HIGHER low while price made an EQUAL low (within tolerance), and the latest
         dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-09-04): the weekly averages were
+     2) Weekly support zone (week of 2026-08-31): the weekly averages were
         EMA11 1137.8, EMA22 1088.5, EMA50 997.7.
         They formed a band 997.7 to 1137.8; that week's range 1095.1 to 1180.0 overlapped the band.  [OK]
      3) RSI health: RSI at the low was 39.23 (at/above 30) => "uncensored"
@@ -1412,7 +1672,107 @@
      4) Liquidity: about Rs 8 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
  ---------------------------------------------------------------------
- #67  KRISHNADEF  (Krishna Defence And Allied Industries Limited)     score -0.52   RSI: uncensored
+ #79  CENTUM  (Centum Electronics Limited)     score -0.40   RSI: uncensored
+
+   What happened: over recent weeks CENTUM's price made a lower low (down to
+   3255.10 on 2026-08-25), while its daily MACD momentum made a
+   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
+   inside CENTUM's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
+
+   The checks it passed:
+     1) Divergence (daily): dip on 2026-08-19 (MACD -46.38, low 3313.80 on 2026-08-18), then a
+        higher-momentum dip on 2026-08-25 (MACD -45.90, low 3255.10 on 2026-08-25).
+        Momentum made a HIGHER low while price made a LOWER low, and the latest
+        dip was confirmed (momentum turned back up).  [OK]
+     2) Weekly support zone (week of 2026-08-24): the weekly averages were
+        EMA11 3512.1, EMA22 3344.1, EMA50 2973.2.
+        They formed a band 2973.2 to 3512.1; that week's range 3255.1 to 3486.5 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 35.07 (at/above 30) => "uncensored"
+        (a healthy dip, not a panic sell-off).
+     4) Liquidity: about Rs 18 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+
+ ---------------------------------------------------------------------
+ #80  LXCHEM  (Laxmi Organic Industries Limited)     score -0.43   RSI: uncensored
+
+   What happened: over recent weeks LXCHEM's price made a lower low (down to
+   164.00 on 2026-08-27), while its daily MACD momentum made a
+   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
+   inside LXCHEM's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
+
+   The checks it passed:
+     1) Divergence (daily): dip on 2026-08-13 (MACD -2.22, low 171.93 on 2026-08-12), then a
+        higher-momentum dip on 2026-08-27 (MACD -1.48, low 164.00 on 2026-09-01).
+        Momentum made a HIGHER low while price made a LOWER low, and the latest
+        dip was confirmed (momentum turned back up).  [OK]
+     2) Weekly support zone (week of 2026-08-31): the weekly averages were
+        EMA11 169.2, EMA22 163.2, EMA50 166.4.
+        They formed a band 163.2 to 169.2; that week's range 162.0 to 177.7 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 40.15 (at/above 30) => "uncensored"
+        (a healthy dip, not a panic sell-off).
+     4) Liquidity: about Rs 12 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+
+ ---------------------------------------------------------------------
+ #81  TEMBO  (Tembo Global Industries Limited)     score -0.44   RSI: uncensored
+
+   What happened: over recent weeks TEMBO's price made an equal low (a possible double bottom) (down to
+   55.40 on 2026-09-03), while its daily MACD momentum made a
+   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
+   inside TEMBO's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
+
+   The checks it passed:
+     1) Divergence (daily): dip on 2026-08-25 (MACD -0.55, low 55.00 on 2026-08-25), then a
+        higher-momentum dip on 2026-09-03 (MACD -0.45, low 55.40 on 2026-09-04).
+        Momentum made a HIGHER low while price made an EQUAL low (within tolerance), and the latest
+        dip was confirmed (momentum turned back up).  [OK]
+     2) Weekly support zone (week of 2026-08-31): the weekly averages were
+        EMA11 57.8, EMA22 57.6, EMA50 57.4.
+        They formed a band 57.4 to 57.8; that week's range 55.4 to 61.2 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 42.28 (at/above 30) => "uncensored"
+        (a healthy dip, not a panic sell-off).
+     4) Liquidity: about Rs 7 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+
+ ---------------------------------------------------------------------
+ #82  HONAUT  (Honeywell Automation India Limited)     score -0.45   RSI: uncensored
+
+   What happened: over recent weeks HONAUT's price made a lower low (down to
+   35850.00 on 2026-08-19), while its daily MACD momentum made a
+   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
+   inside HONAUT's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
+
+   The checks it passed:
+     1) Divergence (daily): dip on 2026-07-27 (MACD -304.79, low 37205.00 on 2026-07-24), then a
+        higher-momentum dip on 2026-08-19 (MACD -274.16, low 35850.00 on 2026-08-20).
+        Momentum made a HIGHER low while price made a LOWER low, and the latest
+        dip was confirmed (momentum turned back up).  [OK]
+     2) Weekly support zone (week of 2026-08-17): the weekly averages were
+        EMA11 36986.0, EMA22 35738.3, EMA50 35278.9.
+        They formed a band 35278.9 to 36986.0; that week's range 35850.0 to 37180.0 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 35.49 (at/above 30) => "uncensored"
+        (a healthy dip, not a panic sell-off).
+     4) Liquidity: about Rs 8 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+
+ ---------------------------------------------------------------------
+ #83  GLOBUSSPR  (Globus Spirits Limited)     score -0.47   RSI: uncensored
+
+   What happened: over recent weeks GLOBUSSPR's price made an equal low (a possible double bottom) (down to
+   860.10 on 2026-08-14), while its daily MACD momentum made a
+   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
+   inside GLOBUSSPR's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
+
+   The checks it passed:
+     1) Divergence (daily): dip on 2026-07-24 (MACD -7.63, low 853.05 on 2026-07-24), then a
+        higher-momentum dip on 2026-08-14 (MACD -2.22, low 860.10 on 2026-08-11).
+        Momentum made a HIGHER low while price made an EQUAL low (within tolerance), and the latest
+        dip was confirmed (momentum turned back up).  [OK]
+     2) Weekly support zone (week of 2026-08-10): the weekly averages were
+        EMA11 897.2, EMA22 913.4, EMA50 947.7.
+        They formed a band 897.2 to 947.7; that week's range 860.1 to 912.7 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 42.58 (at/above 30) => "uncensored"
+        (a healthy dip, not a panic sell-off).
+     4) Liquidity: about Rs 6 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+
+ ---------------------------------------------------------------------
+ #84  KRISHNADEF  (Krishna Defence And Allied Industries Limited)     score -0.49   RSI: uncensored
 
    What happened: over recent weeks KRISHNADEF's price made a lower low (down to
    1010.80 on 2026-08-21), while its daily MACD momentum made a
@@ -1420,11 +1780,11 @@
    inside KRISHNADEF's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
 
    The checks it passed:
-     1) Divergence (daily): dip on 2026-08-05 (MACD -16.56, low 1115.10 on 2026-08-06), then a
+     1) Divergence (daily): dip on 2026-08-17 (MACD -15.85, low 1026.00 on 2026-08-20), then a
         higher-momentum dip on 2026-08-21 (MACD -12.58, low 1010.80 on 2026-08-24).
         Momentum made a HIGHER low while price made a LOWER low, and the latest
         dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-08-28): the weekly averages were
+     2) Weekly support zone (week of 2026-08-24): the weekly averages were
         EMA11 1142.0, EMA22 1125.0, EMA50 1028.0.
         They formed a band 1028.0 to 1142.0; that week's range 1010.8 to 1052.2 overlapped the band.  [OK]
      3) RSI health: RSI at the low was 31.45 (at/above 30) => "uncensored"
@@ -1432,7 +1792,7 @@
      4) Liquidity: about Rs 8 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
  ---------------------------------------------------------------------
- #68  ELGIEQUIP  (Elgi Equipments Limited)     score -0.57   RSI: uncensored
+ #85  ELGIEQUIP  (Elgi Equipments Limited)     score -0.50   RSI: uncensored
 
    What happened: over recent weeks ELGIEQUIP's price made an equal low (a possible double bottom) (down to
    569.45 on 2026-08-13), while its daily MACD momentum made a
@@ -1444,7 +1804,7 @@
         higher-momentum dip on 2026-08-13 (MACD -0.15, low 569.45 on 2026-08-11).
         Momentum made a HIGHER low while price made an EQUAL low (within tolerance), and the latest
         dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-08-14): the weekly averages were
+     2) Weekly support zone (week of 2026-08-10): the weekly averages were
         EMA11 582.5, EMA22 564.0, EMA50 540.0.
         They formed a band 540.0 to 582.5; that week's range 569.5 to 619.0 overlapped the band.  [OK]
      3) RSI health: RSI at the low was 45.05 (at/above 30) => "uncensored"
@@ -1452,27 +1812,27 @@
      4) Liquidity: about Rs 36 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
  ---------------------------------------------------------------------
- #69  WALCHANNAG  (Walchandnagar Industries Limited)     score -0.62   RSI: censored
+ #86  RAILTEL  (Railtel Corporation Of India Limited)     score -0.54   RSI: uncensored
 
-   What happened: over recent weeks WALCHANNAG's price made a lower low (down to
-   204.20 on 2026-09-03), while its daily MACD momentum made a
+   What happened: over recent weeks RAILTEL's price made a lower low (down to
+   275.00 on 2026-08-18), while its daily MACD momentum made a
    HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
-   inside WALCHANNAG's weekly EMA 11/22/50 support band, and RSI dipped below 30 (a weaker sign).
+   inside RAILTEL's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
 
    The checks it passed:
-     1) Divergence (daily): dip on 2026-07-29 (MACD -2.71, low 219.40 on 2026-07-30), then a
-        higher-momentum dip on 2026-09-03 (MACD -1.15, low 204.20 on 2026-09-02).
+     1) Divergence (daily): dip on 2026-07-24 (MACD -1.90, low 279.30 on 2026-07-24), then a
+        higher-momentum dip on 2026-08-18 (MACD -0.42, low 275.00 on 2026-08-18).
         Momentum made a HIGHER low while price made a LOWER low, and the latest
         dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-09-04): the weekly averages were
-        EMA11 230.0, EMA22 226.7, EMA50 214.7.
-        They formed a band 214.7 to 230.0; that week's range 204.2 to 220.6 overlapped the band.  [OK]
-     3) RSI health: RSI at the low was 27.89 (below 30) => "censored"
-        (a weaker dip; still listed (RSI only labels)).
-     4) Liquidity: about Rs 10 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+     2) Weekly support zone (week of 2026-08-17): the weekly averages were
+        EMA11 295.7, EMA22 304.3, EMA50 321.5.
+        They formed a band 295.7 to 321.5; that week's range 275.0 to 297.6 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 32.35 (at/above 30) => "uncensored"
+        (a healthy dip, not a panic sell-off).
+     4) Liquidity: about Rs 11 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
  ---------------------------------------------------------------------
- #70  SPLPETRO  (Supreme Petrochem Limited)     score -0.62   RSI: uncensored
+ #87  SPLPETRO  (Supreme Petrochem Limited)     score -0.56   RSI: uncensored
 
    What happened: over recent weeks SPLPETRO's price made an equal low (a possible double bottom) (down to
    688.05 on 2026-08-24), while its daily MACD momentum made a
@@ -1484,7 +1844,7 @@
         higher-momentum dip on 2026-08-24 (MACD -1.77, low 688.05 on 2026-08-25).
         Momentum made a HIGHER low while price made an EQUAL low (within tolerance), and the latest
         dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-08-28): the weekly averages were
+     2) Weekly support zone (week of 2026-08-24): the weekly averages were
         EMA11 712.6, EMA22 710.7, EMA50 706.3.
         They formed a band 706.3 to 712.6; that week's range 688.0 to 717.0 overlapped the band.  [OK]
      3) RSI health: RSI at the low was 41.53 (at/above 30) => "uncensored"
@@ -1492,7 +1852,7 @@
      4) Liquidity: about Rs 5 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
  ---------------------------------------------------------------------
- #71  ICIL  (Indo Count Industries Limited)     score -0.64   RSI: uncensored
+ #88  ICIL  (Indo Count Industries Limited)     score -0.60   RSI: uncensored
 
    What happened: over recent weeks ICIL's price made a lower low (down to
    371.30 on 2026-08-17), while its daily MACD momentum made a
@@ -1504,7 +1864,7 @@
         higher-momentum dip on 2026-08-17 (MACD -4.37, low 371.30 on 2026-08-17).
         Momentum made a HIGHER low while price made a LOWER low, and the latest
         dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-08-21): the weekly averages were
+     2) Weekly support zone (week of 2026-08-17): the weekly averages were
         EMA11 393.9, EMA22 361.2, EMA50 326.1.
         They formed a band 326.1 to 393.9; that week's range 371.3 to 462.0 overlapped the band.  [OK]
      3) RSI health: RSI at the low was 36.54 (at/above 30) => "uncensored"
@@ -1512,27 +1872,47 @@
      4) Liquidity: about Rs 29 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
  ---------------------------------------------------------------------
- #72  IZMO  (IZMO Limited)     score -0.68   RSI: censored
+ #89  TRIDENT  (Trident Limited)     score -0.64   RSI: uncensored
 
-   What happened: over recent weeks IZMO's price made a lower low (down to
-   835.00 on 2026-08-20), while its daily MACD momentum made a
+   What happened: over recent weeks TRIDENT's price made a lower low (down to
+   24.14 on 2026-08-14), while its daily MACD momentum made a
    HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
-   inside IZMO's weekly EMA 11/22/50 support band, and RSI dipped below 30 (a weaker sign).
+   inside TRIDENT's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
 
    The checks it passed:
-     1) Divergence (daily): dip on 2026-08-04 (MACD -17.31, low 968.20 on 2026-08-04), then a
-        higher-momentum dip on 2026-08-20 (MACD -16.17, low 835.00 on 2026-08-24).
+     1) Divergence (daily): dip on 2026-07-28 (MACD -0.10, low 24.62 on 2026-07-31), then a
+        higher-momentum dip on 2026-08-14 (MACD -0.04, low 24.14 on 2026-08-14).
         Momentum made a HIGHER low while price made a LOWER low, and the latest
         dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-08-28): the weekly averages were
-        EMA11 933.3, EMA22 896.9, EMA50 804.9.
-        They formed a band 804.9 to 933.3; that week's range 825.2 to 880.8 overlapped the band.  [OK]
-     3) RSI health: RSI at the low was 26.52 (below 30) => "censored"
-        (a weaker dip; still listed (RSI only labels)).
-     4) Liquidity: about Rs 8 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+     2) Weekly support zone (week of 2026-08-10): the weekly averages were
+        EMA11 25.1, EMA22 25.3, EMA50 26.4.
+        They formed a band 25.1 to 26.4; that week's range 24.1 to 25.2 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 35.99 (at/above 30) => "uncensored"
+        (a healthy dip, not a panic sell-off).
+     4) Liquidity: about Rs 5 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
  ---------------------------------------------------------------------
- #73  JBMA  (JBM Auto Limited)     score -0.99   RSI: uncensored
+ #90  KSL  (Kalyani Steels Limited)     score -0.84   RSI: uncensored
+
+   What happened: over recent weeks KSL's price made a lower low (down to
+   816.00 on 2026-08-18), while its daily MACD momentum made a
+   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
+   inside KSL's weekly EMA 11/22/50 support band, and RSI stayed at a healthy level (at/above 30).
+
+   The checks it passed:
+     1) Divergence (daily): dip on 2026-08-10 (MACD -8.47, low 829.00 on 2026-08-11), then a
+        higher-momentum dip on 2026-08-18 (MACD -6.63, low 816.00 on 2026-08-19).
+        Momentum made a HIGHER low while price made a LOWER low, and the latest
+        dip was confirmed (momentum turned back up).  [OK]
+     2) Weekly support zone (week of 2026-08-17): the weekly averages were
+        EMA11 860.5, EMA22 833.4, EMA50 808.6.
+        They formed a band 808.6 to 860.5; that week's range 816.0 to 914.9 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 36.64 (at/above 30) => "uncensored"
+        (a healthy dip, not a panic sell-off).
+     4) Liquidity: about Rs 10 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+
+ ---------------------------------------------------------------------
+ #91  JBMA  (JBM Auto Limited)     score -0.92   RSI: uncensored
 
    What happened: over recent weeks JBMA's price made a lower low (down to
    614.10 on 2026-08-17), while its daily MACD momentum made a
@@ -1544,25 +1924,44 @@
         higher-momentum dip on 2026-08-17 (MACD -3.75, low 614.10 on 2026-08-19).
         Momentum made a HIGHER low while price made a LOWER low, and the latest
         dip was confirmed (momentum turned back up).  [OK]
-     2) Weekly support zone (week of 2026-08-21): the weekly averages were
+     2) Weekly support zone (week of 2026-08-17): the weekly averages were
         EMA11 658.8, EMA22 647.9, EMA50 642.5.
         They formed a band 642.5 to 658.8; that week's range 614.1 to 685.0 overlapped the band.  [OK]
      3) RSI health: RSI at the low was 32.98 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 13 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
+ ---------------------------------------------------------------------
+ #92  SHANTIGEAR  (Shanthi Gears Limited)     score -1.07   RSI: censored
+
+   What happened: over recent weeks SHANTIGEAR's price made an equal low (a possible double bottom) (down to
+   384.00 on 2026-08-19), while its daily MACD momentum made a
+   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell
+   inside SHANTIGEAR's weekly EMA 11/22/50 support band, and RSI dipped below 30 (a weaker sign).
+
+   The checks it passed:
+     1) Divergence (daily): dip on 2026-08-13 (MACD -1.17, low 384.00 on 2026-08-18), then a
+        higher-momentum dip on 2026-08-19 (MACD -1.12, low 384.00 on 2026-08-18).
+        Momentum made a HIGHER low while price made an EQUAL low, and the latest
+        dip was confirmed (momentum turned back up).  [OK]
+     2) Weekly support zone (week of 2026-08-17): the weekly averages were
+        EMA11 430.5, EMA22 438.9, EMA50 457.7.
+        They formed a band 430.5 to 457.7; that week's range 384.0 to 464.2 overlapped the band.  [OK]
+     3) RSI health: RSI at the low was 25.65 (below 30) => "censored"
+        (a weaker dip; still listed (RSI only labels)).
+     4) Liquidity: about Rs 19 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+
 =====================================================================
 
  PENDING (weekly candle still forming; will confirm after the week closes): (none)
 
  SCAN SUMMARY (why the other stocks were not selected)
-   scanned 1577 | passed liquidity+history 749 | flagged 73 | pending 0
+   scanned 1577 | passed liquidity+history 749 | flagged 92 | pending 0
        828  below liquidity/price floor
-       396  no valid bullish divergence
-       138  no confirmed recent trough
-        77  fewer than two troughs
-        64  low not inside the weekly EMA zone
-         1  no separated prior trough
+       415  no valid bullish divergence
+       134  no confirmed recent trough
+        75  low not inside the weekly EMA zone
+        33  fewer than two troughs
 
  NOTES
   - "uncensored" = the dip stayed at/above RSI 30 (healthier). "censored" = it dipped

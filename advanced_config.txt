@@ -13,12 +13,8 @@ signal = 9                      # standard MACD signal EMA
 
 [divergence]
 lookback_days = 60              # recent trading days searched for the pattern (~3 months)
-price_window_k = 3              # days each side of a dip used to find its true low
-trough_detection = prominence   # prominence (tested default) | strict (literal textbook rule)
-min_segment_len = 1             # smallest momentum-dip width that counts
-prominence_frac = 0.10          # how pronounced a momentum dip must be (higher = stricter)
-divergence_scope = two_most_recent   # two_most_recent | recent_vs_deepest_prior
-min_trough_sep = 7              # fewest days apart the two compared dips must be
+trough_pivot_k = 3              # bars each side that must be >= a bar for it to count as a momentum trough (spec TROUGH_PIVOT_K)
+price_window_k = 3              # days each side of a dip used to find its true low (and the RSI trough)
 tolerance_pct = 0.01            # how close two lows count as "equal" (0.01 = 1%, a double bottom)
 price_field = Low               # which price makes the "lower low": Low | Close
 require_confirmation = true     # only pick once momentum has turned back up (avoids falling knives)

@@ -7,6 +7,9 @@
 > are each **documented with empirical evidence** (§4) and required to make the spec self-consistent
 > and tradeable. Flagged items for final sign-off are in §12.
 >
+> **Now tracks `prompts/NSE Scanner Rule Spec v1.2.docx`** (trough logic + output dates) - see the
+> `v1.4 -> v1.5` changelog below; the divergence rule in §8.2 is the v1.2 pivot definition.
+>
 > **Status:** v1.1 - revised after the expert-trader adversarial review (verdict: GO-WITH-CHANGES)
 > **and** an empirical validation run. **No product code is written until the user greenlights.**
 
@@ -51,6 +54,27 @@
 - **Fetch/analyze split made explicit:** the ~2,000-stock download runs once; editing any analysis
   setting and re-running `scripts/run_scanner.py` **re-analyzes the already-sourced data with no
   re-fetch** (§6). Report header echoes the exact settings used.
+
+## Changelog v1.4 -> v1.5 (upgrade to Rule Spec v1.2)
+Rule Spec v1.2's Version Control table changed two things: **trough identification** and **MACD/EMA
+dates on output**. Implemented exactly, with the user's greenlit choices:
+- **Trough = local pivot (spec 1.3).** A bar `t` with `H(t) < 0` whose `H` is `<=` every `H` in
+  `[t - TROUGH_PIVOT_K, t + TROUGH_PIVOT_K]` (t excluded); the earliest bar wins an adjacent tie.
+  This finds **overlapping troughs** (several within one negative excursion), fixing the false
+  negatives the v1.1 prominence rule (D1) missed. The prominence/strict methods and their knobs
+  (`trough_detection`, `prominence_frac`, `min_segment_len`) are **removed** - the pivot rule is the
+  single method. New knob **`TROUGH_PIVOT_K = 3`** (spec 6). Validated: BSE golden is unchanged (same
+  7 troughs; prev 2026-08-21 / recent 2026-09-02), and the full cached universe moves 73 -> 92 flags.
+- **"Two most recent troughs" (spec 2); separation guard dropped.** `min_trough_sep` and the non-spec
+  `divergence_scope` option are **removed**; `prev` is simply the trough immediately before `recent`.
+  The **confirmation** and **recency** guards are **kept** (user: "drop separation only") - they never
+  loosen the spec, only avoid falling-knife / stale picks.
+- **Output dates (spec 2 / 3.1 / 5).** Report + CSV now carry `Trough_prev_date`, `Trough_prev_H`,
+  `Trough_recent_date`, `Trough_recent_H`, and **`Zone_week_date` = the START (first trading day) of
+  weekly candle W** (shown instead of the W-FRI Friday label). Section 1 gains PREV DIP / RECENT DIP /
+  ZONE WK columns for chart validation.
+- **Unchanged (v1.2 did not touch):** MACD 12/26/9, `LOOKBACK_DAYS` 60, `PRICE_WINDOW_K` 3, weekly EMA
+  11/22/50, RSI Wilder(14)/band 30 (D3 kept), `TOLERANCE_PCT` 1% (D5 kept), liquidity floor, ranking.
 
 ## Changelog v1.3 → v1.4 (user greenlight + build directives)
 - **`config.txt` re-assessed for leanness (§6):** removed non-essential internal/single-implementation
@@ -107,7 +131,7 @@ the rules, ranks, and writes **`top_recommended_for_<DATE>.txt`**.
 |---|---|
 | **Data feed** | Free hybrid. Primary `yfinance` (`.NS`), **split/bonus-adjusted, dividends NOT adjusted**. Universe from NSE `EQUITY_L.csv`. Fallback: per-symbol direct Yahoo chart API (browser UA); optional bhavcopy for the tail. |
 | **Universe + liquidity** | Scan full ~2,292 `EQ` (configurable); **liquidity floor** (20-day median traded value ≥ `LIQ_MIN_INR`, plus `MIN_PRICE`) drops untradeable microcaps from flagging and ranking. Optional index-membership pre-trim. |
-| **Trough rule** | **Prominence-based** (§4), pinned to `scipy.find_peaks`; validated on the BSE example. |
+| **Trough rule** | **Local-pivot** (Rule Spec v1.2 §1.3): `H<0` and `<=` all H in `[t-TROUGH_PIVOT_K, t+TROUGH_PIVOT_K]`, earliest on tie. Replaces the v1.1 prominence rule (see the `v1.4 -> v1.5` changelog); BSE golden unchanged. |
 | **Top 10** | Rank flagged stocks by a composite; output **top 10** focus set **and** full flagged list. |
 | **RSI smoothing** | **Wilder RMA(14)** (spec's "SMA(14)" = mis-copy from the TV dialog). |
 | **Weekly zone anchor** | Week containing the **swing-low date**, **closed weeks only**; forming week → **wait** (pending). |
@@ -122,7 +146,14 @@ Spec defaults kept: MACD 12/26/9, `LOOKBACK_DAYS`=60, `PRICE_WINDOW_K`=3, weekly
 Each deviation was *proven necessary* by running the spec against its **own diagram example
 (BSE Ltd)** end-to-end (`research/validate_pipeline.py`, yfinance split-adjusted, 6y).
 
-**D1 - Trough detection = prominence, not "one trough per zero-crossed segment."**
+> **SUPERSEDED for the trough rule (Rule Spec v1.2).** D1 and D2 below describe the v1.1 *prominence*
+> trough algorithm. **v1.2 replaced it** with the explicit local-pivot definition (§1.3), which is
+> what ships (see the `v1.4 -> v1.5` changelog and §8.2). `find_peaks` / `PROMINENCE_FRAC` /
+> `MIN_SEGMENT_LEN` / `DIVERGENCE_SCOPE` / `MIN_TROUGH_SEP` are **removed**; the only trough knob is
+> `TROUGH_PIVOT_K` (=3). D1/D2 are kept only as the historical rationale for why segment-length was
+> the wrong noise knob. **D3-D5 still apply.**
+
+**D1 - Trough detection = prominence, not "one trough per zero-crossed segment."** *(historical - superseded by the v1.2 pivot rule.)*
 The literal rule (§1.2–1.3) needs a positive bar (zero-cross) between the two compared troughs.
 BSE's divergence forms **within one 47-bar negative run**, so the literal rule finds too few troughs
 and returns **DIVERGENCE=FALSE on the spec's own example**. Fix: a trough is a **local minimum of
@@ -131,10 +162,11 @@ distance=TROUGH_MIN_DISTANCE)`, where **`MIN_PROMINENCE = PROMINENCE_FRAC × max
 `LOOKBACK_DAYS`** (`PROMINENCE_FRAC` default **0.10**). `find_peaks` uses *true topographic
 prominence*, so genuine sub-lows survive and tiny wiggles do not.
 
-**D2 - `MIN_SEGMENT_LEN` = 1 (was 2).** With prominence as the noise filter, requiring a ≥2-bar
-negative run **drops BSE's actual swing low on 2026-09-02** (a sharp 1-bar dip, `H=-3.49`, whose
-low **3131.5** is the diagram's weekly `L3,131.5`). Segment length is the wrong knob; prominence
-already removes noise. Kept as a config knob for experimentation.
+**D2 - `MIN_SEGMENT_LEN` = 1 (was 2).** *(historical - superseded by the v1.2 pivot rule.)* With
+prominence as the noise filter, requiring a ≥2-bar negative run **drops BSE's actual swing low on
+2026-09-02** (a sharp 1-bar dip, `H=-3.49`, whose low **3131.5** is the diagram's weekly `L3,131.5`).
+Segment length is the wrong knob. The v1.2 pivot rule needs no segment-length knob at all (the ±K
+window is the noise filter), so `MIN_SEGMENT_LEN` is removed.
 
 **D3 - RSI = Wilder RMA(14)** (user-confirmed; spec text deemed a mis-copy).
 
@@ -145,9 +177,10 @@ already removes noise. Kept as a config knob for experimentation.
 or lower lows" (double bottoms); at 0.1% the "equal" branch essentially never fires. Default 1%.
 *(Flagged for user confirm, §12.)*
 
-**Comparison scope stays spec-faithful:** default `DIVERGENCE_SCOPE="two_most_recent"` (with the
-≥7-bar separation guard) reproduces the diagram exactly (Aug-21 → Sep-02). A more aggressive
-`recent_vs_deepest_prior` is offered as a switch.
+**Comparison scope (v1.2):** the **two most recent** pivot troughs are compared (spec 2), with **no
+separation guard** - this reproduces the diagram (Aug-21 → Sep-02). *(v1.1 had a `DIVERGENCE_SCOPE`
+switch and a ≥7-bar `MIN_TROUGH_SEP` guard; both removed in v1.2 so genuinely overlapping troughs
+count.)*
 
 ### 4a. Validation evidence (already run - must stay green)
 **BSE golden (production algo, 6y warm-up), reproduces the diagram exactly:**
@@ -246,12 +279,8 @@ signal = 9
 
 [divergence]
 lookback_days = 60
+trough_pivot_k = 3              # spec 1.3 pivot window (TROUGH_PIVOT_K)
 price_window_k = 3
-trough_detection = prominence   # prominence (§4) | strict (literal spec)
-min_segment_len = 1
-prominence_frac = 0.10          # MIN_PROMINENCE = frac x max(|H|) over lookback
-divergence_scope = two_most_recent   # two_most_recent (spec) | recent_vs_deepest_prior
-min_trough_sep = 7
 tolerance_pct = 0.01            # 1% "equal low" band
 price_field = Low               # Low | Close
 require_confirmation = true
@@ -295,8 +324,7 @@ only what's clearly non-essential): NSE `EQUITY_L.csv` URL; data-source strategy
 Yahoo chart-API fallback - the only implemented sources); full weekly refetch (incremental is future
 work); fetch resilience (batch size, retries, backoff); cache dir `data/daily`; the bhavcopy-failover
 log threshold; weekly `resample_rule` = `W-FRI` (NSE week); zone `anchor` = swing-low week (the one
-designed anchoring); `find_peaks` min-distance (=3) and `prominence_scale` (=`max`, the validated
-reference); ranking `tie_break` (liquidity) and `small_cohort_threshold` (=3); and the fixed report
+designed anchoring); ranking `tie_break` (liquidity) and `small_cohort_threshold` (=3); and the fixed report
 filename pattern `top_recommended_for_<DATE>.txt`. *If the reviewer/greenlight judges any of these
 user-essential, promote it back to `config.txt`.*
 
@@ -363,20 +391,18 @@ Friday is a holiday and the scan runs that weekend, that just-ended week may be 
 week - a fully exact test needs the NSE trading calendar (a post-launch nicety). Acceptable for a
 weekly cadence.
 
-### 8.2 Divergence (`divergence.py`)
+### 8.2 Divergence (`divergence.py`) - Rule Spec v1.2 §1.3-2
 ```
-from scipy.signal import find_peaks
-scale     = max(|H|) over last LOOKBACK_DAYS           # prominence_scale="max"
-min_prom  = PROMINENCE_FRAC * scale
-peaks,_   = find_peaks(-H.values, prominence=min_prom, distance=TROUGH_MIN_DISTANCE)
-troughs   = [p for p in peaks if H[p] < 0 and neg_run_len(H,p) >= MIN_SEGMENT_LEN]   # MIN_SEGMENT_LEN=1
-troughs   = [t for t in troughs if date(t) in last LOOKBACK_DAYS sessions]
+# Trough = local pivot in negative territory (spec 1.3); Kp = TROUGH_PIVOT_K (=3):
+troughs = [t for t in range(Kp, n-Kp)                 # full +-Kp window (no look-ahead)
+           if H[t] < 0 and H[t] <= H[j] for every j in [t-Kp, t+Kp], j != t]
+#   adjacent bars tying for the minimum collapse to the earliest
+troughs = [t for t in troughs if date(t) in last LOOKBACK_DAYS sessions]
 if len(troughs) < 2: return flag0
-# recent = latest trough with ≥K bars after it (causality) AND within RECENCY_BARS of the last bar
-# prev   = latest trough ≥ MIN_TROUGH_SEP bars before recent
-#          (scope="recent_vs_deepest_prior" → prev = min-H trough before recent)
+# recent = latest trough with a fully-known swing window (t <= n-1-K) AND within RECENCY_BARS of the last bar
+# prev   = the trough IMMEDIATELY BEFORE recent (spec 2: "the two most recent troughs")
 if recent is None or prev is None: return flag0
-PriceLow(t)      = min(Low over [t-K, t+K])           # clamp to bounds
+PriceLow(t)      = min(Low over [t-K, t+K])           # K = PRICE_WINDOW_K; clamp to bounds
 swing_low_date(t)= date of that min-Low bar (tie → earliest)
 momentum = H[recent] > H[prev]
 price_ok = PriceLow(recent) <= PriceLow(prev) * (1 + TOLERANCE_PCT)
@@ -384,7 +410,8 @@ price_ok = PriceLow(recent) <= PriceLow(prev) * (1 + TOLERANCE_PCT)
 #   OR H crosses > 0 after `recent`.
 divergence = momentum and price_ok and confirmed
 ```
-`neg_run_len` = length of the maximal `H<0` run containing the bar.
+The two most recent pivot troughs are compared; there is no separation guard (v1.2). `recent` still
+needs `TROUGH_PIVOT_K` closed bars after it (inherent to a pivot), so there is no look-ahead.
 
 ### 8.3 Weekly EMA zone (`zone.py`) - only if divergence
 **Precondition (B1):** the weekly series must have `≥ min_weekly_bars_for_zone` (200) bars, else the
@@ -476,7 +503,7 @@ can't be computed, print `n/a` - never invent it. Every listed stock must genuin
  NOTES
   • "censored" RSI = the dip broke below 30 (weaker) - the stock is STILL listed (RSI only
     labels, it never removes a stock).
-  • Method: prominence-based troughs, MIN_SEGMENT_LEN=1 (blueprint §4). Every number above is
+  • Method: local-pivot troughs, TROUGH_PIVOT_K=3 (Rule Spec v1.2 §1.3). Every number above is
     computed from sourced data as of <DATE>. Not investment advice - verify each chart.
 =====================================================================
 ```
@@ -522,8 +549,10 @@ for audit; rights approximate) • one bad symbol never aborts.
 - **Cross-platform:** run both scripts on Linux and Windows; outputs identical.
 
 ## 12. Sign-off items (resolved vs. for the user)
-**Resolved (see §4/§4a + v1.2 changelog):** trough definition (prominence, sweep-stable 0.06–0.20),
-`MIN_SEGMENT_LEN=1`, causality/confirmation, min separation, recency, closed-week (+residual noted),
+**Superseded by Rule Spec v1.2 (see `v1.4 -> v1.5` changelog):** the trough definition is now the
+local-pivot rule (§1.3, `TROUGH_PIVOT_K=3`), not prominence; `MIN_SEGMENT_LEN` and `min separation`
+are removed. The confirmation + recency guards remain.
+**Resolved (see §4/§4a + v1.2 changelog):** causality/confirmation, recency, closed-week (+residual noted),
 ranking fixes, liquidity essential, **B1** weekly-history gate (≥200 weekly bars), **B2** unattended
 fetch (0% real failure on 200 random EQ; failed-only failover; yfinance==1.7.0 + smoke-fetch; ISIN
 rename tracking), **B3** NaN-safe ranking, feasibility (~88 min), yfinance 1.7.0 verified.
@@ -533,7 +562,7 @@ rename tracking), **B3** NaN-safe ranking, feasibility (~88 min), yfinance 1.7.0
 3. **Ranking weights** (§8.6) - confirm the six-metric composite and weights match your priorities
    (e.g., value momentum vs. support-confluence vs. liquidity differently?).
 4. **Universe scope** - full EQ (default) or use `index_filter` (NIFTY500 etc.) for reliability/speed?
-5. **`DIVERGENCE_SCOPE`** - keep spec-faithful `two_most_recent` (default) or `recent_vs_deepest_prior`?
+5. **Comparison scope** - RESOLVED in v1.2: the two most recent troughs, **no** separation guard (`DIVERGENCE_SCOPE` / `MIN_TROUGH_SEP` removed).
 6. **Weekly zone leniency** - keep spec-literal wick-touch (default) or require Close/body in band?
 
 **Remaining pre-implementation validation (do during build, not blocking greenlight):** TradingView
@@ -554,7 +583,7 @@ for sym in manifest.status=="ok":
     liq=median(Close*Volume, 20)
     if cfg.liquidity.apply_as_filter and (liq<min or last_close<min_price): skip("illiquid")
     H, rsi, atr = macd_hist(d.Close), wilder_rsi(d.Close), atr14(d)
-    div = detect_divergence(d, H, cfg)          # prominence + separation + causality + confirmation + recency
+    div = detect_divergence(d, H, cfg)          # pivot troughs (two most recent) + causality + confirmation + recency
     if not div.is_true: continue
     z = weekly_zone(weekly(d), div.swing_low_date, cfg)
     if z.status=="pending_week": pending.append(sym); continue

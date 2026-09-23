@@ -58,7 +58,7 @@ def analyze_symbol(sym: str, df: pd.DataFrame, isin: str, company: str, cfg):
 
     H = ind.macd_hist(df["Close"], cfg.macd.fast, cfg.macd.slow, cfg.macd.signal)
     rsi = ind.rsi(df["Close"], cfg.rsi.period, cfg.rsi.smoothing)
-    atr = ind.atr(df, 14)  # blueprint §8.1 pins ATR(14) regardless of the RSI period
+    atr = ind.atr(df, 14)  # blueprint sec 8.1 pins ATR(14) regardless of the RSI period
 
     div = detect_divergence(df, H, cfg)
     if not div.is_true:
@@ -88,7 +88,7 @@ def analyze_symbol(sym: str, df: pd.DataFrame, isin: str, company: str, cfg):
         "prev_date": div.prev_date, "recent_date": div.recent_date,
         "swing_prev_date": div.swing_prev_date, "swing_recent_date": div.swing_low_date,
         "momentum_ok": div.momentum_ok, "price_ok": div.price_ok, "confirmed": div.confirmed,
-        "W": zone.W, "ema_vals": dict(zone.emas),
+        "W": zone.W, "week_start": zone.week_start, "ema_vals": dict(zone.emas),
         "band_lo": zone.band_lo, "band_hi": zone.band_hi, "band_mid": zone.band_mid,
         "band_close_w": zone.week_close, "week_low": zone.week_low,
         "week_high": zone.week_high, "week_close": zone.week_close, "zone_ok": zone.zone_ok,
