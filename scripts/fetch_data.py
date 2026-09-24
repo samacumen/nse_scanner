@@ -10,6 +10,7 @@ Yahoo/yfinance shape drift.
 """
 from __future__ import annotations
 
+import json
 import sys
 import time
 from collections import Counter
@@ -88,6 +89,11 @@ def main() -> int:
         if _fresh(pq_path, cfg.data.refresh_if_older_than_hours):
             try:
                 df_prev, meta_prev = storemod.load_parquet(pq_path)
+                # reuse only if no NSE session has closed since that download (else the newly
+                # finished candle would be missed); no recorded download time -> re-download
+                fa_prev = storemod.parse_fetched_at(meta_prev.get("fetched_at"))
+                if fa_prev is None or storemod.session_closed_between(fa_prev, datetime.now(timezone.utc)):
+                    raise ValueError("a session closed since this file was downloaded")
                 # re-derive the status with the CURRENT history thresholds (they may have changed)
                 status_prev = ("ok" if len(df_prev) >= cfg.data.min_rows_daily
                                and len(weekly(df_prev)) >= cfg.weekly.min_weekly_bars_for_zone
@@ -104,7 +110,7 @@ def main() -> int:
                 emit(f"[{i}/{total}] {sym:<14} CACHED ({len(df_prev)} rows)")
                 continue
             except Exception:
-                pass  # cache unreadable -> refetch
+                pass  # cache unreadable or outdated -> refetch
 
         try:
             t_fetch = datetime.now(timezone.utc)
@@ -157,6 +163,22 @@ def main() -> int:
             emit("[fetch] no stale data to prune (data/ already matches the universe)")
     elif testing_subset:
         emit("[fetch] pruning skipped (testing subset via symbols_override/max_symbols)")
+
+    # Spec 7.5 under vendor lag: if the newest week is over by the clock but NO stock has a bar
+    # on its later weekdays, ask NSE whether sessions were held then (a Friday holiday vs Yahoo
+    # lagging for every stock). Step 2 reads the result; NSE unreachable -> cohort check + clock.
+    newest = max((r["last_date"] for r in manifest_rows if r.get("last_date")), default=None)
+    if newest:
+        emit(f"[fetch] checking whether the week of the newest bar ({newest}) is complete ...")
+        wk = storemod.last_week_check(newest, datetime.now(timezone.utc), universemod.nse_session_held)
+        (data_dir / "week_check.json").write_text(json.dumps(wk, indent=1) + "\n", encoding="utf-8")
+        if wk["sessions_missing"]:
+            emit(f"[fetch] WARNING NSE held a session on {', '.join(wk['sessions_missing'])} but no stock "
+                 f"has that day yet (Yahoo lag): the week ending {wk['week']} stays PENDING. Re-run Step 1 "
+                 f"later with refresh_if_older_than_hours = 0.")
+        elif wk["unknown"]:
+            emit(f"[fetch] WARNING NSE session check unavailable for {', '.join(wk['unknown'])}: the "
+                 f"week ending {wk['week']} will be closed by the clock and the cohort check only.")
 
     # Yahoo can publish the newest session for only some stocks at first, or lag for a few.
     # If stocks end on different dates, say so and how to force a fresh download.

@@ -26,6 +26,12 @@ updates it - the "Generated" time inside changes, but it stays a single file). I
 2. **WHY EACH WAS CHOSEN** - a simple explanation plus the exact numbers behind every check.
 3. **PASSES THE SETUP BUT FAILS LIQUIDITY** - the setups that are too thinly traded, with the reason.
 4. **SCAN SUMMARY** - how many were scanned and why the rest were not selected.
+5. **APPENDIX** - every spec field (both dip dates and MACD values, both price lows, the zone week,
+   the three weekly averages and RSI) for each of the too-thinly-traded setups.
+
+The header counts every stock that passes the setup (the spec's flag): the ranked ones plus the
+too-thinly-traded ones. A stock whose data ends on a different day than the rest is marked
+"(data to <date>)".
 
 The header's "Data as-of" date is the date most stocks' data actually ends on, with a count (Yahoo
 sometimes publishes the newest day for only some stocks at first - if so, Step 1 warns you; re-run it
@@ -65,9 +71,13 @@ Open the report in the `output/` folder.
   weekend after Friday's close). It only ever keeps **finished** candles: a download before the
   15:30 IST close drops that day's still-forming candle, and a week counts as finished once the
   data was downloaded after that week's Friday 15:30 IST close (so a Friday market holiday needs
-  nothing special). A week that is not finished yet shows its stocks as **PENDING**.
+  nothing special). A week that is not finished yet shows its stocks as **PENDING**. It also stays
+  pending if Yahoo is late with that week's last day: for one stock (other stocks already have a
+  later day that week), or for every stock (Step 1 then checks NSE's own daily file to tell a
+  holiday from a late feed; if NSE can't be reached, Step 1 warns and the week is judged by the
+  clock and the other stocks).
 - If Step 1 is stopped midway, just run it again: files downloaded in the last 12 hours are
-  reused, everything else is downloaded fresh.
+  reused (unless an NSE session has closed since then), everything else is downloaded fresh.
 - **Step 2** reads that saved data and writes the report (fast). Run it **as often as you like** -
   it **never re-downloads**.
 - So if you change a setting and want to re-analyze, **just run Step 2 again.**

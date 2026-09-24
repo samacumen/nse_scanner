@@ -65,7 +65,7 @@ def test_printed_equals_computed(bse_report):
     assert band_hi == round(r["band_hi"], 1)
 
     # RSI + liquidity.
-    rsi = _f(r"RSI at the low was (\d+\.\d+)", text)
+    rsi = _f(r"lowest RSI within \d+ days of the MACD dip was (\d+\.\d+)", text)
     assert rsi == round(r["rsi_trough"], 2)
     liq_cr = _f(r"about Rs (\d+) cr traded per day", text)
     assert liq_cr == round(r["liquidity"] / 1e7)

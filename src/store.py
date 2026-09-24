@@ -5,6 +5,7 @@ Parquet per symbol with audit columns and file-level metadata
 """
 from __future__ import annotations
 
+import json
 from datetime import datetime, time as dt_time, timedelta, timezone
 from pathlib import Path
 
@@ -160,3 +161,70 @@ def parse_fetched_at(value):
         return None if pd.isna(ts) else ts.tz_convert("UTC").to_pydatetime()
     except (ValueError, TypeError):
         return None
+
+
+def session_closed_between(start_utc: datetime, end_utc: datetime) -> bool:
+    """True if an NSE weekday close (15:30 IST) fell after start_utc and at/before end_utc.
+    No holiday calendar: a holiday weekday counts too (worst case: one unneeded re-download)."""
+    d = start_utc.astimezone(IST).date()
+    last = end_utc.astimezone(IST).date()
+    while d <= last:
+        if d.weekday() < 5 and start_utc < session_close_utc(d) <= end_utc:
+            return True
+        d += timedelta(days=1)
+    return False
+
+
+def last_week_check(newest, now_utc: datetime, held_fn) -> dict:
+    """Spec 7.5 under vendor lag (run by Step 1). `newest` = the newest bar ANY stock has.
+    If that bar's W-FRI week is over by the clock (now >= its Friday 15:30 IST) but no stock
+    has a bar on the week's later weekdays, ask NSE whether sessions were held on them:
+    held_fn(day, now_utc) -> True (held) / False (no session) / None (unknown)."""
+    newest = pd.Timestamp(newest).normalize()
+    week = newest.to_period("W-FRI").end_time.normalize()  # that week's Friday label
+    out = {"week": week.date().isoformat(), "cohort_newest": newest.date().isoformat(),
+           "checked_at": now_utc.strftime("%Y-%m-%dT%H:%M:%SZ"),
+           "sessions_missing": [], "unknown": []}
+    if now_utc < session_close_utc(week) or newest >= week:
+        return out  # week still forming, or its Friday bar is already in the data
+    later = list(pd.bdate_range(newest + pd.Timedelta(days=1), week))
+    if held_fn(newest, now_utc) is not True:  # probe: a day we have data for must be a session
+        out["unknown"] = [d.date().isoformat() for d in later]  # NSE unreachable / renamed files
+        return out
+    for d in later:
+        held = held_fn(d, now_utc)
+        if held is True:
+            out["sessions_missing"].append(d.date().isoformat())
+        elif held is None:
+            out["unknown"].append(d.date().isoformat())
+    return out
+
+
+def load_week_guard(manifest: pd.DataFrame, path: Path):
+    """(guard, note) for Step 2's last-week closure. guard["cohort_newest"] = the newest bar any
+    downloaded stock has; guard["incomplete_week"] = the W-FRI label of a week in which NSE held
+    a session that no stock's data has yet. note = a report line when the NSE check found a
+    missing session or could not run (then the cohort check + clock decide, with a warning)."""
+    dates = pd.to_datetime(manifest.get("last_date"), errors="coerce").dropna()
+    newest = dates.max() if len(dates) else None
+    guard = {"cohort_newest": newest, "incomplete_week": None}
+    if not path.exists():
+        return guard, ""
+    try:
+        chk = json.loads(path.read_text(encoding="utf-8"))
+        week, cohort = chk["week"], chk["cohort_newest"]
+    except (ValueError, KeyError, TypeError, OSError):
+        return guard, "NSE session check file unreadable: last weeks were closed by the clock and the cohort check only."
+    if newest is None or cohort != newest.date().isoformat():
+        return guard, ""  # the check belongs to an older download (Step 1 was interrupted): ignore it
+    if chk.get("sessions_missing"):
+        guard["incomplete_week"] = pd.Timestamp(week)
+        return guard, (f"NSE held a session on {', '.join(chk['sessions_missing'])} that no stock's data "
+                       f"has yet (Yahoo lag), so the week ending {week} stays PENDING. Re-run Step 1 "
+                       f"later with refresh_if_older_than_hours = 0.")
+    if chk.get("unknown"):
+        return guard, (f"NSE session check unavailable for {', '.join(chk['unknown'])}: the week ending "
+                       f"{week} was closed by the clock and the cohort check only (if Yahoo lags for "
+                       f"every stock, that week's candle may be incomplete).")
+    return guard, ""
+

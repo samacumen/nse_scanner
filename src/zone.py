@@ -35,18 +35,26 @@ class Zone:
     week_close: float = float("nan")
 
 
-def _closed(W: pd.Timestamp, buckets, last_date: pd.Timestamp, fetched_at=None) -> bool:
+def _closed(W: pd.Timestamp, buckets, last_date: pd.Timestamp, fetched_at=None, guard=None) -> bool:
     """W (labelled by its Friday) is closed iff a later week has data, OR the data was
-    downloaded at/after W's Friday 15:30 IST close. With no recorded download time,
+    downloaded at/after W's Friday 15:30 IST close - unless the week is provably incomplete:
+    another stock already has a later bar in W (this stock's feed lags), or NSE held a session
+    in W that no stock's data has yet (guard from Step 1). With no recorded download time,
     fall back to 'W's Friday bar is in the data'."""
     if W != buckets[-1]:
         return True
+    if guard:
+        newest = guard.get("cohort_newest")
+        if newest is not None and pd.Timestamp(last_date) < newest <= W:
+            return False
+        if guard.get("incomplete_week") is not None and guard["incomplete_week"] == W:
+            return False
     if fetched_at is None:
         return pd.Timestamp(last_date) >= W
     return fetched_at >= session_close_utc(W)
 
 
-def weekly_zone(daily: pd.DataFrame, swing_low_date, cfg, fetched_at=None) -> Zone:
+def weekly_zone(daily: pd.DataFrame, swing_low_date, cfg, fetched_at=None, guard=None) -> Zone:
     wk = weekly(daily, RESAMPLE_RULE)
     if len(wk) < cfg.weekly.min_weekly_bars_for_zone:
         return Zone(status="insufficient_weekly")
@@ -62,7 +70,7 @@ def weekly_zone(daily: pd.DataFrame, swing_low_date, cfg, fetched_at=None) -> Zo
     W = cand[0]  # W-FRI bucket containing the swing-low date
     # Zone_week_date (spec 3.1) = the START date of candle W = its first trading day.
     week_start = pd.Timestamp(daily.index.to_series().resample(RESAMPLE_RULE).min().loc[W])
-    if not _closed(W, buckets, last_date, fetched_at):
+    if not _closed(W, buckets, last_date, fetched_at, guard):
         return Zone(status="pending_week", W=W, week_start=week_start)
 
     vals = {p: float(emas[p].loc[W]) for p in cfg.weekly.ema_set}

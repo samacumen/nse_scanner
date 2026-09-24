@@ -57,6 +57,23 @@
   setting and re-running `scripts/run_scanner.py` **re-analyzes the already-sourced data with no
   re-fetch** (§6). Report header echoes the exact settings used.
 
+## Changelog v1.6 -> v1.7 (external review round 2, 96%; user decisions in brackets)
+- **Every spec pass is a flag [appendix table].** Spec passes below the liquidity floor now get their
+  full spec-4/5 record (RSI included) and are counted as flags ("306 pass the setup: 153 ranked + 153
+  that fail liquidity" on 2026-09-24). An APPENDIX lists every spec-5 field for them; the optional
+  CSV holds all flags with a `ranked` column.
+- **Vendor lag cannot close an incomplete week [cohort check + NSE check, fallback = warning].** The
+  last week stays pending if another stock already has a later bar in it (this stock's feed lags),
+  or if NSE's daily bhavcopy shows a session no stock's data has yet (Step 1 checks it only when the
+  week is over by the clock but no stock has its later weekdays; `data/week_check.json`). NSE
+  unreachable -> cohort check + clock, with a warning in the log and the report.
+- **Cache:** a file younger than 12 h is reused only if no NSE weekday 15:30 IST close fell since it
+  was downloaded.
+- **Wording:** "the lowest RSI within K days of the MACD dip" (spec 1.6 window, not the price-low
+  day); the closing note qualifies the as-of date and stocks whose data ends on another date are
+  marked "(data to <date>)".
+- **Kept [total-history rule]:** the 50-weekly-bar gate counts the whole history, not bars up to W.
+
 ## Changelog v1.5 -> v1.6 (external review fixes, 2026-09-24; user decisions in brackets)
 An external (GPT) review of the v1.2 build raised 6 issues; each was reproduced independently, then fixed:
 - **Guards removed [drop both - literal spec].** `recency_bars`, `require_confirmation` and
@@ -144,8 +161,9 @@ Three questions per stock, in order:
    *histogram* makes a **higher low** while price makes a **lower/equal low** - a **bullish
    divergence** (selling exhausting).
 2. **Did that low happen at long-term support?** The **weekly** candle containing that price low
-   must sit **inside the weekly EMA 11/22/50 band** (a support zone).
-3. **Was the dip healthy?** Tag (never filter) with an **RSI check**: RSI at the low ≥ 30 →
+   must **touch the weekly EMA 11/22/50 band** (its range overlaps the band - a support zone).
+3. **Was the dip healthy?** Tag (never filter) with an **RSI check**: the lowest RSI within K days
+   of the MACD dip ≥ 30 →
    `uncensored`; below 30 → `censored`.
 
 Pass #1 **and** #2 → **flagged ("Red Flag", flag=1)**. #3 adds a label. Then **rank** the flagged
@@ -429,9 +447,16 @@ downloaded after that Friday's 15:30 IST simply ends the week at Thursday's bar.
 (not the scan's clock) is used so re-running Step 2 later on data downloaded before Friday's close
 never treats that unfinished week as closed. With no recorded `fetched_at`, fall back to "W's Friday
 bar is in the data". Daily bars: Step 1 never stores a still-forming candle (§7 step 4).
-**Residual:** if Yahoo has not yet published the newest day when Step 1 runs, that day is simply
-missing; Step 1 warns when stocks end on different dates (naming any that end early) and says how to
-force a fresh download (`refresh_if_older_than_hours = 0` for one run).
+**Vendor lag (v1.7):** the last week also stays pending if another stock already has a later bar
+in that week (this stock's feed lags - the cohort check), or if Step 1's NSE check found a session
+in that week that no stock's data has yet (`data/week_check.json`; Step 1 asks NSE's daily
+bhavcopy archive only when the week is over by the clock but no stock has its later weekdays:
+200 = session held, 404 asked on a later day = no session, anything else = unknown; it first
+asks about the newest bar's own day, which must be a session - if that is not a 200, every day is
+"unknown", so a renamed NSE file can never pass for a holiday). NSE unreachable -> cohort check +
+clock, with a warning. A stale or unreadable `week_check.json` is ignored with a note. **Residual:** a lag for every stock while NSE
+is unreachable cannot be detected; Step 1 also warns when stocks end on different dates and says
+how to force a fresh download (`refresh_if_older_than_hours = 0` for one run).
 
 ### 8.2 Divergence (`divergence.py`) - Rule Spec v1.2 §1.3-2
 ```
@@ -472,8 +497,9 @@ If `W` not closed (§8.1) → **pending_week** (do not flag; list in the pending
 `liquidity = median(Close×Volume over last liquidity.window days)`. Applied **after** the spec flag
 (v1.6): if `apply_as_filter` and (`liquidity < min_median_traded_value_inr` **or** `last Close <
 min_price`), a stock that passes §8.2 + §8.3 is **not ranked** but is listed in the report's "PASSES
-THE SETUP BUT FAILS LIQUIDITY" section with what it fell short on; it counts under the `illiquid`
-skip reason. An illiquid stock whose zone week is still pending is not listed (not a pass yet).
+THE SETUP BUT FAILS LIQUIDITY" section with what it fell short on, and (v1.7) with its full spec-4/5
+record in the report's APPENDIX; it counts as a flag, not a skip. An illiquid stock whose zone week
+is still pending is not listed (not a pass yet).
 `liquidity` also feeds ranking.
 
 ### 8.6 Ranking → top 10 (`rank.py`)
@@ -512,8 +538,8 @@ can't be computed, print `n/a` - never invent it. Every listed stock must genuin
  NSE SCANNER - TOP RECOMMENDATIONS
  Data as-of : <DATE> (latest bar for <n> of <U> scanned stocks)        Generated: <timestamp> IST
  Setup      : Daily MACD-histogram bullish divergence + weekly EMA(11/22/50) support zone
- Universe   : <U> EQ scanned | <L> passed liquidity | <F> flagged | <P> pending week-close
-              + <I> more pass the setup but fail liquidity (listed at the end, not ranked)
+ Universe   : <listed> listed | <U> had enough history and were scanned | <L> passed liquidity
+ Flagged    : <F+I> pass the setup (the spec's flag): <F> ranked below + <I> that fail liquidity | <P> pending
  Settings   : <echo the exact config values actually used this run>
  Data source: yfinance (.NS, split-adjusted, dividends unadjusted)
 =====================================================================
@@ -538,7 +564,7 @@ can't be computed, print `n/a` - never invent it. Every listed stock must genuin
         made a HIGHER low while price made a LOWER low [OK].
      2) Weekly support zone (week ending 2026-09-04): weekly averages formed a band
         3178.3-3520.1; that week's range 3131.5-3474.0 overlapped it [OK].
-     3) RSI health: RSI at the low = 33.29, at/above 30 -> "uncensored" (healthy dip) [OK].
+     3) RSI health: the lowest RSI within 3 days of the MACD dip = 33.29, at/above 30 -> "uncensored" [OK].
      4) Liquidity: ₹1,599 cr traded/day (> ₹5 cr floor) -> tradeable.
    Why it ranks #1: strongest blend of momentum turn, tight support, healthy RSI, liquidity.
  ---------------------------------------------------------------------
@@ -546,7 +572,10 @@ can't be computed, print `n/a` - never invent it. Every listed stock must genuin
 =====================================================================
  PENDING (weekly candle still forming - will confirm after the week closes): <symbols>
  PASSES THE SETUP BUT FAILS LIQUIDITY - <I> (not ranked; floor Rs 5 cr/day and price >= Rs 20)
-   <SYM> (Rs 0.12 cr/d), <SYM> (Rs 0.02 cr/d, price Rs 10.20), ...
+   <SYM> (Rs 0.12 cr/d), <SYM> (Rs 0.02 cr/d, price Rs 10.20), <SYM> (...) (data to <date>), ...
+ ... SCAN SUMMARY, NOTES ...
+ APPENDIX - EVERY SPEC FIELD FOR THE <I> SETUPS THAT FAIL LIQUIDITY (not ranked)
+   SYMBOL  PREV DIP (MACD)  RECENT DIP (MACD)  PREV LOW @ DATE  RECENT LOW @ DATE  ZONE WK  EMA11/22/50  RSI (CHECK)
  NOTES
   • "censored" RSI = the dip broke below 30 (weaker) - the stock is STILL listed (RSI only
     labels, it never removes a stock).
@@ -590,7 +619,9 @@ for audit; rights approximate) • one bad symbol never aborts.
   `tests/fixtures/BSE_2026-09-22.parquet` (BSE's stored data, last bar 2026-09-22) - live data keeps
   moving (BSE formed a new, lower momentum trough on 2026-09-21), so only a frozen copy pins the
   golden. `tests/test_closed_bars.py` covers spec 7.5 (forming daily bar; Friday 15:30 IST week close
-  incl. Good Friday 2026-04-03); `tests/test_report_text.py` the report prose and the illiquid list.
+  incl. Good Friday 2026-04-03; v1.7: the cohort + NSE week guards, NSE status codes, the cache
+  session rule); `tests/test_report_text.py` the report prose, the illiquid list, the APPENDIX
+  fields, the flag counts and the CSV.
 - **Indicator unit tests** vs a small fixed input and vs TradingView values (±0.2%).
 - **Truthfulness test:** parse the generated `top_recommended_for_<DATE>.txt` and assert every printed
   number (troughs, EMAs, band, RSI, liquidity, score) equals the value the pipeline computed for that
@@ -630,6 +661,7 @@ adjustment="split_only"`.
 ### Appendix B - Script 2 pseudo-code
 ```
 cfg=load_config()
+week_guard = load_week_guard(manifest, "data/week_check.json")  # newest bar any stock has + Step 1's NSE check
 for sym in manifest.status=="ok":
     d, meta = load_parquet(sym)
     if daily_rows < min_rows_daily(250) or weekly_bars < min_weekly_bars_for_zone(50): skip("insufficient_history")
@@ -637,14 +669,15 @@ for sym in manifest.status=="ok":
     H, rsi, atr = macd_hist(d.Close), wilder_rsi(d.Close), atr14(d)
     div = detect_divergence(d, H, cfg)          # the two most recent pivot troughs (spec 2); nothing else gates the pair
     if not div.is_true: skip(div.reason if liq_ok else "illiquid"); continue
-    z = weekly_zone(d, div.swing_low_date, cfg, meta.fetched_at)   # closed: later week OR downloaded after Fri 15:30 IST
+    z = weekly_zone(d, div.swing_low_date, cfg, meta.fetched_at, week_guard)  # closed: later week OR downloaded
+                                                # after Fri 15:30 IST, unless the cohort/NSE guard shows the week incomplete
     if z.status=="pending_week": pending.append(sym) if liq_ok else skip("illiquid"); continue
     if not z.zone_ok: skip("zone_fail" if liq_ok else "illiquid"); continue
-    if not liq_ok: illiquid_pass.append((sym, liq, last_close)); skip("illiquid"); continue  # listed, never ranked
-    rec.append(build_record(sym, div, z, rsi_tag(rsi,div.recent,cfg), liq, atr, vol_exp))
+    r = build_record(sym, div, z, rsi_tag(rsi,div.recent,cfg), liq, atr, vol_exp)   # every spec pass: full record
+    (rec if liq_ok else illiquid_pass).append(r)  # illiquid: a flag listed with all fields, never ranked
 ranked = rank(rec, cfg.ranking)                 # z-score composite w/ small-cohort guard
 as_of = most common last-bar date across scanned stocks (ties -> newest)
-write_txt(ranked, pending, illiquid_pass, meta); write_csv(ranked) if write_full_flagged_csv
+write_txt(ranked, pending, illiquid_pass, meta)  # + APPENDIX; write_csv(ranked + illiquid_pass) if enabled
 ```
 ```
 ```

@@ -22,6 +22,9 @@ INDEX_CSV = {
     "NIFTY500": "https://nsearchives.nseindia.com/content/indices/ind_nifty500list.csv",
     "SMALLCAP250": "https://nsearchives.nseindia.com/content/indices/ind_niftysmallcap250list.csv",
 }
+# A cash-market session was held on a day iff NSE published that day's bhavcopy.
+BHAVCOPY_URL = ("https://nsearchives.nseindia.com/content/cm/"
+                "BhavCopy_NSE_CM_0_0_0_{ymd}_F_0000.csv.zip")
 _UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
        "(KHTML, like Gecko) Chrome/124.0 Safari/537.36")
 
@@ -158,3 +161,27 @@ def save_snapshot(df: pd.DataFrame, universe_dir: Path) -> pd.DataFrame | None:
         cur_path.replace(prev_path)
     df.to_csv(cur_path, index=False)
     return prev
+
+
+def session_from_status(status: int, day, now_ist_date) -> bool | None:
+    """200 -> the session was held. 404 asked on a LATER day -> no session (holiday).
+    Anything else (incl. 404 on the day itself, before NSE publishes) -> unknown (None)."""
+    if status == 200:
+        return True
+    if status == 404 and now_ist_date > pd.Timestamp(day).date():
+        return False
+    return None
+
+
+def nse_session_held(day, now_utc, session: requests.Session | None = None) -> bool | None:
+    """Ask NSE's archive whether a cash-market session was held on `day` (see session_from_status)."""
+    from .store import IST
+    s = session or _session()
+    try:
+        r = s.get(BHAVCOPY_URL.format(ymd=pd.Timestamp(day).strftime("%Y%m%d")), timeout=25, stream=True)
+        status = r.status_code
+        r.close()
+    except Exception:  # noqa: BLE001 - unreachable NSE = unknown, never a crash
+        return None
+    return session_from_status(status, day, now_utc.astimezone(IST).date())
+

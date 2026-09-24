@@ -46,12 +46,14 @@ def _load_company_map(root: Path) -> dict:
     return dict(zip(df[sym_col].str.strip(), df[name_col].str.strip()))
 
 
-def analyze_symbol(sym: str, df: pd.DataFrame, isin: str, company: str, cfg, fetched_at=None):
-    """Return ('flagged', record) | ('pending', sym) | ('illiquid_pass', info) | ('skip', reason).
+def analyze_symbol(sym: str, df: pd.DataFrame, isin: str, company: str, cfg, fetched_at=None,
+                   week_guard=None):
+    """Return ('flagged', record) | ('pending', sym) | ('illiquid_pass', record) | ('skip', reason).
 
-    The spec flag (divergence + zone) is computed for every stock with enough history;
-    liquidity is applied AFTER it, so a spec pass that fails liquidity is reported as
-    'illiquid_pass' (listed separately, never ranked) instead of being hidden.
+    The spec flag (divergence + zone) is computed for every stock with enough history, and
+    every spec pass gets its full spec-4/5 record (RSI included). Liquidity is applied AFTER
+    it: a spec pass that fails liquidity is 'illiquid_pass' (listed with all its fields,
+    never ranked) instead of being hidden.
     """
     n = len(df)
     weekly_bars = len(ind.weekly(df))
@@ -68,14 +70,12 @@ def analyze_symbol(sym: str, df: pd.DataFrame, isin: str, company: str, cfg, fet
     if not div.is_true:
         return "skip", ("illiquid" if not liq_ok else f"no_divergence:{div.reason}")
 
-    zone = weekly_zone(df, div.swing_low_date, cfg, fetched_at)
+    zone = weekly_zone(df, div.swing_low_date, cfg, fetched_at, week_guard)
     if zone.status == "pending_week":
         return ("skip", "illiquid") if not liq_ok else ("pending", sym)
     if zone.status != "ok" or not zone.zone_ok:
         return "skip", ("illiquid" if not liq_ok
                         else f"zone:{zone.status if zone.status!='ok' else 'zone_fail'}")
-    if not liq_ok:
-        return "illiquid_pass", {"symbol": sym, "liquidity": liq, "last_close": last_close}
 
     k = cfg.divergence.price_window_k
     lo = max(0, div.recent - k)
@@ -105,7 +105,7 @@ def analyze_symbol(sym: str, df: pd.DataFrame, isin: str, company: str, cfg, fet
         "bars_since_recent": bars_since_recent, "lookback_days": cfg.divergence.lookback_days,
         "last_date": df.index.max(),
     }
-    return "flagged", record
+    return ("flagged" if liq_ok else "illiquid_pass"), record
 
 
 def main() -> int:
@@ -122,6 +122,9 @@ def main() -> int:
 
     company_map = _load_company_map(root)
     ok = manifest[manifest["status"] == "ok"]
+    # Last-week closure guard (spec 7.5 under vendor lag): the newest bar any stock has, plus
+    # Step 1's NSE session check (data/week_check.json).
+    week_guard, week_note = storemod.load_week_guard(manifest, data_dir / "week_check.json")
 
     def emit(msg):
         print(msg, flush=True)
@@ -156,7 +159,7 @@ def main() -> int:
 
         fetched_at = storemod.parse_fetched_at(meta.get("fetched_at"))
         try:
-            kind, payload = analyze_symbol(sym, df, isin, company, cfg, fetched_at)
+            kind, payload = analyze_symbol(sym, df, isin, company, cfg, fetched_at, week_guard)
         except Exception as e:  # noqa: BLE001
             emit(f"[scan] {sym}: analysis error {e}")
             skip_reasons["analysis_error"] = skip_reasons.get("analysis_error", 0) + 1
@@ -168,11 +171,10 @@ def main() -> int:
             emit(f"[scan] {sym}: FLAGGED (rsi {payload['rsi_check']}, "
                  f"liq Rs{payload['liquidity']/1e7:.1f}cr)")
         elif kind == "pending":
-            pending.append(payload)
+            pending.append((payload, df.index.max()))
             n_liquid += 1  # pending passed liquidity; only the weekly candle is unconfirmed
         elif kind == "illiquid_pass":
-            illiquid_pass.append(payload)  # passes the spec setup; fails the liquidity floor
-            skip_reasons["illiquid"] = skip_reasons.get("illiquid", 0) + 1
+            illiquid_pass.append(payload)  # a spec flag that fails the liquidity floor (not ranked)
         else:
             skip_reasons[payload] = skip_reasons.get(payload, 0) + 1
             # count as "passed liquidity" ONLY if it cleared both the history gate and the
@@ -181,6 +183,7 @@ def main() -> int:
                 n_liquid += 1
 
     ranked = rankmod.rank(flagged, cfg)
+    under_min = sorted(r["symbol"] for r in flagged if "rank" not in r)  # dropped by [ranking] min_score
 
     # As-of = the date most scanned stocks' data actually ends on (ties -> newest), with
     # the count, so a partly-published newest day never overstates freshness.
@@ -195,7 +198,9 @@ def main() -> int:
         "L": n_liquid,
         "F": len(flagged),
         "P": len(pending),
+        "under_min_score": under_min,
         "illiquid_pass": sorted(illiquid_pass, key=lambda x: x["symbol"]),
+        "week_note": week_note,
         "skips": skip_reasons,
         "failed_symbols": failed_syms,
         "listed": int(len(manifest)),
@@ -207,9 +212,12 @@ def main() -> int:
           flush=True)
     for reason, cnt in sorted(skip_reasons.items(), key=lambda x: -x[1]):
         print(f"[scan] skip {reason}: {cnt}", flush=True)
+    if week_note:
+        print(f"[scan] NOTE {week_note}", flush=True)
 
     # ONE report file per day (overwritten on re-run); summary is folded in.
-    paths = reportmod.write_outputs(ranked, pending, meta, cfg, out_dir)
+    pend = [s + reportmod._data_to({"last_date": d}, as_of) for s, d in sorted(pending)]
+    paths = reportmod.write_outputs(ranked, pend, meta, cfg, out_dir)
     print(f"[scan] wrote {paths['report']}", flush=True)
     if "csv" in paths:
         print(f"[scan] wrote {paths['csv']}", flush=True)
