@@ -1,7 +1,8 @@
-"""Load and validate config.txt (INI via stdlib configparser).
+"""Load and validate config.txt + advanced_config.txt (INI via stdlib configparser).
 
-Blueprint 6: every knob lives in config.txt; parsed by configparser with
-inline comments (# and ;). Types/ranges are validated here and exposed as
+Blueprint 6: everyday knobs live in config.txt, rarely-changed method knobs in the
+optional advanced_config.txt; any key either file omits uses the coded default here.
+Parsed with inline comments (# and ;). Types/ranges are validated here and exposed as
 typed attributes (cfg.section.key). Blank value = "unset/default" (None).
 
 Also holds the project-root path resolution (works on Linux and Windows,
@@ -166,9 +167,9 @@ def load_config(path: Path | str | None = None) -> SimpleNamespace:
             "price_adjustment", {"split_only", "total_return"}, default="split_only"
         ),
         request_throttle_sec=D.float_("request_throttle_sec", default=0.5, lo=0.0),
-        min_rows_daily=D.int_("min_rows_daily", default=1000, lo=1),
+        min_rows_daily=D.int_("min_rows_daily", default=250, lo=1),
         refresh_if_older_than_hours=D.float_(
-            "refresh_if_older_than_hours", default=120.0, lo=0.0
+            "refresh_if_older_than_hours", default=12.0, lo=0.0
         ),
         prune_stale=D.bool_("prune_stale", default=True),
     )
@@ -186,9 +187,6 @@ def load_config(path: Path | str | None = None) -> SimpleNamespace:
         price_window_k=V.int_("price_window_k", default=3, lo=0),
         tolerance_pct=V.float_("tolerance_pct", default=0.01, lo=0.0),
         price_field=V.choice_("price_field", {"Low", "Close"}, default="Low"),
-        require_confirmation=V.bool_("require_confirmation", default=True),
-        confirm_bars=V.int_("confirm_bars", default=3, lo=1),
-        recency_bars=V.int_("recency_bars", default=20, lo=1),
     )
     weekly = SimpleNamespace(
         ema_set=W.list_("ema_set", default=[11, 22, 50], cast=int) or [11, 22, 50],
@@ -196,7 +194,7 @@ def load_config(path: Path | str | None = None) -> SimpleNamespace:
             "zone_test", {"range_overlap", "close_in_band"}, default="range_overlap"
         ),
         min_weekly_bars_for_zone=W.int_(
-            "min_weekly_bars_for_zone", default=200, lo=1
+            "min_weekly_bars_for_zone", default=50, lo=1
         ),
     )
     rsi = SimpleNamespace(

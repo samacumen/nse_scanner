@@ -38,8 +38,8 @@ def _settings_echo(cfg) -> str:
     parts = [
         f"MACD {cfg.macd.fast}/{cfg.macd.slow}/{cfg.macd.signal}",
         f"lookback={d.lookback_days} pivotK={d.trough_pivot_k} K={d.price_window_k}",
-        f"tol={d.tolerance_pct} price_field={d.price_field} confirm={d.require_confirmation}/{d.confirm_bars} recency={d.recency_bars}",
-        f"weekEMA={cfg.weekly.ema_set} zone={cfg.weekly.zone_test} minWk={cfg.weekly.min_weekly_bars_for_zone}",
+        f"tol={d.tolerance_pct} price_field={d.price_field}",
+        f"weekEMA={cfg.weekly.ema_set} zone={cfg.weekly.zone_test} minWk={cfg.weekly.min_weekly_bars_for_zone} minDays={cfg.data.min_rows_daily}",
         f"RSI {cfg.rsi.period}/{cfg.rsi.smoothing}/lb{cfg.rsi.lower_band:g}",
         f"liq>={cfg.liquidity.min_median_traded_value_inr/1e7:g}cr&>={cfg.liquidity.min_price:g} win={cfg.liquidity.window}",
         f"adj={cfg.data.price_adjustment}",
@@ -86,7 +86,12 @@ def _section2(ranked, cfg) -> list:
     lines.append(" SECTION 2 - WHY EACH STOCK WAS CHOSEN (simple explanation)")
     lower_band = cfg.rsi.lower_band
     floor_cr = cfg.liquidity.min_median_traded_value_inr / 1e7
+    min_px = cfg.liquidity.min_price
     zone_word = "overlapped the band" if cfg.weekly.zone_test == "range_overlap" else "closed inside the band"
+    # spec 3.2 tests the swing-low WEEK's candle against the band, not the low itself.
+    zone_sentence = ("That week's price range touched" if cfg.weekly.zone_test == "range_overlap"
+                     else "That week closed inside")
+    emas = "/".join(str(p) for p in cfg.weekly.ema_set)
     for r in ranked:
         lines.append("")
         lines.append(f" {SUBBAR}")
@@ -95,13 +100,13 @@ def _section2(ranked, cfg) -> list:
         lines.append("")
         price_word = ("a lower low" if r["pl_recent"] < r["pl_prev"]
                       else "an equal low (a possible double bottom)")
-        rsi_phrase = ("RSI stayed at a healthy level (at/above 30)"
-                      if r["rsi_check"] == "uncensored" else "RSI dipped below 30 (a weaker sign)")
+        rsi_phrase = (f"RSI stayed at a healthy level (at/above {lower_band:g})"
+                      if r["rsi_check"] == "uncensored" else f"RSI dipped below {lower_band:g} (a weaker sign)")
         lines.append(
             f"   What happened: over recent weeks {r['symbol']}'s price made {price_word} (down to\n"
-            f"   {_num(r['pl_recent'])} on {r['recent_date'].date()}), while its daily MACD momentum made a\n"
-            f"   HIGHER low and then turned back up - an early sign the slide may be easing. That low fell\n"
-            f"   inside {r['symbol']}'s weekly EMA 11/22/50 support band, and {rsi_phrase}."
+            f"   {_num(r['pl_recent'])} on {r['swing_recent_date'].date()}), while its daily MACD momentum made a\n"
+            f"   HIGHER low - an early sign the slide may be easing. {zone_sentence}\n"
+            f"   {r['symbol']}'s weekly EMA {emas} support band, and {rsi_phrase}."
         )
         lines.append("")
         lines.append("   The checks it passed:")
@@ -111,10 +116,8 @@ def _section2(ranked, cfg) -> list:
             f"(MACD {r['h_prev']:+.2f}, low {_num(r['pl_prev'])} on {r['swing_prev_date'].date()}), then a\n"
             f"        higher-momentum dip on {r['recent_date'].date()} "
             f"(MACD {r['h_recent']:+.2f}, low {_num(r['pl_recent'])} on {r['swing_recent_date'].date()}).\n"
-            f"        Momentum made a HIGHER low while price made {_price_dir_word(r['pl_recent'], r['pl_prev'])}, "
-            f"and the latest\n"
-            f"        dip was {'confirmed (momentum turned back up)' if r['confirmed'] else 'NOT confirmed'}.  "
-            f"[{'OK' if r['momentum_ok'] and r['price_ok'] and r['confirmed'] else 'X'}]"
+            f"        Momentum made a HIGHER low while price made {_price_dir_word(r['pl_recent'], r['pl_prev'])}.  "
+            f"[{'OK' if r['momentum_ok'] and r['price_ok'] else 'X'}]"
         )
         ema_str = ", ".join(f"EMA{p} {_num(r['ema_vals'].get(p), 1)}" for p in cfg.weekly.ema_set)
         lines.append(
@@ -129,30 +132,65 @@ def _section2(ranked, cfg) -> list:
             f'=> "{r["rsi_check"]}"\n'
             f"        ({'a healthy dip, not a panic sell-off' if r['rsi_check'] == 'uncensored' else 'a weaker dip; still listed (RSI only labels)'})."
         )
-        lines.append(
-            f"     4) Liquidity: about Rs {_cr(r['liquidity'])} cr traded per day "
-            f"(above the Rs {floor_cr:g} cr minimum) => tradeable."
-        )
+        below = []
+        if not r["liquidity"] >= cfg.liquidity.min_median_traded_value_inr:  # NaN-safe
+            below.append(f"the Rs {floor_cr:g} cr/day minimum")
+        if not r["last_close"] >= min_px:
+            below.append(f"the Rs {min_px:g} price minimum")
+        if below:  # only possible when [liquidity] apply_as_filter = false
+            lines.append(
+                f"     4) Liquidity: about Rs {_cr(r['liquidity'])} cr traded per day, below "
+                f"{' and '.join(below)} => below the liquidity/price floor (listed only because the "
+                f"liquidity filter is off)."
+            )
+        else:
+            lines.append(
+                f"     4) Liquidity: about Rs {_cr(r['liquidity'])} cr traded per day "
+                f"(above the Rs {floor_cr:g} cr minimum) => tradeable."
+            )
     return lines
+
+
+def _illiquid_reason(x, cfg) -> str:
+    """Why a spec pass failed liquidity: turnover under the floor and/or price under the minimum."""
+    parts = []
+    liq, px = x["liquidity"], x["last_close"]
+    if not liq >= cfg.liquidity.min_median_traded_value_inr:  # NaN-safe: missing turnover fails too
+        parts.append(f"Rs {liq / 1e7:.2f} cr/d" if pd.notna(liq) else "turnover n/a")
+    if not px >= cfg.liquidity.min_price:
+        parts.append(f"price Rs {px:.2f}" if pd.notna(px) else "price n/a")
+    return f"{x['symbol']} ({', '.join(parts)})"
 
 
 def build_report_text(ranked, pending, meta, cfg) -> str:
     L = []
     L.append(BAR)
     L.append(" NSE SCANNER - TOP RECOMMENDATIONS")
-    L.append(f" Data as-of : {meta['date']} (last trading day)        Generated: {meta['generated']} IST")
-    L.append(" Setup      : Daily MACD-histogram bullish divergence + weekly EMA(11/22/50) support zone")
+    if meta.get("as_of_n"):
+        ends = f"latest bar for {meta['as_of_n']} of {meta['U']} scanned stocks"
+    else:
+        ends = "latest bar in the data"
+    L.append(f" Data as-of : {meta['date']} ({ends})        Generated: {meta['generated']} IST")
+    emas = "/".join(str(p) for p in cfg.weekly.ema_set)
+    L.append(f" Setup      : Daily MACD-histogram bullish divergence + weekly EMA({emas}) support zone")
+    ill = meta.get("illiquid_pass") or []
     if meta.get("listed"):
-        skipped = meta.get("skipped_insufficient", 0)
-        L.append(f" Universe   : {meta['listed']} NSE equities listed | {meta['U']} had enough "
+        # Step 1 labels history with the thresholds in force at download time; Step 2 re-checks
+        # with the current ones, so both counts are included.
+        hist2 = (meta.get("skips") or {}).get("insufficient_history", 0)
+        skipped = meta.get("skipped_insufficient", 0) + hist2
+        L.append(f" Universe   : {meta['listed']} NSE equities listed | {meta['U'] - hist2} had enough "
                  f"history and were scanned")
-        L.append(f"              ({skipped} skipped - too new for a 4-year weekly average) | "
+        L.append(f"              ({skipped} skipped - under {cfg.data.min_rows_daily} trading days / "
+                 f"{cfg.weekly.min_weekly_bars_for_zone} weekly candles of history) | "
                  f"{meta['L']} passed liquidity | {meta['F']} flagged | {meta['P']} pending")
+        if cfg.liquidity.apply_as_filter:
+            L.append(f"              + {len(ill)} more pass the setup but fail liquidity (listed at the end, not ranked)")
     else:
         L.append(f" Universe   : {meta['U']} EQ scanned | {meta['L']} passed liquidity | "
                  f"{meta['F']} flagged | {meta['P']} pending week-close")
     if meta.get("partial"):
-        L.append(f" NOTE       : PARTIAL run - {meta['U']} of ~{meta.get('universe_total', 2292)} symbols "
+        L.append(f" NOTE       : PARTIAL run - {meta['U']} of ~{meta.get('universe_total', 'n/a')} symbols "
                  f"downloaded so far; this file refreshes when the full download finishes.")
     L.append(f" Settings   : {_settings_echo(cfg)}")
     L.append(f" Data source: yfinance (.NS, {cfg.data.price_adjustment}, "
@@ -170,19 +208,33 @@ def build_report_text(ranked, pending, meta, cfg) -> str:
     pend = ", ".join(pending) if pending else "(none)"
     L.append(f" PENDING (weekly candle still forming; will confirm after the week closes): {pend}")
     L.append("")
+    if cfg.liquidity.apply_as_filter:
+        L.append(f" PASSES THE SETUP BUT FAILS LIQUIDITY - {len(ill)} (not ranked; the floor is Rs "
+                 f"{cfg.liquidity.min_median_traded_value_inr / 1e7:g} cr/day traded and price >= Rs "
+                 f"{cfg.liquidity.min_price:g}; shown: what each one fell short on)")
+        row = []  # wrap at ~100 chars without splitting an entry
+        for e in [_illiquid_reason(x, cfg) for x in ill] or ["(none)"]:
+            if row and len("   " + ", ".join(row + [e])) > 100:
+                L.append("   " + ", ".join(row) + ",")
+                row = []
+            row.append(e)
+        L.append("   " + ", ".join(row))
+        L.append("")
     skips = meta.get("skips") or {}
     if skips:
         L.append(" SCAN SUMMARY (why the other stocks were not selected)")
         L.append(f"   scanned {meta['U']} | passed liquidity+history {meta['L']} | "
                  f"flagged {meta['F']} | pending {meta['P']}")
         label = {
-            "illiquid": "below liquidity/price floor",
-            "insufficient_history": "too little history (<~4y)",
+            "illiquid": f"below liquidity/price floor (incl. the {len(ill)} setup passes listed above)",
+            "insufficient_history": (f"too little history (under {cfg.data.min_rows_daily} days / "
+                                     f"{cfg.weekly.min_weekly_bars_for_zone} weeks)"),
             "no_divergence:criteria_not_met": "no valid bullish divergence",
-            "no_divergence:no_causal_recent_trough": "no confirmed recent trough",
+            "no_divergence:recent_window_open": "newest dip's price window not closed yet",
             "no_divergence:fewer_than_two_troughs": "fewer than two troughs",
-            "no_divergence:no_prior_trough": "only one trough (no prior)",
-            "zone:zone_fail": "low not inside the weekly EMA zone",
+            "zone:zone_fail": ("swing-low week did not touch the weekly EMA zone"
+                               if cfg.weekly.zone_test == "range_overlap"
+                               else "swing-low week did not close inside the weekly EMA zone"),
         }
         for k, v in sorted(skips.items(), key=lambda x: -x[1]):
             L.append(f"     {v:>5}  {label.get(k, k)}")
@@ -192,8 +244,9 @@ def build_report_text(ranked, pending, meta, cfg) -> str:
             L.append(f"   fetch-failed ({len(fails)}): {shown}")
         L.append("")
     L.append(" NOTES")
-    L.append('  - "uncensored" = the dip stayed at/above RSI 30 (healthier). "censored" = it dipped')
-    L.append("    below 30 (weaker) but the stock is STILL listed (the RSI check only labels, it")
+    lb = cfg.rsi.lower_band
+    L.append(f'  - "uncensored" = the dip stayed at/above RSI {lb:g} (healthier). "censored" = it dipped')
+    L.append(f"    below {lb:g} (weaker) but the stock is STILL listed (the RSI check only labels, it")
     L.append("    never removes a stock).")
     L.append(f"  - Every number above is computed from the sourced data as of {meta['date']}.")
     L.append("    This is not investment advice; always verify each chart before acting.")
@@ -220,7 +273,6 @@ def _flagged_dataframe(ranked) -> pd.DataFrame:
             "swing_recent_date": r["swing_recent_date"].date().isoformat(),
             "momentum_ok": r["momentum_ok"],
             "price_ok": r["price_ok"],
-            "confirmed": r["confirmed"],
             "Zone_week_date": r["week_start"].date().isoformat(),
             "weekly_bucket_fri": r["W"].date().isoformat(),
             **{f"ema{p}": v for p, v in r["ema_vals"].items()},

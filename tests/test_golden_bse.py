@@ -1,11 +1,13 @@
 """BSE GOLDEN test (blueprint 4a / 11).
 
-Fetches BSE (6y), runs the src pipeline, asserts the diagram-exact numbers:
+Runs the src pipeline on a FROZEN copy of BSE's stored data (6y, last bar
+2026-09-22, tests/fixtures/) and asserts the diagram-exact numbers:
   Trough_prev 2026-08-21 (H -18.13), Trough_recent 2026-09-02 (low 3131.5),
   weekly W ending 2026-09-04 band [3178.3, 3520.1], zone_ok,
   RSI_trough 33.29 uncensored.
 
-Requires network (yfinance/.NS). Skips if unreachable.
+Offline and deterministic: live data keeps moving (BSE formed a new, lower
+momentum trough on 2026-09-21), so a live fetch cannot pin these numbers.
 """
 import sys
 from pathlib import Path
@@ -17,22 +19,20 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
 from src.config import load_config
-from src import fetch as fetchmod
 from src import store as storemod
 from src import indicators as ind
 from src.divergence import detect_divergence
 from src.zone import weekly_zone
 
 
+FIXTURE = ROOT / "tests" / "fixtures" / "BSE_2026-09-22.parquet"
+
+
 @pytest.fixture(scope="module")
 def bse_pipeline():
     cfg = load_config()
-    try:
-        raw, _src = fetchmod.fetch_symbol("BSE", cfg.data.history_years)
-    except Exception as e:  # pragma: no cover
-        pytest.skip(f"network unavailable: {e}")
-    df, status, reason, _ = storemod.validate_and_prepare(raw, cfg)
-    assert status == "ok", f"BSE not ok: {reason}"
+    df, _meta = storemod.load_parquet(FIXTURE)
+    assert df.index.max().date().isoformat() == "2026-09-22"
     H = ind.macd_hist(df["Close"], cfg.macd.fast, cfg.macd.slow, cfg.macd.signal)
     rsi = ind.rsi(df["Close"], cfg.rsi.period, cfg.rsi.smoothing)
     div = detect_divergence(df, H, cfg)

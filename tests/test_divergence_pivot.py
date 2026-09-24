@@ -5,8 +5,11 @@ Offline (no network): proves the exact behaviour the v1.2 change hinges on -
      found (the old one-trough-per-zero-crossed-segment rule would find only one);
   2) adjacent ties collapse to the EARLIEST bar;
   3) end-of-series pivots are not reported until a full +-K window exists (no look-ahead);
-  4) a full bullish divergence (momentum higher-low + price lower-low + confirmation)
-     is detected end to end.
+  4) a full bullish divergence (momentum higher-low + price lower-low) is detected
+     end to end;
+  5) the pair compared is ALWAYS the two most recent troughs, also when
+     PRICE_WINDOW_K > TROUGH_PIVOT_K (never an older pair while the newest trough's
+     price window is still open).
 """
 import sys
 from pathlib import Path
@@ -58,4 +61,32 @@ def test_end_to_end_bullish_divergence():
     assert div.recent_date.date().isoformat() == idx[9].date().isoformat()
     assert div.h_recent > div.h_prev            # momentum higher-low
     assert div.pl_recent <= div.pl_prev         # price lower/equal-low
-    assert div.momentum_ok and div.price_ok and div.confirmed
+    assert div.momentum_ok and div.price_ok
+
+
+def _three_trough_series(n):
+    """Positive H except V-shaped dips with minima at 45 (-9), 65 (-6), 76 (-3); price falls."""
+    h = np.full(n, 0.5)
+    for t, v in [(45, -9.0), (65, -6.0), (76, -3.0)]:
+        h[t - 2], h[t - 1], h[t], h[t + 1], h[t + 2] = v / 3, v / 2, v, v / 2, v / 3
+    idx = pd.date_range("2026-01-01", periods=n, freq="B")
+    low = np.linspace(200, 100, n)
+    return pd.DataFrame({"Low": low}, index=idx), pd.Series(h, index=idx)
+
+
+def test_pair_is_two_most_recent_troughs():
+    df, H = _three_trough_series(80)
+    cfg = load_config()  # pivot K = price K = 3
+    div = detect_divergence(df, H, cfg)
+    assert (div.prev, div.recent) == (65, 76) and div.is_true
+
+
+def test_wider_price_window_waits_instead_of_using_an_older_pair():
+    df, H = _three_trough_series(80)
+    cfg = load_config()
+    cfg.divergence.price_window_k = 5  # trough 76 is a pivot, but [71, 81] is not closed yet
+    div = detect_divergence(df, H, cfg)
+    assert not div.is_true and div.reason == "recent_window_open" and div.prev is None
+    df2, H2 = _three_trough_series(82)  # two more closed bars -> the window closes
+    div2 = detect_divergence(df2, H2, cfg)
+    assert (div2.prev, div2.recent) == (65, 76)

@@ -11,6 +11,7 @@ Re-runnable with no re-fetch after editing any [macd]..[output] setting.
 from __future__ import annotations
 
 import sys
+from collections import Counter
 from pathlib import Path
 
 import numpy as np
@@ -45,16 +46,19 @@ def _load_company_map(root: Path) -> dict:
     return dict(zip(df[sym_col].str.strip(), df[name_col].str.strip()))
 
 
-def analyze_symbol(sym: str, df: pd.DataFrame, isin: str, company: str, cfg):
-    """Return ('flagged', record) | ('pending', sym) | ('skip', reason)."""
+def analyze_symbol(sym: str, df: pd.DataFrame, isin: str, company: str, cfg, fetched_at=None):
+    """Return ('flagged', record) | ('pending', sym) | ('illiquid_pass', info) | ('skip', reason).
+
+    The spec flag (divergence + zone) is computed for every stock with enough history;
+    liquidity is applied AFTER it, so a spec pass that fails liquidity is reported as
+    'illiquid_pass' (listed separately, never ranked) instead of being hidden.
+    """
     n = len(df)
     weekly_bars = len(ind.weekly(df))
     if n < cfg.data.min_rows_daily or weekly_bars < cfg.weekly.min_weekly_bars_for_zone:
         return "skip", "insufficient_history"
 
     liq_ok, liq, last_close = liqmod.passes_liquidity(df, cfg)
-    if not liq_ok:
-        return "skip", "illiquid"
 
     H = ind.macd_hist(df["Close"], cfg.macd.fast, cfg.macd.slow, cfg.macd.signal)
     rsi = ind.rsi(df["Close"], cfg.rsi.period, cfg.rsi.smoothing)
@@ -62,13 +66,16 @@ def analyze_symbol(sym: str, df: pd.DataFrame, isin: str, company: str, cfg):
 
     div = detect_divergence(df, H, cfg)
     if not div.is_true:
-        return "skip", f"no_divergence:{div.reason}"
+        return "skip", ("illiquid" if not liq_ok else f"no_divergence:{div.reason}")
 
-    zone = weekly_zone(df, div.swing_low_date, cfg)
+    zone = weekly_zone(df, div.swing_low_date, cfg, fetched_at)
     if zone.status == "pending_week":
-        return "pending", sym
+        return ("skip", "illiquid") if not liq_ok else ("pending", sym)
     if zone.status != "ok" or not zone.zone_ok:
-        return "skip", f"zone:{zone.status if zone.status!='ok' else 'zone_fail'}"
+        return "skip", ("illiquid" if not liq_ok
+                        else f"zone:{zone.status if zone.status!='ok' else 'zone_fail'}")
+    if not liq_ok:
+        return "illiquid_pass", {"symbol": sym, "liquidity": liq, "last_close": last_close}
 
     k = cfg.divergence.price_window_k
     lo = max(0, div.recent - k)
@@ -87,7 +94,7 @@ def analyze_symbol(sym: str, df: pd.DataFrame, isin: str, company: str, cfg):
         "pl_prev": div.pl_prev, "pl_recent": div.pl_recent,
         "prev_date": div.prev_date, "recent_date": div.recent_date,
         "swing_prev_date": div.swing_prev_date, "swing_recent_date": div.swing_low_date,
-        "momentum_ok": div.momentum_ok, "price_ok": div.price_ok, "confirmed": div.confirmed,
+        "momentum_ok": div.momentum_ok, "price_ok": div.price_ok,
         "W": zone.W, "week_start": zone.week_start, "ema_vals": dict(zone.emas),
         "band_lo": zone.band_lo, "band_hi": zone.band_hi, "band_mid": zone.band_mid,
         "band_close_w": zone.week_close, "week_low": zone.week_low,
@@ -95,7 +102,7 @@ def analyze_symbol(sym: str, df: pd.DataFrame, isin: str, company: str, cfg):
         "rsi_trough": rsi_trough, "rsi_check": rsi_check,
         "liquidity": liq, "last_close": last_close, "atr14": atr14,
         "vol_recent": vol_recent, "vol_median20": vol_median20,
-        "bars_since_recent": bars_since_recent, "recency_bars": cfg.divergence.recency_bars,
+        "bars_since_recent": bars_since_recent, "lookback_days": cfg.divergence.lookback_days,
         "last_date": df.index.max(),
     }
     return "flagged", record
@@ -123,6 +130,7 @@ def main() -> int:
 
     flagged = []
     pending = []
+    illiquid_pass = []
     skip_reasons = {}
     n_scanned = 0
     n_liquid = 0
@@ -146,8 +154,9 @@ def main() -> int:
         isin = meta.get("isin", "") or (getattr(row, "isin", "") or "")
         company = company_map.get(sym, sym)
 
+        fetched_at = storemod.parse_fetched_at(meta.get("fetched_at"))
         try:
-            kind, payload = analyze_symbol(sym, df, isin, company, cfg)
+            kind, payload = analyze_symbol(sym, df, isin, company, cfg, fetched_at)
         except Exception as e:  # noqa: BLE001
             emit(f"[scan] {sym}: analysis error {e}")
             skip_reasons["analysis_error"] = skip_reasons.get("analysis_error", 0) + 1
@@ -161,6 +170,9 @@ def main() -> int:
         elif kind == "pending":
             pending.append(payload)
             n_liquid += 1  # pending passed liquidity; only the weekly candle is unconfirmed
+        elif kind == "illiquid_pass":
+            illiquid_pass.append(payload)  # passes the spec setup; fails the liquidity floor
+            skip_reasons["illiquid"] = skip_reasons.get("illiquid", 0) + 1
         else:
             skip_reasons[payload] = skip_reasons.get(payload, 0) + 1
             # count as "passed liquidity" ONLY if it cleared both the history gate and the
@@ -170,23 +182,29 @@ def main() -> int:
 
     ranked = rankmod.rank(flagged, cfg)
 
-    as_of = max(last_dates).date().isoformat() if last_dates else "unknown"
+    # As-of = the date most scanned stocks' data actually ends on (ties -> newest), with
+    # the count, so a partly-published newest day never overstates freshness.
+    ends = Counter(d.date().isoformat() for d in last_dates)
+    as_of, as_of_n = max(ends.items(), key=lambda kv: (kv[1], kv[0])) if ends else ("unknown", 0)
     failed_syms = manifest[manifest["status"] == "failed"]["symbol"].tolist()
     meta = {
         "date": as_of,
+        "as_of_n": as_of_n,
         "generated": reportmod.now_ist(),
         "U": n_scanned,
         "L": n_liquid,
         "F": len(flagged),
         "P": len(pending),
+        "illiquid_pass": sorted(illiquid_pass, key=lambda x: x["symbol"]),
         "skips": skip_reasons,
         "failed_symbols": failed_syms,
         "listed": int(len(manifest)),
         "skipped_insufficient": int((manifest["status"] == "insufficient_history").sum()),
     }
 
-    print(f"[scan] as-of {as_of}: scanned={n_scanned} flagged={len(flagged)} "
-          f"pending={len(pending)}", flush=True)
+    print(f"[scan] as-of {as_of} ({as_of_n} of {n_scanned} stocks end on it): scanned={n_scanned} "
+          f"flagged={len(flagged)} pending={len(pending)} illiquid_pass={len(illiquid_pass)}",
+          flush=True)
     for reason, cnt in sorted(skip_reasons.items(), key=lambda x: -x[1]):
         print(f"[scan] skip {reason}: {cnt}", flush=True)
 

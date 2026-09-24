@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import sys
 import time
+from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -20,6 +21,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
 from src.config import load_config
+from src.indicators import weekly
 from src import fetch as fetchmod
 from src import store as storemod
 from src import universe as universemod
@@ -86,13 +88,17 @@ def main() -> int:
         if _fresh(pq_path, cfg.data.refresh_if_older_than_hours):
             try:
                 df_prev, meta_prev = storemod.load_parquet(pq_path)
-                counts[meta_prev.get("status", "ok")] = counts.get(meta_prev.get("status", "ok"), 0) + 1
+                # re-derive the status with the CURRENT history thresholds (they may have changed)
+                status_prev = ("ok" if len(df_prev) >= cfg.data.min_rows_daily
+                               and len(weekly(df_prev)) >= cfg.weekly.min_weekly_bars_for_zone
+                               else "insufficient_history")
+                counts[status_prev] = counts.get(status_prev, 0) + 1
                 manifest_rows.append({
                     "symbol": sym, "isin": isin, "ticker": f"{sym}.NS",
                     "source": meta_prev.get("source", "cache"), "rows": len(df_prev),
                     "first_date": df_prev.index.min().date().isoformat(),
                     "last_date": df_prev.index.max().date().isoformat(),
-                    "status": meta_prev.get("status", "ok"),
+                    "status": status_prev,
                     "fetched_at": meta_prev.get("fetched_at", ""),
                 })
                 emit(f"[{i}/{total}] {sym:<14} CACHED ({len(df_prev)} rows)")
@@ -101,9 +107,11 @@ def main() -> int:
                 pass  # cache unreadable -> refetch
 
         try:
+            t_fetch = datetime.now(timezone.utc)
             raw, source = fetchmod.fetch_symbol(sym, cfg.data.history_years)
+            raw = storemod.drop_forming_bar(raw, t_fetch)  # spec 7.5: no still-forming candle
             df, status, reason, warns = storemod.validate_and_prepare(raw, cfg)
-            fetched_at = storemod.utcnow_iso()
+            fetched_at = t_fetch.strftime("%Y-%m-%dT%H:%M:%SZ")
             if df is not None:
                 storemod.write_parquet(df, pq_path, {
                     "symbol": sym, "isin": isin, "adjustment": cfg.data.price_adjustment,
@@ -149,6 +157,21 @@ def main() -> int:
             emit("[fetch] no stale data to prune (data/ already matches the universe)")
     elif testing_subset:
         emit("[fetch] pruning skipped (testing subset via symbols_override/max_symbols)")
+
+    # Yahoo can publish the newest session for only some stocks at first, or lag for a few.
+    # If stocks end on different dates, say so and how to force a fresh download.
+    ends = Counter(r["last_date"] for r in manifest_rows if r.get("last_date"))
+    if len(ends) > 1:
+        common, n_common = max(ends.items(), key=lambda kv: (kv[1], kv[0]))  # = Step 2's as-of rule
+        later = [r["symbol"] for r in manifest_rows if r.get("last_date") and r["last_date"] > common]
+        earlier = [r["symbol"] for r in manifest_rows if r.get("last_date") and r["last_date"] < common]
+        shown = (f" (earlier: {', '.join(earlier[:10])}{' ...' if len(earlier) > 10 else ''})"
+                 if earlier else "")
+        emit(f"[fetch] WARNING stocks end on different dates: {n_common} on {common}, "
+             f"{len(later)} later, {len(earlier)} earlier{shown}. Yahoo may not have published the "
+             f"newest day for every stock yet. To re-download everything, set [data] "
+             f"refresh_if_older_than_hours = 0 for one run (files newer than "
+             f"{cfg.data.refresh_if_older_than_hours:g} h are otherwise reused).")
 
     dt = time.time() - t0
     emit(f"[fetch] done in {dt:.0f}s "

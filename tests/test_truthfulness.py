@@ -6,7 +6,7 @@ computed value (at the printed precision) - the report contains zero
 hardcoded/placeholder data. Also asserts the listed stock genuinely passed
 8.2 (divergence) AND 8.3 (zone).
 
-Requires network. Skips if unreachable.
+Offline: uses the frozen BSE fixture (tests/fixtures/BSE_2026-09-22.parquet).
 """
 import re
 import sys
@@ -19,7 +19,6 @@ sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from src.config import load_config
-from src import fetch as fetchmod
 from src import store as storemod
 from src import rank as rankmod
 from src import report as reportmod
@@ -29,12 +28,7 @@ import run_scanner
 @pytest.fixture(scope="module")
 def bse_report():
     cfg = load_config()
-    try:
-        raw, _ = fetchmod.fetch_symbol("BSE", cfg.data.history_years)
-    except Exception as e:  # pragma: no cover
-        pytest.skip(f"network unavailable: {e}")
-    df, status, reason, _ = storemod.validate_and_prepare(raw, cfg)
-    assert status == "ok", reason
+    df, _meta = storemod.load_parquet(ROOT / "tests" / "fixtures" / "BSE_2026-09-22.parquet")
     kind, rec = run_scanner.analyze_symbol("BSE", df, "INE118H01025", "BSE Ltd", cfg)
     assert kind == "flagged"
     ranked = rankmod.rank([rec], cfg)
@@ -79,7 +73,7 @@ def test_printed_equals_computed(bse_report):
 
 def test_listed_stock_passed_8_2_and_8_3(bse_report):
     cfg, r, text = bse_report
-    assert r["momentum_ok"] and r["price_ok"] and r["confirmed"]  # 8.2
+    assert r["momentum_ok"] and r["price_ok"]                      # 8.2 (spec 2)
     assert r["zone_ok"] is True                                    # 8.3
     assert "uncensored" in text
     assert r["rsi_check"] == "uncensored"

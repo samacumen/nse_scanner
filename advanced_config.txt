@@ -17,14 +17,11 @@ trough_pivot_k = 3              # bars each side that must be >= a bar for it to
 price_window_k = 3              # days each side of a dip used to find its true low (and the RSI trough)
 tolerance_pct = 0.01            # how close two lows count as "equal" (0.01 = 1%, a double bottom)
 price_field = Low               # which price makes the "lower low": Low | Close
-require_confirmation = true     # only pick once momentum has turned back up (avoids falling knives)
-confirm_bars = 3                # rising days that count as "turned back up"
-recency_bars = 20               # the recent dip must be within this many days of now
 
 [weekly]
 ema_set = 11,22,50              # the three weekly averages forming the support band
 zone_test = range_overlap       # range_overlap (touch) | close_in_band (stricter: must close inside)
-min_weekly_bars_for_zone = 200  # weeks of history needed for a trustworthy 50-week average (~4y)
+min_weekly_bars_for_zone = 50   # weekly candles a stock needs in total (~1 year) before its 50-week average is used
 
 [rsi]
 period = 14                     # RSI length (standard)
@@ -47,8 +44,8 @@ weight_volume_expansion = 0.10  # jump in volume on the reversal
 [data]
 # Download mechanics (apply on the next Step 1 fetch).
 request_throttle_sec = 0.5      # pause between downloads; raise if Yahoo rate-limits you
-min_rows_daily = 1000           # least history a stock needs or it's skipped (~4 years)
-refresh_if_older_than_hours = 120  # re-use cached files newer than this; 0 = always re-download
+min_rows_daily = 250            # trading days a stock needs or it's skipped (~1 year)
+refresh_if_older_than_hours = 12   # re-use files downloaded within this many hours (resumes an interrupted run); 0 = always re-download
 prune_stale = true              # after a full download, delete on-disk data for stocks no longer in your universe (keeps the disk tidy)
 
 [output]

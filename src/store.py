@@ -5,7 +5,7 @@ Parquet per symbol with audit columns and file-level metadata
 """
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import datetime, time as dt_time, timedelta, timezone
 from pathlib import Path
 
 import pandas as pd
@@ -18,6 +18,10 @@ MANIFEST_COLUMNS = [
     "symbol", "isin", "ticker", "source", "rows",
     "first_date", "last_date", "status", "fetched_at",
 ]
+
+# Fixed in code (spec 7.5, closed bars only): the NSE regular session closes 15:30 IST.
+IST = timezone(timedelta(hours=5, minutes=30))
+NSE_CLOSE_IST = dt_time(15, 30)
 
 OHLC = ["Open", "High", "Low", "Close"]
 AUDIT = ["AdjClose", "Dividends", "StockSplits"]
@@ -129,3 +133,30 @@ def read_manifest(path: Path) -> pd.DataFrame:
 
 def utcnow_iso() -> str:
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+def session_close_utc(day) -> datetime:
+    """The NSE close (15:30 IST) on calendar day `day`, as an aware UTC datetime."""
+    d = pd.Timestamp(day).date()
+    return datetime.combine(d, NSE_CLOSE_IST, tzinfo=IST).astimezone(timezone.utc)
+
+
+def drop_forming_bar(df, fetched_at: datetime):
+    """Spec 7.5: never store a still-forming daily candle. The newest bar is dropped
+    when the download ran before that bar's own 15:30 IST close."""
+    if df is None or len(df) == 0:
+        return df
+    if fetched_at < session_close_utc(df.index[-1]):
+        return df.iloc[:-1]
+    return df
+
+
+def parse_fetched_at(value):
+    """'2026-09-23T21:11:16Z' -> aware UTC datetime; blank/unparseable -> None."""
+    if not value:
+        return None
+    try:
+        ts = pd.Timestamp(value)
+        return None if pd.isna(ts) else ts.tz_convert("UTC").to_pydatetime()
+    except (ValueError, TypeError):
+        return None

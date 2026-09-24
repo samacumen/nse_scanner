@@ -44,7 +44,7 @@ def compute_metrics(rec: dict) -> dict:
     zone_confluence = 0.5 * tightness + 0.5 * centering
 
     liquidity = math.log10(rec["liquidity"]) if rec["liquidity"] > 0 else float("nan")
-    recency = 1.0 - rec["bars_since_recent"] / rec["recency_bars"]
+    recency = 1.0 - rec["bars_since_recent"] / rec["lookback_days"]  # fresher = higher (ranking only)
     vol_med = rec["vol_median20"]
     volume_expansion = (rec["vol_recent"] / vol_med) if vol_med and vol_med > 0 else float("nan")
 

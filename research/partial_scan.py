@@ -49,6 +49,8 @@ def main() -> int:
         elif kind == "pending":
             pending.append(payload)
             n_liquid += 1
+        elif kind == "illiquid_pass":  # spec pass below the liquidity floor (not ranked)
+            skip["illiquid"] = skip.get("illiquid", 0) + 1
         else:
             skip[payload] = skip.get(payload, 0) + 1
             if payload not in ("illiquid", "insufficient_history"):

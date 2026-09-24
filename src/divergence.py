@@ -5,13 +5,12 @@ with H(t) < 0 whose H is <= every other H in the window [t - TROUGH_PIVOT_K,
 t + TROUGH_PIVOT_K]; on an adjacent tie the earliest bar is the trough. This finds
 overlapping troughs (several within one negative excursion), not just one per
 zero-crossed segment. The two MOST RECENT troughs in the last LOOKBACK_DAYS are
-compared (spec 2): momentum higher-low AND price lower/equal-low.
+compared (spec 2): momentum higher-low AND price lower/equal-low. Nothing else
+gates the pair (no recency or confirmation filter; freshness only feeds ranking).
 
-Guards kept from the build (never loosen the spec, only avoid bad picks):
-- causality - a pivot is only knowable once TROUGH_PIVOT_K closed bars follow it
-  (no look-ahead), and the swing-low window must be fully in range;
-- recency - the recent trough must be within RECENCY_BARS of the last bar;
-- confirmation - the recent dip must have turned back up (avoids falling knives).
+Closed bars only (spec 7.5): a pivot is only knowable once TROUGH_PIVOT_K closed
+bars follow it, and the recent trough's [t-K, t+K] swing-low window must be fully
+closed; if it is not yet, the pair is not evaluated (never an older pair instead).
 """
 from __future__ import annotations
 
@@ -38,7 +37,6 @@ class Divergence:
     recent_date: Optional[pd.Timestamp] = None
     momentum_ok: bool = False
     price_ok: bool = False
-    confirmed: bool = False
 
 
 def pivot_troughs(h: np.ndarray, k: int) -> list:
@@ -100,21 +98,11 @@ def detect_divergence(df: pd.DataFrame, H: pd.Series, cfg) -> Divergence:
     if len(troughs) < 2:
         return Divergence(False, reason="fewer_than_two_troughs")
 
-    # recent = latest trough whose swing-low window is fully known (causality) AND
-    # within the recency window.
-    recent = None
-    for t in reversed(troughs):
-        if t <= n - 1 - k and t >= n - 1 - dv.recency_bars:
-            recent = t
-            break
-    if recent is None:
-        return Divergence(False, reason="no_causal_recent_trough")
-
-    # prev = the trough immediately before recent (spec 2: the two most recent troughs).
-    priors = [t for t in troughs if t < recent]
-    if not priors:
-        return Divergence(False, reason="no_prior_trough")
-    prev = priors[-1]
+    # spec 2: the two most recent troughs. If the recent one's swing-low window is not
+    # fully closed yet (only possible when PRICE_WINDOW_K > TROUGH_PIVOT_K), wait.
+    prev, recent = troughs[-2], troughs[-1]
+    if recent > n - 1 - k:
+        return Divergence(False, reason="recent_window_open")
 
     pl_prev, sd_prev = _price_low(df, prev, k, field)
     pl_recent, sd_recent = _price_low(df, recent, k, field)
@@ -122,23 +110,7 @@ def detect_divergence(df: pd.DataFrame, H: pd.Series, cfg) -> Divergence:
     momentum_ok = bool(h[recent] > h[prev])
     price_ok = bool(pl_recent <= pl_prev * (1.0 + dv.tolerance_pct))
 
-    # confirmation: rising run from recent (incl. recent->recent+1) >= confirm_bars,
-    #   OR H crosses > 0 after recent.
-    if dv.require_confirmation:
-        after = h[recent + 1:]
-        rising = 0
-        prevv = h[recent]
-        for v in after:
-            if v > prevv:
-                rising += 1
-                prevv = v
-            else:
-                break
-        confirmed = bool(rising >= dv.confirm_bars or (len(after) and (after > 0).any()))
-    else:
-        confirmed = True
-
-    is_true = momentum_ok and price_ok and confirmed
+    is_true = momentum_ok and price_ok
     return Divergence(
         is_true=is_true,
         reason="divergence" if is_true else "criteria_not_met",
@@ -154,5 +126,4 @@ def detect_divergence(df: pd.DataFrame, H: pd.Series, cfg) -> Divergence:
         recent_date=pd.Timestamp(df.index[recent]),
         momentum_ok=momentum_ok,
         price_ok=price_ok,
-        confirmed=confirmed,
     )
