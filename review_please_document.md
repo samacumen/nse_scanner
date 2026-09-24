@@ -1,8 +1,8 @@
-# Review request (round 3): NSE Scanner - Rule Spec v1.2 conformance after the round-2 fixes
+# Review request (round 4): NSE Scanner - Rule Spec v1.2 conformance after the round-3 fixes
 
 ## 0. What I am asking you to do
-Round 2 scored the build **96%** with five gaps. They are fixed below, with the user's decisions (which
-followed your round-2 recommendations). Please re-review **read-only** against **NSE Scanner Rule Spec
+Round 3 scored the build **98%** with four items (one medium, two low, one dormant). They are fixed
+below (section 2a), with the user's decisions. Please re-review **read-only** against **NSE Scanner Rule Spec
 v1.2** (the authoritative spec) and the code itself. Flag anything that:
 - (a) contradicts the spec text or one of the user's stated decisions,
 - (b) is a logic bug or a wrong edge case (trough / pair / zone / closed bars / vendor lag / RSI / report),
@@ -15,7 +15,7 @@ or "100% - matches v1.2 and the stated decisions").
 
 Repo root: `/home/sam/hobby_projects/nse_scanner`, branch `feature/v1.2`. History: round 1 reviewed
 `3f1521a`; round-2 fixes = `18ee3a0`; round-3 fixes = `193d51e` (your five round-2 gaps + internal-review
-follow-ups) and `521449e` (H1, Yahoo filler rows) - `git show 193d51e` / `git show 521449e`.
+follow-ups) and `521449e` (H1, Yahoo filler rows); round-4 fixes = 78dfddb (`git show 78dfddb`).
 Spec: `prompts/NSE Scanner Rule Spec v1.2.docx`.
 
 ## 1. The tool in one paragraph
@@ -28,7 +28,15 @@ spec-4/5 record (RSI label included, never a filter). Product layer: flags that 
 are **ranked** (top 10 first); flags that fail it are **listed with the reason and every spec-5
 field in an appendix, never ranked**.
 
-## 2. Round-2 findings -> fixes (user decisions in brackets)
+## 2a. Round-3 findings -> fixes (this round; user decisions in brackets)
+| # | Round-3 finding | Fix | Where |
+|---|---|---|---|
+| 1 | A MISSING `data/week_check.json` silently skipped the NSE part of the guard | **[Warn, judge by clock]** A missing file - or a stale one left by an interrupted Step 1 - now yields a report NOTE and a console line: "NSE session check was not run for this download: each stock's last week is judged by the download time and the other stocks only." Every complete Step 1 run writes the file, so this only concerns such data - including the current 2026-09-24 data, downloaded before the check existed, whose report now shows that NOTE. | `src/store.py::load_week_guard` |
+| 2 | A filler row at the START of a file survived (no previous close to compare) | After the general rule, the leading run of flat zero-volume rows is stripped too, so the first row kept is a real session (90 files, e.g. 3PLAND 2020-09-24). An all-filler file becomes empty and Step 2 skips it as insufficient history. No current result changed. | `src/store.py::drop_filler_rows`, `scripts/run_scanner.py` |
+| 3 | "within 3 days" was calendar-ambiguous | "the lowest RSI within 3 trading days of the MACD dip" (report Section 2, appendix legend, docs). | `src/report.py` |
+| 4 | `min_score` could hide spec flags and their spec-5 fields (dormant) | **[Remove the setting]** Removed from `config.txt`, `src/config.py`, `src/rank.py`, the scanner and the report: every liquid flag is always ranked and printed with its fields. | as listed |
+
+## 2b. Round-2 findings -> fixes (made in round 3; for reference)
 | # | Round-2 finding | Fix | Where |
 |---|---|---|---|
 | 1 | Illiquid flags lacked RSI and the spec-5 fields; header called only the ranked ones "flagged" | **[Appendix table]** Every spec pass now gets the full record (RSI included) from the same code path; `analyze_symbol` returns `("illiquid_pass", record)`. Header (2026-09-24 data): "Flagged : 308 pass the setup (the spec's flag): 156 ranked below + 152 that fail liquidity \| 5 pending". An **APPENDIX** lists, per illiquid flag: prev/recent trough date + H, prev/recent swing-low price @ date, Zone_week_date, EMA11/22/50, RSI_trough_value + RSI_check. The optional CSV holds all flags with a `ranked` column. Illiquid flags are no longer counted as skips. | `scripts/run_scanner.py::analyze_symbol`, `src/report.py::_appendix / build_report_text / _flagged_dataframe` |
@@ -122,9 +130,13 @@ return ("flagged" if liq_ok else "illiquid_pass"), record     # both are spec fl
 def drop_filler_rows(df):
     c = df["Close"]
     same = lambda a, b: np.isclose(a, b, rtol=1e-6, atol=0.0)  # float noise only; a real tick is far larger
-    filler = ((df["Volume"] == 0) & same(df["Open"], c) & same(df["High"], c) & same(df["Low"], c)
-              & same(c, c.shift(1)))
-    return df[~filler]
+    flat0 = ((df["Volume"] == 0) & same(df["Open"], c) & same(df["High"], c) & same(df["Low"], c))
+    out = df[~(flat0 & same(c, c.shift(1)))]
+    # leading flat zero-volume rows have no previous close to compare with: drop them too
+    lead = ((out["Volume"] == 0) & same(out["Open"], out["Close"]) & same(out["High"], out["Close"])
+            & same(out["Low"], out["Close"]))
+    start = int(np.argmin(lead.to_numpy())) if not lead.all() else len(out)
+    return out.iloc[start:]
 # Step 1: raw -> drop_forming_bar -> validate_and_prepare (dedup/sort -> drop_filler_rows -> adjust -> ...)
 # Step 2 / tests: load_parquet(...) also applies drop_filler_rows
 ```
@@ -135,7 +147,7 @@ MACD 12/26/9   LOOKBACK_DAYS 60   TROUGH_PIVOT_K 3   PRICE_WINDOW_K 3   WEEKLY_E
 PRICE_FIELD Low   RSI_PERIOD 14 (Wilder, 5.1)   RSI_LOWER_BAND 30   TOLERANCE_PCT 0.01 (5.2)
 zone test = range overlap   history >= 250 daily AND >= 50 weekly bars (whole history)
 liquidity (ranking only): 20-day median traded value >= Rs 5 cr and price >= Rs 20
-no recency / confirmation / separation gates
+no recency / confirmation / separation gates; no score floor (min_score removed in round 4)
 ```
 
 ### 3.6 Output (spec 5) - `output/top_recommended_for_<DATE>.txt`
@@ -169,8 +181,9 @@ Optional CSV: every flag, `ranked` True/False.
 trader-confirmed FINAL.
 
 **5.3 Product layer:** history gate >= 250 daily AND >= 50 weekly bars over the whole history (user
-decision; not applied at W). Liquidity decides only ranked vs appendix; it never hides a flag. An
-illiquid stock whose week is still pending is not listed (not a flag yet).
+decision; not applied at W). Liquidity decides only ranked vs appendix; it never hides a flag, and
+there is no score floor (round 4). An illiquid stock whose week is still pending is not listed (not a
+flag yet).
 
 **5.4 MIN_SEGMENT_LEN dropped** (orphaned in spec 6; spec 1.2/1.3 no longer use segments).
 
@@ -179,7 +192,8 @@ illiquid stock whose week is still pending is not listed (not a flag yet).
 **5.6 Vendor lag - residual.** Detected: a lag for SOME stocks (cohort check) and a lag for EVERY
 stock when NSE answers (bhavcopy check). Not detected: a lag for every stock while NSE is unreachable
 or answers ambiguously (e.g. asked on the day itself before NSE publishes); then the week is closed by
-the clock, and both the Step 1 log and the report NOTE say so. Also: a stock that genuinely did not
+the clock, and both the Step 1 log and the report NOTE say so. The same NOTE appears when the check
+file is missing (data downloaded before the check existed; round 4). Also: a stock that genuinely did not
 trade on the week's last session (e.g. no trades that day) stays pending until the next week's data
 arrives - conservative by design. Acceptable?
 
@@ -189,7 +203,9 @@ extra download. Acceptable?
 **5.8 Filler rule scope (user-approved per-stock rule).** It also drops:
 - a thin stock's no-trade days (TradingView shows no bar for those either);
 - Yahoo's empty placeholders on 2025-03-18. That was a real session (bhavcopy 200), but ~1,822
-  stocks carry a flat zero-volume row with no real data.
+  stocks carry a flat zero-volume row with no real data;
+- (round 4) the leading run of flat zero-volume rows at the start of a file, where there is no
+  previous close to compare with.
 
 On data stored before the rule, Step 2 cleans it at load time. The download-time labels catch up
 on the next Step 1 run. Until then, 5 young stocks with 250-252 stored rows (245-248 real sessions)
@@ -197,7 +213,13 @@ are labelled "ok" by Step 1, but Step 2's own history gate skips them and the he
 Acceptable?
 
 ## 6. Evidence
-- **Tests: 40 pass, all offline** (`.venv/bin/python -m pytest -q`). New since round 2:
+- **Tests: 40 pass, all offline** (`.venv/bin/python -m pytest -q`). Round 4 adds:
+  - a file starting with no-trade rows (applying the rule twice changes nothing);
+  - the missing check-file note;
+  - every liquid flag ranked (no `min_score`);
+  - the "trading days" wording.
+
+  New in round 3:
   - the cohort and NSE guards: a stock with only Mon-Thu data, downloaded Friday 17:30 IST, is
     closed by the clock alone but pending with either guard, and closed for a Friday holiday;
   - `last_week_check`: NSE is not asked before Friday 15:30 IST, nor when the Friday bar exists;
@@ -223,6 +245,8 @@ Acceptable?
   - 12 of the 152 illiquid flags are censored (e.g. AKG, RSI 28.57); 16 of the ranked are censored.
   - "Passed liquidity" is 922 (909 with the fillers: the 20-day median no longer counts the
     zero-volume 09-14 row).
+  - Round 4: the same selections. The header now carries the NOTE that the NSE session check was not
+    run for this download, because the data predates the check.
 - **Independent end-to-end recompute.** From scratch (only the MACD/RSI/EMA formulas are shared), it
   checks against the written report:
   - the flagged, pending and illiquid sets;
@@ -244,9 +268,16 @@ Acceptable?
       plus 2025-03-18.
     - Zero-volume bars that have a real price range are kept.
     - Its nits are in: a 1e-6 float tolerance, and one "scanned" count throughout the report.
+  - Round-4 delta check: GO.
+    - All four fixes are correct and minimal.
+    - The new leading-filler strip changes nothing when applied twice, across 2,320 real files and
+      20,000 random sequences.
+    - Its two Low follow-ups are fixed: an all-filler file is now counted as scanned (a history skip),
+      and a stale check file gets the same NOTE as a missing one.
 
 ## 7. Please pressure-test specifically
-1. Are all five round-2 findings fully fixed, with no regression?
+0. Are all four round-3 items (section 2a) fully fixed, with no regression?
+1. Are all five round-2 findings still fixed?
 2. `_closed` + `last_week_check` + `session_from_status`: any case where an incomplete week is
    treated as closed (other than 5.6's stated residual), or a complete week stays pending forever?
 3. Is the APPENDIX a complete and faithful spec-5 record for every illiquid flag?
