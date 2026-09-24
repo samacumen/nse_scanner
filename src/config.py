@@ -142,7 +142,7 @@ def load_config(path: Path | str | None = None) -> SimpleNamespace:
     # coded defaults apply. Either file may omit any key.
     advanced = p.parent / "advanced_config.txt"
     to_read = ([str(advanced)] if advanced.exists() else []) + [str(p)]
-    parser.read(to_read, encoding="utf-8")
+    parser.read(to_read, encoding="utf-8-sig")  # -sig: a Windows Notepad "UTF-8 with BOM" file also loads
 
     U = _Section(parser, "universe")
     D = _Section(parser, "data")
@@ -221,7 +221,7 @@ def load_config(path: Path | str | None = None) -> SimpleNamespace:
     )
     output = SimpleNamespace(
         dir=O.str_("dir", default="output") or "output",
-        write_full_flagged_csv=O.bool_("write_full_flagged_csv", default=True),
+        write_full_flagged_csv=O.bool_("write_full_flagged_csv", default=False),
     )
 
     # Flat echo for the report header (exact strings the user set, comments stripped).

@@ -77,8 +77,10 @@ def test_illiquid_spec_pass_is_listed_with_its_reason():
     assert kind == "illiquid_pass" and info["symbol"] == "BSE"
     assert info["rsi_check"] == "uncensored" and abs(info["rsi_trough"] - 33.34) < 0.01  # spec 4 on it too
     text = reportmod.build_report_text([], [], _meta(info, AAA, BBB), load_config())  # floors Rs 5 cr / Rs 20
-    assert "PASSES THE SETUP BUT FAILS LIQUIDITY - 2" in text
-    assert "AAA (Rs 1.20 cr/d)" in text and "BBB (price Rs 12.50)" in text
+    s5 = text.split("SECTION 5 - THINLY TRADED SETUPS (2, not ranked)")[1]
+    row = lambda sym: [ln for ln in s5.splitlines() if ln.split()[:1] == [sym]][0]
+    assert "turnover " in row("AAA") and row("AAA").rstrip().endswith("1.20")   # short of turnover; its value
+    assert "price Rs 12.50" in row("BBB") and "turnover" not in row("BBB")
     assert "latest bar for 1591 of 1594 scanned stocks" in text
 
 
@@ -89,23 +91,45 @@ def test_rsi_band_and_missing_turnover_are_printed_truthfully():
     meta = _meta(rec, {"symbol": "NOVOL", "liquidity": float("nan"), "last_close": 50.0})
     text = reportmod.build_report_text(rankmod.rank([rec], cfg), [], meta, cfg)
     assert "RSI dipped below 35" in text and "below 30" not in text and "above 30" not in text
-    assert "NOVOL (turnover n/a)" in text
+    assert "NOVOL" in text and "turnover n/a" in text.split("SECTION 5")[1]
 
 
-def test_appendix_carries_every_spec5_field_and_counts_all_flags():
+def test_thin_setups_carry_every_spec5_field_and_all_flags_are_counted():
     cfg = load_config()
     _, rec = _bse(cfg)
     ill = dict(rec, symbol="AAA", liquidity=1.2e7, last_date=pd.Timestamp("2026-09-18"))
     text = reportmod.build_report_text(rankmod.rank([rec], cfg), [], _meta(rec, ill), cfg)
-    assert "Flagged    : 2 pass the setup (the spec's flag): 1 ranked below + 1 that fail liquidity" in text
-    row = [ln for ln in text.split("APPENDIX - EVERY SPEC FIELD")[1].splitlines()
-           if ln.strip().startswith("AAA ")][0]
-    for field in ("2026-08-21 (-18.15)", "2026-09-02 (-3.49)", "3223.00 @ 2026-08-21",
-                  "3131.50 @ 2026-09-02", "2026-08-31", "3520.1 / 3498.0 / 3178.3", "33.34 (uncensored)",
-                  "(data to 2026-09-18)"):
-        assert field in row, field
-    assert "AAA (Rs 1.20 cr/d) (data to 2026-09-18)" in text  # the compact list marks it too
+    assert "2 stocks pass the setup (the spec's flag):" in text
+    assert "1 tradeable and ranked" in text and "1 thinly traded" in text
+    lines = text.split("SECTION 5")[1].splitlines()
+    i = [n for n, ln in enumerate(lines) if ln.split()[:1] == ["AAA"]][0]
+    glance, detail = lines[i], lines[i + 1]
+    for field in ("2026-08-21", "2026-09-02", "2026-08-31", "33.34 uncensored", "1.20", "(data to 2026-09-18)"):
+        assert field in glance, field
+    for field in ("MACD -18.15 -> -3.49", "LOW 3223.00 @ 2026-08-21 -> 3131.50 @ 2026-09-02",
+                  "WEEK 3131.5 to 3474.0", "EMA11/22/50 3520.1 / 3498.0 / 3178.3"):
+        assert field in detail, field
     assert "The latest bar is" in text and "2026-09-22 for 1591 of 1594 scanned stocks" in text
+
+
+def test_glance_first_layout_lists_every_flag_once():
+    cfg = load_config()
+    _, rec = _bse(cfg)
+    many = [dict(rec, symbol=f"S{i:02d}", h_recent=rec["h_recent"] + i * 0.01) for i in range(12)]
+    ranked = rankmod.rank(many, cfg)
+    text = reportmod.build_report_text(ranked, ["WAIT1 (data to 2026-09-18)"], _meta(rec, AAA), cfg)
+    heads = ["AT A GLANCE", "HOW TO READ", "SECTION 1 - TOP 10", "SECTION 2 - WHY THE TOP 10",
+             "SECTION 3 - OTHER TRADEABLE SETUPS (#11-#12)", "SECTION 4 - WAITING", "SECTION 5 - THINLY",
+             "SCAN SUMMARY", "SETTINGS USED", "NOTES"]
+    pos = [text.find(h) for h in heads[:7] + heads[8:]]
+    assert all(p >= 0 for p in pos) and pos == sorted(pos)
+    s2 = text.split("SECTION 2")[1].split("SECTION 3")[0]
+    assert s2.count("What happened:") == 10  # plain words for the top 10 only
+    glance = [ln.split()[1] for ln in text.splitlines() if ln[:7].strip().isdigit() and ln.split()[1].startswith("S")]
+    assert sorted(glance) == sorted(r["symbol"] for r in ranked)  # each ranked flag once (Sections 1 + 3)
+    s3 = text.split("SECTION 3")[1].split("SECTION 4")[0]
+    assert s3.count("MACD ") == 2 and " > " not in s3  # a detail line per stock; arrows, not "greater than"
+    assert "WAIT1 (data to 2026-09-18)" in text
 
 
 def test_csv_holds_every_spec_flag_marking_the_unranked():
@@ -126,8 +150,15 @@ def test_small_values_every_liquid_flag_ranked_and_csv_ranks():
     ranked = rankmod.rank([rec, dict(rec, symbol="CCC")], cfg)
     assert [r["rank"] for r in ranked] == [1, 2]
     text = reportmod.build_report_text(ranked, [], dict(_meta(rec), F=2), cfg)
-    assert "Flagged    : 2 pass the setup (the spec's flag): 2 ranked below + 0 that fail liquidity" in text
+    assert "2 stocks pass the setup (the spec's flag):" in text and "2 tradeable and ranked" in text
     assert "lowest RSI within 3 trading days of the MACD dip" in text
     df = reportmod._flagged_dataframe(rankmod.rank([dict(rec)], load_config()), [dict(rec, symbol="AAA")])
     assert str(df["rank"].dtype) == "Int64" and df["rank"].tolist()[0] == 1
+
+
+def test_windows_notepad_bom_config_loads(tmp_path):
+    cfg_file = tmp_path / "config.txt"
+    cfg_file.write_bytes(b"\xef\xbb\xbf[ranking]\ntop_n = 7\n")  # "UTF-8 with BOM", as Notepad can save it
+    cfg = load_config(cfg_file)
+    assert cfg.ranking.top_n == 7 and cfg.output.write_full_flagged_csv is False  # blank/absent -> no CSV
 

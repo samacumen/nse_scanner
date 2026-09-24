@@ -66,6 +66,9 @@
 - **Wording:** "within K trading days of the MACD dip" (the window counts sessions, not calendar days).
 - **`min_score` removed [remove the setting].** It could hide spec flags (and their spec-5 fields)
   from the report and CSV; every spec flag is now always reported.
+- **Glance-first report [user choice after GPT's 100% round 4].** AT A GLANCE + HOW TO READ at the
+  top, the top 10 in plain words, every other flag as a glance line + a line of spec numbers, gaps
+  between sections; ~940 lines instead of ~3,400, with every required field kept (§8.7).
 
 ## Changelog v1.6 -> v1.7 (external review round 2, 96%; user decisions in brackets)
 - **Every spec pass is a flag [appendix table].** Spec passes below the liquidity floor now get their
@@ -549,11 +552,16 @@ a **format template**; its numbers are illustrative (the BSE golden) and MUST be
 never copied in. A golden test asserts the printed values equal the computed values (§11). If a field
 can't be computed, print `n/a` - never invent it. Every listed stock must genuinely pass §8.2 + §8.3.
 
-**Two sections (per user requirement):**
-- **SECTION 1 - THE LIST:** one continuous numbered ranking (1, 2, 3, … `top_n`, then the remaining
-  flagged names), compact columns.
-- **SECTION 2 - WHY EACH WAS CHOSEN (ELI5):** for every listed stock, plain-English what-it-satisfied
-  (the daily divergence, the weekly support zone, the RSI health tag), with the concrete numbers.
+**Layout (v1.8, glance-first - user choice):** header -> **AT A GLANCE** (flags = ranked + thinly
+traded, waiting, universe counts, any data NOTE) -> **HOW TO READ** (key to every column, incl. the
+RSI `censored`/`uncensored` check) -> **SECTION 1** top `top_n` table -> **SECTION 2** the top `top_n`
+in plain words with the numbers (the per-stock block in the template below) -> **SECTION 3** every
+other ranked setup: a glance line + an indented line of spec numbers (MACD at both dips, both price
+lows @ dates, the zone week's range, the weekly EMAs; `->` = earlier to recent) -> **SECTION 4**
+setups waiting for their week's candle -> **SECTION 5** thinly traded setups (same two lines + SHORT
+OF) -> scan summary -> settings used -> notes. Blank line + bar between sections, a gap every 5 rows.
+Every spec-5 field of every flag is printed. *(The template below is the v1.4-v1.7 layout; only its
+Section 2 per-stock block is still current.)*
 
 ```
 =====================================================================
