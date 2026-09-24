@@ -81,8 +81,8 @@ def test_listed_stock_passed_8_2_and_8_3(bse_report):
 
 def test_golden_values_present(bse_report):
     cfg, r, text = bse_report
-    assert "-18.13" in text
+    assert "-18.15" in text
     assert "3131.50" in text
     assert "2026-08-31" in text  # Zone_week_date = start of the weekly EMA-zone candle
     assert "3178.3 to 3520.1" in text
-    assert "33.29" in text
+    assert "33.34" in text

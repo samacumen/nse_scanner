@@ -2,9 +2,11 @@
 
 Runs the src pipeline on a FROZEN copy of BSE's stored data (6y, last bar
 2026-09-22, tests/fixtures/) and asserts the diagram-exact numbers:
-  Trough_prev 2026-08-21 (H -18.13), Trough_recent 2026-09-02 (low 3131.5),
+  Trough_prev 2026-08-21 (H -18.15), Trough_recent 2026-09-02 (H -3.49, low 3131.5),
   weekly W ending 2026-09-04 band [3178.3, 3520.1], zone_ok,
-  RSI_trough 33.29 uncensored.
+  RSI_trough 33.34 uncensored.
+(Yahoo's 6 holiday/placeholder filler rows in this file are dropped on load; before that
+rule the values were H -18.127 / -3.491 and RSI 33.29 - same dates, lows, band and zone.)
 
 Offline and deterministic: live data keeps moving (BSE formed a new, lower
 momentum trough on 2026-09-21), so a live fetch cannot pin these numbers.
@@ -45,8 +47,8 @@ def test_troughs(bse_pipeline):
     assert div.is_true
     assert div.prev_date.date().isoformat() == "2026-08-21"
     assert div.recent_date.date().isoformat() == "2026-09-02"
-    assert abs(div.h_prev - (-18.127)) < 0.05
-    assert abs(div.h_recent - (-3.491)) < 0.05
+    assert abs(div.h_prev - (-18.153)) < 0.005
+    assert abs(div.h_recent - (-3.493)) < 0.005
     assert abs(div.pl_prev - 3223.00) < 0.5
     assert abs(div.pl_recent - 3131.50) < 0.5
 
@@ -67,5 +69,5 @@ def test_rsi_trough(bse_pipeline):
     lo = max(0, div.recent - k)
     hi = min(len(rsi) - 1, div.recent + k)
     rtv = float(rsi.iloc[lo:hi + 1].min())
-    assert abs(rtv - 33.29) < 0.1
+    assert abs(rtv - 33.34) < 0.01
     assert rtv >= cfg.rsi.lower_band  # uncensored

@@ -89,6 +89,9 @@ Open the report in the `output/` folder.
   (250 trading days and 50 weekly candles in total, so the 50-week average has about a year of data); any stock
   with less is **skipped**, so the scan is never run on thin data and never guesses. The whole
   universe is only about **150 MB**.
+- Yahoo adds flat, zero-volume **filler rows** on NSE holidays (and on days a thinly traded stock
+  had no trades). The scanner drops them, so every bar it uses is a real trading session - as on
+  TradingView.
 - Step 1 also **deletes files for stocks that are no longer in your universe** (delisted, renamed, or
   excluded by `index_filter`), so old data does not clog your disk. Testing subsets
   (`symbols_override` / `max_symbols`) never trigger this. To keep everything instead, set

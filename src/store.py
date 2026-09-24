@@ -9,6 +9,7 @@ import json
 from datetime import datetime, time as dt_time, timedelta, timezone
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 import pyarrow as pa
 import pyarrow.parquet as pq
@@ -40,16 +41,31 @@ def apply_adjustment(df: pd.DataFrame, price_adjustment: str) -> pd.DataFrame:
     return out
 
 
+def drop_filler_rows(df: pd.DataFrame) -> pd.DataFrame:
+    """Drop Yahoo's filler rows: zero volume and a flat bar at the previous close. Yahoo adds
+    them on NSE holidays (and for days a thin stock did not trade); they are not sessions
+    (spec 7.3: bars = trading sessions), and TradingView shows no bar for them."""
+    if df is None or len(df) == 0:
+        return df
+    c = df["Close"]
+    same = lambda a, b: np.isclose(a, b, rtol=1e-6, atol=0.0)  # float noise only; a real tick is far larger
+    filler = ((df["Volume"] == 0) & same(df["Open"], c) & same(df["High"], c) & same(df["Low"], c)
+              & same(c, c.shift(1)))
+    return df[~filler]
+
+
 def validate_and_prepare(df: pd.DataFrame, cfg):
     """Return (prepared_df, status, reason, warnings).
 
-    status in {ok, insufficient_history}. Applies price adjustment, sanity checks.
+    status in {ok, insufficient_history}. Drops Yahoo filler rows, applies price
+    adjustment, sanity checks.
     """
     warnings = []
     if df is None or len(df) == 0:
         return None, "insufficient_history", "empty", warnings
 
     df = df[~df.index.duplicated(keep="last")].sort_index()
+    df = drop_filler_rows(df)  # on raw prices, before any adjustment
     df = apply_adjustment(df, cfg.data.price_adjustment)
 
     # Sanity: positive prices, High>=Low, increasing unique dates.
@@ -85,7 +101,8 @@ def write_parquet(df: pd.DataFrame, path: Path, meta: dict) -> None:
 
 
 def load_parquet(path: Path):
-    """Return (df indexed by date, meta dict)."""
+    """Return (df indexed by date, meta dict). Filler rows are dropped here too, so data stored
+    before that rule existed is read the same way (no re-download needed)."""
     table = pq.read_table(str(path))
     meta = {}
     if table.schema.metadata:
@@ -97,7 +114,7 @@ def load_parquet(path: Path):
     df = table.to_pandas()
     df["date"] = pd.to_datetime(df["date"])
     df = df.set_index("date").sort_index()
-    return df, meta
+    return drop_filler_rows(df), meta
 
 
 def prune_stale_parquets(daily_dir: Path, keep_symbols) -> list:

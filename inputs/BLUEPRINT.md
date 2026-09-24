@@ -73,6 +73,16 @@
   day); the closing note qualifies the as-of date and stocks whose data ends on another date are
   marked "(data to <date>)".
 - **Kept [total-history rule]:** the 50-weekly-bar gate counts the whole history, not bars up to W.
+- **Yahoo filler rows dropped [per-stock rule] (internal review H1).** Yahoo adds flat, zero-volume
+  rows on NSE holidays (NSE bhavcopy 404 on 2026-01-15, 05-01, 05-28, 06-26, 09-14, yet 1,250-1,954
+  stocks had a row) and on days a thin stock did not trade. They are not sessions (spec 7.3: bars =
+  trading sessions; TradingView shows no bar), yet they entered MACD/RSI, the pivot windows, the
+  60-bar lookback and the 20-day liquidity median. Rule: drop rows with Volume == 0 and
+  Open == High == Low == Close == the previous close; in Step 1 (before any adjustment) and when
+  data is loaded (no re-download needed). It also drops Yahoo's empty placeholders on 2025-03-18 (a
+  real session, bhavcopy 200, with no real data). Effect on 2026-09-24: 156 ranked + 152 illiquid
+  flags + 5 pending (was 153 + 153 + 4); BSE golden keeps its dates, lows, zone week and band, with
+  H -18.153 / -3.493 and RSI 33.34 (was -18.127 / -3.491 and 33.29).
 
 ## Changelog v1.5 -> v1.6 (external review fixes, 2026-09-24; user decisions in brackets)
 An external (GPT) review of the v1.2 build raised 6 issues; each was reproduced independently, then fixed:
@@ -246,6 +256,8 @@ count.)*
 - Weekly **W ending 2026-09-04** (diagram's green-arrow week): EMA11 3520.1 / EMA22 3498.0 /
   EMA50 3178.3 → band **[3178.3, 3520.1]**; week [L 3131.5, H 3474.0] → **zone_ok=True**.
 - RSI-trough **33.29 → uncensored**; liquidity ₹1,599 cr/day.
+- *(v1.7: with Yahoo's filler rows dropped the same dates, lows, week and band hold; H -18.153 /
+  -3.493, RSI 33.34.)*
 
 **50-symbol dry run (20 large + 30 random EQ, 6y each):** the only hard failure was
 `TATAMOTORS.NS` 404 - a **symbol rename** (→ track by ISIN, §7); 5 recent IPOs auto-skipped.
@@ -401,7 +413,8 @@ Produce `data/daily/<SYMBOL>.parquet` (split-adjusted daily OHLCV, ~6y) + `data/
    On empty/error → retry with backoff → **fallback** to direct Yahoo chart API
    (`range={years}y&interval=1d&events=splits`, browser UA). **Throttle** `request_throttle_sec`.
    **One bad symbol never aborts the run** (catch, log, continue).
-4. **Validate & store** (`store.py`): first drop the newest bar if the download ran before that
+4. **Validate & store** (`store.py`): drop Yahoo's filler rows (zero volume, flat at the previous
+   close - holidays and no-trade days; v1.7), and drop the newest bar if the download ran before that
    bar's own 15:30 IST close (spec 7.5; `drop_forming_bar`; the same download time is stored as
    `fetched_at`). Require `≥ min_rows_daily` (250, ~1y) daily rows *and*
    `≥ min_weekly_bars_for_zone` (50) weekly bars, else `insufficient_history` - about a year of
@@ -620,7 +633,7 @@ for audit; rights approximate) • one bad symbol never aborts.
   moving (BSE formed a new, lower momentum trough on 2026-09-21), so only a frozen copy pins the
   golden. `tests/test_closed_bars.py` covers spec 7.5 (forming daily bar; Friday 15:30 IST week close
   incl. Good Friday 2026-04-03; v1.7: the cohort + NSE week guards, NSE status codes, the cache
-  session rule); `tests/test_report_text.py` the report prose, the illiquid list, the APPENDIX
+  session rule, the filler-row rule); `tests/test_report_text.py` the report prose, the illiquid list, the APPENDIX
   fields, the flag counts and the CSV.
 - **Indicator unit tests** vs a small fixed input and vs TradingView values (±0.2%).
 - **Truthfulness test:** parse the generated `top_recommended_for_<DATE>.txt` and assert every printed

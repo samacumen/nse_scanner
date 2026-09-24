@@ -75,7 +75,7 @@ def test_illiquid_spec_pass_is_listed_with_its_reason():
     df, _ = storemod.load_parquet(FIXTURE)
     kind, info = run_scanner.analyze_symbol("BSE", df, "", "BSE Ltd", cfg)
     assert kind == "illiquid_pass" and info["symbol"] == "BSE"
-    assert info["rsi_check"] == "uncensored" and abs(info["rsi_trough"] - 33.29) < 0.01  # spec 4 on it too
+    assert info["rsi_check"] == "uncensored" and abs(info["rsi_trough"] - 33.34) < 0.01  # spec 4 on it too
     text = reportmod.build_report_text([], [], _meta(info, AAA, BBB), load_config())  # floors Rs 5 cr / Rs 20
     assert "PASSES THE SETUP BUT FAILS LIQUIDITY - 2" in text
     assert "AAA (Rs 1.20 cr/d)" in text and "BBB (price Rs 12.50)" in text
@@ -100,8 +100,8 @@ def test_appendix_carries_every_spec5_field_and_counts_all_flags():
     assert "Flagged    : 2 pass the setup (the spec's flag): 1 ranked below + 1 that fail liquidity" in text
     row = [ln for ln in text.split("APPENDIX - EVERY SPEC FIELD")[1].splitlines()
            if ln.strip().startswith("AAA ")][0]
-    for field in ("2026-08-21 (-18.13)", "2026-09-02 (-3.49)", "3223.00 @ 2026-08-21",
-                  "3131.50 @ 2026-09-02", "2026-08-31", "3520.1 / 3498.0 / 3178.3", "33.29 (uncensored)",
+    for field in ("2026-08-21 (-18.15)", "2026-09-02 (-3.49)", "3223.00 @ 2026-08-21",
+                  "3131.50 @ 2026-09-02", "2026-08-31", "3520.1 / 3498.0 / 3178.3", "33.34 (uncensored)",
                   "(data to 2026-09-18)"):
         assert field in row, field
     assert "AAA (Rs 1.20 cr/d) (data to 2026-09-18)" in text  # the compact list marks it too

@@ -207,7 +207,7 @@ def build_report_text(ranked, pending, meta, cfg) -> str:
         hist2 = (meta.get("skips") or {}).get("insufficient_history", 0)
         skipped = meta.get("skipped_insufficient", 0) + hist2
         L.append(f" Universe   : {meta['listed']} NSE equities listed | {meta['U'] - hist2} had enough "
-                 f"history and were scanned")
+                 f"history")
         L.append(f"              ({skipped} skipped - under {cfg.data.min_rows_daily} trading days / "
                  f"{cfg.weekly.min_weekly_bars_for_zone} weekly candles of history) | "
                  f"{meta['L']} passed liquidity")
@@ -261,8 +261,7 @@ def build_report_text(ranked, pending, meta, cfg) -> str:
     under = meta.get("under_min_score") or []
     if skips or under:
         L.append(" SCAN SUMMARY (why the other stocks were not selected)")
-        hist2 = skips.get("insufficient_history", 0)
-        L.append(f"   scanned {meta['U'] - hist2} | passed liquidity+history {meta['L']} | "
+        L.append(f"   scanned {meta['U']} | passed liquidity+history {meta['L']} | "
                  f"setups {meta['F'] + len(ill)} ({len(ranked)} ranked, {len(under)} under min_score, "
                  f"{len(ill)} fail liquidity) | pending {meta['P']}")
         if under:

@@ -131,3 +131,25 @@ def test_cache_is_not_reused_across_a_session_close():
     assert closed(_utc("2026-09-25T04:30:00"), _utc("2026-09-26T03:30:00"))       # Fri 10:00 -> Sat 09:00
     assert not closed(_utc("2026-09-26T04:30:00"), _utc("2026-09-27T10:30:00"))   # weekend
 
+
+def test_yahoo_filler_rows_are_not_sessions():
+    idx = pd.to_datetime(["2026-09-10", "2026-09-11", "2026-09-14", "2026-09-15", "2026-09-16",
+                          "2026-09-17", "2026-09-18", "2026-09-21"])
+    df = pd.DataFrame({"Open":   [10, 11, 11, 11, 12, 12, 12.0000004, 12],
+                       "High":   [11, 12, 11, 12, 12, 12, 12, 13],
+                       "Low":    [9, 10, 11, 10, 12, 12, 12, 11],
+                       "Close":  [11, 11, 11, 12, 12, 12, 12, 12.5],
+                       "Volume": [5, 6, 0, 7, 0, 3, 0, 0]}, index=idx, dtype=float)
+    kept = storemod.drop_filler_rows(df).index.strftime("%m-%d").tolist()
+    # 09-14: zero volume + flat at the previous close (a holiday filler) -> dropped
+    # 09-16 filler dropped; 09-17 flat but traded -> kept; 09-18 filler with float noise -> dropped
+    # 09-21: zero volume but a real price range (missing volume, not a filler) -> kept
+    assert kept == ["09-10", "09-11", "09-15", "09-17", "09-21"]
+    two = pd.DataFrame({"Open": [5, 5, 5, 6], "High": [6, 5, 5, 6], "Low": [4, 5, 5, 5], "Close": [5, 5, 5, 6],
+                        "Volume": [9, 0, 0, 4]}, index=pd.bdate_range("2026-01-12", periods=4), dtype=float)
+    assert len(storemod.drop_filler_rows(two)) == 2  # two fillers in a row both go
+    assert storemod.drop_filler_rows(storemod.drop_filler_rows(df)).equals(storemod.drop_filler_rows(df))
+    fixture, _ = storemod.load_parquet(FIXTURE)  # BSE: NSE had no session on these (bhavcopy 404)
+    for holiday in ("2026-01-15", "2026-05-01", "2026-05-28", "2026-06-26", "2026-09-14"):
+        assert pd.Timestamp(holiday) not in fixture.index
+
