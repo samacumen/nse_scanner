@@ -1,291 +1,258 @@
-# Review request (round 2): NSE Scanner - Rule Spec v1.2 conformance after the review fixes
+# Review request (round 3): NSE Scanner - Rule Spec v1.2 conformance after the round-2 fixes
 
 ## 0. What I am asking you to do
-You reviewed this build once already (round 1) and raised six issues. They have been fixed, and the
-user made four decisions (section 2). Please re-review **read-only** against **NSE Scanner Rule Spec
+Round 2 scored the build **96%** with five gaps. They are fixed below, with the user's decisions (which
+followed your round-2 recommendations). Please re-review **read-only** against **NSE Scanner Rule Spec
 v1.2** (the authoritative spec) and the code itself. Flag anything that:
 - (a) contradicts the spec text or one of the user's stated decisions,
-- (b) is a logic bug or a wrong edge case (trough / pair selection / zone / closed bars / RSI / report),
+- (b) is a logic bug or a wrong edge case (trough / pair / zone / closed bars / vendor lag / RSI / report),
 - (c) is an unstated assumption that could be wrong, or
 - (d) does more or less than the spec plus the decisions.
 
 Be concrete: spec clause, file:line, and a failing example. If something is correct, say so plainly;
-do not invent issues. **End with a verdict as a percentage** of how close the build is to exact
-(e.g. "95% - corrections needed: ..." listing exactly what closes the gap, or "100% - matches").
+do not invent issues. **End with a verdict as a percentage** (e.g. "98% - corrections needed: ...",
+or "100% - matches v1.2 and the stated decisions").
 
-Repo root: `/home/sam/hobby_projects/nse_scanner` (branch `feature/v1.2`; round 1 reviewed commit
-`3f1521a`; the round-2 fixes are commit `18ee3a0` - `git show 18ee3a0` shows every change). Spec: `prompts/NSE Scanner Rule Spec v1.2.docx`.
+Repo root: `/home/sam/hobby_projects/nse_scanner`, branch `feature/v1.2`. History: round 1 reviewed
+`3f1521a`; round-2 fixes = `18ee3a0`; round-3 fixes = `193d51e` (your five round-2 gaps + internal-review
+follow-ups) and `521449e` (H1, Yahoo filler rows) - `git show 193d51e` / `git show 521449e`.
+Spec: `prompts/NSE Scanner Rule Spec v1.2.docx`.
 
 ## 1. The tool in one paragraph
 For each NSE stock: on the **daily** chart compute the MACD histogram, find the **troughs** (local
-pivots of the histogram below zero), take the **two most recent** troughs in the last 60 bars, and call
-it a **bullish divergence** when the newer trough is a *higher low in momentum* while price made an
-*equal-or-lower low*. If so, map the recent trough's swing-low to its **weekly** candle and test that
-the candle's range touches the **weekly EMA 11/22/50 band**. Passing both = the spec's flag; each flagged
-stock gets an **RSI** label (never a filter). Product layer on top: flagged stocks that also pass a
-liquidity floor are **ranked** (top 10 first); flagged stocks that fail liquidity are **listed
-separately with the reason, never ranked**.
+pivots below zero), take the **two most recent** troughs in the last 60 bars, and call it a **bullish
+divergence** when the newer trough is a *higher low in momentum* while price made an *equal-or-lower
+low*. Map the recent trough's swing-low to its **weekly** candle and test that the candle's range
+touches the **weekly EMA 11/22/50 band**. Passing both = the spec's **flag**. Every flag gets its full
+spec-4/5 record (RSI label included, never a filter). Product layer: flags that pass a liquidity floor
+are **ranked** (top 10 first); flags that fail it are **listed with the reason and every spec-5
+field in an appendix, never ranked**.
 
-## 2. Round-1 findings -> fixes, and the user's decisions
-All six round-1 findings were first reproduced independently on the same data (numbers matched yours
-exactly: 261 literal passes; guards removed 42 + 21; 131 illiquid; 102 reported).
-
-| # | Round-1 finding | Decision / fix | Where |
+## 2. Round-2 findings -> fixes (user decisions in brackets)
+| # | Round-2 finding | Fix | Where |
 |---|---|---|---|
-| 1 | Recency (20 bars) + confirmation (3 rising bars) gates drop valid spec passes | **User: drop both (literal spec 2).** The pair is exactly the two most recent pivot troughs in the last 60 bars; divergence = momentum AND price only. Freshness only feeds ranking (`recency = 1 - bars_since/LOOKBACK_DAYS`, z-scored). Evidence: 20 of the 21 confirmation rejects already had H back above the trough (one wobble failed the rule until H > 0). | `src/divergence.py`, `src/config.py`, `advanced_config.txt`, `src/rank.py` |
-| 2 | Liquidity/history gates run before the flag; spec passes hidden | **User: list them separately.** The spec flag is computed for every history-qualified stock; liquidity applies AFTER it. A spec pass below the floor returns `illiquid_pass` and is listed in "PASSES THE SETUP BUT FAILS LIQUIDITY" with what it fell short on (turnover and/or price); never ranked. **User: history gate ~4y -> 1 year / 50 weekly candles** (`min_rows_daily` 1000 -> 250, `min_weekly_bars_for_zone` 200 -> 50). `min_score` is blank by default (removes nothing). | `scripts/run_scanner.py::analyze_symbol`, `src/report.py` |
-| 3 | Closed bars (spec 7.5) not enforced | **User: close by clock after Friday 15:30 IST; no holiday calendar, no one-week delay.** Daily: Step 1 drops the newest bar when the download ran before that bar's own 15:30 IST close. Weekly: the last W-FRI bucket is closed iff a later week has data OR the data was **downloaded** at/after its Friday 15:30 IST (see 5.5 for why download time, not scan time). A Friday holiday needs no calendar. | `src/store.py::drop_forming_bar / session_close_utc`, `scripts/fetch_data.py`, `src/zone.py::_closed` |
-| 4 | PRICE_WINDOW_K > TROUGH_PIVOT_K could compare an older pair | Always `prev, recent = troughs[-2], troughs[-1]`; if recent's `[t-K, t+K]` window is not closed yet -> not evaluated (`recent_window_open`), never an older pair. | `src/divergence.py::detect_divergence` |
-| 5 | Narrative said "That low fell inside the band" (false for BSE) | Now "That week's price range touched <SYM>'s weekly EMA band" (range_overlap) / "That week closed inside" (close_in_band). It was false for 39 of 102 stocks. | `src/report.py::_section2` |
-| 6 | Narrative printed the trough date for the price low | Now prints the swing-low date (spec 1.4). It was wrong for 47 of 102 stocks. | `src/report.py::_section2` |
+| 1 | Illiquid flags lacked RSI and the spec-5 fields; header called only the ranked ones "flagged" | **[Appendix table]** Every spec pass now gets the full record (RSI included) from the same code path; `analyze_symbol` returns `("illiquid_pass", record)`. Header (2026-09-24 data): "Flagged : 308 pass the setup (the spec's flag): 156 ranked below + 152 that fail liquidity \| 5 pending". An **APPENDIX** lists, per illiquid flag: prev/recent trough date + H, prev/recent swing-low price @ date, Zone_week_date, EMA11/22/50, RSI_trough_value + RSI_check. The optional CSV holds all flags with a `ranked` column. Illiquid flags are no longer counted as skips. | `scripts/run_scanner.py::analyze_symbol`, `src/report.py::_appendix / build_report_text / _flagged_dataframe` |
+| 2 | Vendor lag could close an incomplete last week | **[Cohort check + NSE check; fallback = cohort check + warning]** The last week stays pending if (a) another stock already has a later bar inside that week (this stock's feed lags), or (b) NSE held a session in that week that no stock's data has yet. (b) is checked by Step 1 only when the week is over by the clock but no stock has its later weekdays: it asks NSE's daily bhavcopy archive per missing weekday (200 = session held; 404 asked on a later day = no session / holiday; anything else = unknown) and writes `data/week_check.json`. NSE unreachable -> cohort check + clock, with a warning in the Step 1 log and a NOTE in the report. | `src/zone.py::_closed`, `src/store.py::last_week_check / load_week_guard`, `src/universe.py::nse_session_held / session_from_status`, `scripts/fetch_data.py` |
+| 3 | 12 h cache could hide a newly finished session | A file younger than 12 h is reused only if no NSE weekday 15:30 IST close fell after its `fetched_at` (no calendar: a holiday weekday just causes one extra download); no `fetched_at` -> re-download. | `src/store.py::session_closed_between`, `scripts/fetch_data.py` |
+| 4 | "RSI at the low" was often not literally true | Now "the lowest RSI within K days of the MACD dip" (spec 1.6's window), and "RSI stayed at/above 30 around the dip". | `src/report.py::_section2` |
+| 5 | Closing "every number ... as of <date>" overstated one stock | Closing note: "The latest bar is <date> for <n> of <U> scanned stocks; a listed stock whose data ends on another date is marked '(data to <date>)'". Markers on Section 1 rows, Section 2 headings, the compact illiquid list and appendix rows (e.g. PARIN). | `src/report.py` |
 
-Found by me (not in round 1), also fixed:
-- **N1 As-of overstated.** Yahoo had published 2026-09-23 for only 3 of 1,594 stocks when Step 1 ran;
-  the header used the max date. Now: as-of = the date most scanned stocks' data ends on (ties -> newest),
-  shown with the count; Step 1 warns when the newest day is only partly published.
-- **N2 Live golden tests were time bombs.** BSE formed a new, lower momentum trough on 2026-09-21, so a
-  live fetch no longer flags BSE (spec-correct). The BSE golden + truthfulness tests now read a frozen
-  copy of BSE's stored data (`tests/fixtures/BSE_2026-09-22.parquet`); all tests are offline.
-- **N3 Step 1 cache window 120 h -> 12 h** (a re-run within 5 days silently re-downloaded nothing).
-- **N4** With `apply_as_filter = false` the liquidity line said "above the minimum => tradeable" for
-  every stock; it now says "below the ... minimum" when true.
+Kept by user decision (your round-2 note): the 50-weekly-bar history gate counts the WHOLE history, not
+bars up to W (AHCL has 49 and STLNETWORK 48 at W today).
 
-Then an independent internal reviewer checked the round-2 working tree (verdict GO; it agreed with the
-download-time choice in 5.5). Its findings, all fixed except M2:
-- **M1** Step 1's "re-run later" advice was a no-op inside the 12 h reuse window -> the warning now
-  says to set `refresh_if_older_than_hours = 0` for one run. **L2** it also warns (and names them) when
-  some stocks end EARLIER than the rest (a per-stock Yahoo lag).
-- **M2 (open, user decision)** illiquid spec passes are listed as symbol + shortfall only, without
-  their spec-5 fields - see 5.3(c).
-- **L1** RSI band "30" was hard-coded in report text -> printed from config. **L3** header history
-  counts now include Step 2's own history re-check. **L5** missing turnover prints "turnover n/a".
-  **L6** wording when only the price floor fails. **L7** Step 1 re-derives a cached file's status with
-  the current history thresholds. **L4** a research script crashed on the new `illiquid_pass` kind.
-  Plus small items (config docstring, a hard-coded 2292, `parse_fetched_at("nan")`).
+**Also fixed this round (found by the internal reviewer; it dates back to v1.1) - H1, Yahoo filler
+rows [user: per-stock rule].** Yahoo adds a flat, zero-volume row on NSE holidays. On 2026-01-15, 05-01,
+05-28, 06-26 and 09-14, NSE's bhavcopy returns 404 (no session), yet 1,250-1,954 stocks had such a
+row (RELIANCE included). Yahoo adds the same rows on days a thin stock did not trade. They are not sessions
+(spec 7.3: bars = trading sessions; TradingView shows no bar), yet they entered MACD/RSI, the pivot
+windows, the 60-bar lookback and the 20-day liquidity median. Rule (`src/store.py::drop_filler_rows`):
+drop rows with Volume == 0 and Open == High == Low == Close == the previous close. It runs in Step 1
+before any adjustment, and when data is loaded, so data stored before the rule is read the same way.
+Effect on the 2026-09-24 data:
+- 308 flags (156 ranked + 152 in the appendix) and 5 pending, against 306 (153 + 153) and 4 before.
+- Example: BSE's 09-21 trough is H -2.897 on real sessions, but was -4.237 with the 09-14 holiday
+  row. On real sessions that is a new bullish divergence (09-02 -> 09-21, price 3131.50 -> 3085.10),
+  pending until this week closes.
 
-## 3. The spec-critical code (verbatim)
+## 3. The spec-critical code (verbatim or faithful excerpts)
 
-### 3.1 Indicators (spec 1.1 / 1.5) - `src/indicators.py` (unchanged since round 1)
+### 3.1 Troughs, pair, divergence (spec 1.3 / 1.4 / 2) - `src/divergence.py` (unchanged since round 2)
 ```python
-def ema(x, n): return x.ewm(span=n, adjust=False).mean()
-macd_line = ema(close, 12) - ema(close, 26); signal = ema(macd_line, 9); H = macd_line - signal
-# RSI(14), Wilder smoothing (deviation 5.1):
-d = close.diff(); gain = d.clip(lower=0); loss = (-d).clip(lower=0)
-ag = gain.ewm(alpha=1/14, adjust=False).mean(); al = loss.ewm(alpha=1/14, adjust=False).mean()
-rsi = (100 - 100/(1 + ag/al.replace(0, NaN))).fillna(100.0)
+troughs = [t for t in pivot_troughs(h, TROUGH_PIVOT_K) if t >= n - LOOKBACK_DAYS]   # full +-k window, earliest on tie
+if len(troughs) < 2: return Divergence(False, reason="fewer_than_two_troughs")
+prev, recent = troughs[-2], troughs[-1]                       # spec 2: the two most recent
+if recent > n - 1 - k: return Divergence(False, reason="recent_window_open")   # never an older pair
+pl_prev, sd_prev = min(Low[prev-K : prev+K]), date          # earliest bar on ties
+pl_recent, sd_recent = min(Low[recent-K : recent+K]), date
+momentum_ok = h[recent] > h[prev]; price_ok = pl_recent <= pl_prev * (1 + TOLERANCE_PCT)
+is_true = momentum_ok and price_ok                            # nothing else gates the pair
 ```
 
-### 3.2 Troughs (spec 1.3) - `src/divergence.py::pivot_troughs` (unchanged since round 1)
+### 3.2 Weekly zone + closed last week (spec 3.1 / 3.2 / 7.5) - `src/zone.py`
 ```python
-for t in range(k, n - k):                  # full +-k window (k = TROUGH_PIVOT_K = 3)
-    if not h[t] < 0: continue              # strictly below zero
-    if any(h[j] < h[t] for j in range(t-k, t+k+1) if j != t): continue   # a strictly lower neighbour disqualifies
-    if t == prev_idx + 1 and h[t] == prev_val:   # adjacent tie-run -> keep the earliest only
-        prev_idx = t; continue
-    out.append(t); prev_idx = t; prev_val = h[t]
-# find_troughs keeps troughs whose DATE is in the last LOOKBACK_DAYS (60) bars: t >= n - 60
-```
-
-### 3.3 Pair + divergence (spec 1.4 / 2) - `src/divergence.py::detect_divergence`
-```python
-troughs = find_troughs(H, cfg)
-if len(troughs) < 2:
-    return Divergence(False, reason="fewer_than_two_troughs")
-
-# spec 2: the two most recent troughs. If the recent one's swing-low window is not
-# fully closed yet (only possible when PRICE_WINDOW_K > TROUGH_PIVOT_K), wait.
-prev, recent = troughs[-2], troughs[-1]
-if recent > n - 1 - k:
-    return Divergence(False, reason="recent_window_open")
-
-pl_prev, sd_prev = _price_low(df, prev, k, field)        # min(Low[t-K : t+K]), earliest bar on ties
-pl_recent, sd_recent = _price_low(df, recent, k, field)
-
-momentum_ok = bool(h[recent] > h[prev])
-price_ok = bool(pl_recent <= pl_prev * (1.0 + dv.tolerance_pct))
-is_true = momentum_ok and price_ok
-```
-
-### 3.4 Weekly zone + closed week (spec 3.1 / 3.2 / 7.5) - `src/zone.py`
-```python
-def _closed(W, buckets, last_date, fetched_at=None) -> bool:
-    """W (labelled by its Friday) is closed iff a later week has data, OR the data was
-    downloaded at/after W's Friday 15:30 IST close. With no recorded download time,
-    fall back to 'W's Friday bar is in the data'."""
+def _closed(W, buckets, last_date, fetched_at=None, guard=None) -> bool:
     if W != buckets[-1]:
-        return True
+        return True                                   # a later week has data
+    if guard:
+        newest = guard.get("cohort_newest")           # newest last bar of ANY downloaded stock
+        if newest is not None and pd.Timestamp(last_date) < newest <= W:
+            return False                              # another stock has a later bar in W: this feed lags
+        if guard.get("incomplete_week") is not None and guard["incomplete_week"] == W:
+            return False                              # NSE held a session in W that no stock has yet
     if fetched_at is None:
-        return pd.Timestamp(last_date) >= W
-    return fetched_at >= session_close_utc(W)
-
-W = first W-FRI bucket label >= swing_low_date                      # the week containing the swing low
-week_start = daily.index.to_series().resample("W-FRI").min().loc[W]  # Zone_week_date = first trading day
-if not _closed(W, buckets, last_date, fetched_at): -> pending_week
-band_lo, band_hi = min/max(EMA11, EMA22, EMA50 of weekly Close at W)
-zone_ok = (Low_W <= band_hi) and (High_W >= band_lo)               # spec 3.2 verbatim
+        return pd.Timestamp(last_date) >= W           # fallback: W's Friday bar is in the data
+    return fetched_at >= session_close_utc(W)         # downloaded after W's Friday 15:30 IST
+# W = first W-FRI label >= swing-low date; Zone_week_date = first trading day of W
+# zone_ok = (Low_W <= max(EMA11,22,50 at W)) and (High_W >= min(...))     # spec 3.2 verbatim
 ```
 
-### 3.5 Closed daily bars (spec 7.5) - `src/store.py` + `scripts/fetch_data.py`
+### 3.3 Step 1: closed daily bars, week check, cache - `src/store.py`, `src/universe.py`, `scripts/fetch_data.py`
 ```python
-IST = timezone(timedelta(hours=5, minutes=30)); NSE_CLOSE_IST = time(15, 30)
-def session_close_utc(day): return datetime.combine(day.date(), NSE_CLOSE_IST, tzinfo=IST).astimezone(utc)
-def drop_forming_bar(df, fetched_at):
-    if fetched_at < session_close_utc(df.index[-1]):   # the newest bar had not closed at download time
-        return df.iloc[:-1]
-    return df
-# fetch_data.py: t_fetch = now(UTC) BEFORE the download; raw = drop_forming_bar(raw, t_fetch);
-# the SAME t_fetch is stored as the parquet's fetched_at (used by 3.4).
+# daily (spec 7.5): drop the newest bar if the download ran before its own 15:30 IST close
+if fetched_at < session_close_utc(df.index[-1]): df = df.iloc[:-1]      # same instant stored as fetched_at
+
+# week check, after all downloads (newest = newest last bar of any stock):
+week = newest's W-FRI label (its Friday)
+if now >= session_close_utc(week) and newest < week:
+    for d in weekdays in (newest, week]:
+        held = nse_session_held(d, now)   # GET BhavCopy_NSE_CM_0_0_0_<YYYYMMDD>_F_0000.csv.zip
+        # 200 -> True; 404 and today (IST) > d -> False; anything else / network error -> None
+        True -> sessions_missing; None -> unknown
+-> data/week_check.json {"week", "cohort_newest", "checked_at", "sessions_missing", "unknown"}
+
+# cache: reuse a file < 12 h old only if no NSE weekday 15:30 IST close fell after its fetched_at
 ```
 
-### 3.6 Pipeline order - `scripts/run_scanner.py::analyze_symbol`
+### 3.4 Pipeline - `scripts/run_scanner.py::analyze_symbol`
 ```python
 if rows < 250 or weekly_bars < 50: skip "insufficient_history"
-liq_ok = passes_liquidity(df)             # 20-day median Close*Volume >= Rs 5 cr AND last Close >= Rs 20
-div = detect_divergence(...)              # 3.3
+liq_ok = passes_liquidity(df)        # 20-day median Close*Volume >= Rs 5 cr AND last Close >= Rs 20
+div = detect_divergence(...)         # 3.1
 if not div.is_true: skip ("illiquid" if not liq_ok else div.reason)
-zone = weekly_zone(df, div.swing_low_date, cfg, fetched_at)   # 3.4
+zone = weekly_zone(df, div.swing_low_date, cfg, fetched_at, week_guard)   # 3.2
 if pending: ("pending" if liq_ok else skip "illiquid")
 if not zone_ok: skip ("illiquid" if not liq_ok else "zone_fail")
-if not liq_ok: return "illiquid_pass"     # spec pass, listed with its reason, never ranked
-RSI_trough = min(RSI[recent-K : recent+K]); RSI_check = "uncensored" if >= 30 else "censored"   # label only
--> "flagged" record (ranked)
+RSI_trough = min(RSI[recent-K : recent+K]); RSI_check = "uncensored" if >= 30 else "censored"
+record = every spec-5 field + ranking inputs
+return ("flagged" if liq_ok else "illiquid_pass"), record     # both are spec flags
 ```
 
-### 3.7 Parameters in force (spec 6)
+### 3.4b Filler rows (spec 7.3) - `src/store.py`
+```python
+def drop_filler_rows(df):
+    c = df["Close"]
+    same = lambda a, b: np.isclose(a, b, rtol=1e-6, atol=0.0)  # float noise only; a real tick is far larger
+    filler = ((df["Volume"] == 0) & same(df["Open"], c) & same(df["High"], c) & same(df["Low"], c)
+              & same(c, c.shift(1)))
+    return df[~filler]
+# Step 1: raw -> drop_forming_bar -> validate_and_prepare (dedup/sort -> drop_filler_rows -> adjust -> ...)
+# Step 2 / tests: load_parquet(...) also applies drop_filler_rows
+```
+
+### 3.5 Parameters in force (spec 6)
 ```
 MACD 12/26/9   LOOKBACK_DAYS 60   TROUGH_PIVOT_K 3   PRICE_WINDOW_K 3   WEEKLY_EMA_SET 11,22,50
 PRICE_FIELD Low   RSI_PERIOD 14 (Wilder, 5.1)   RSI_LOWER_BAND 30   TOLERANCE_PCT 0.01 (5.2)
-zone test = range overlap (spec 3.2)   history >= 250 daily bars AND >= 50 weekly bars (5.3)
-liquidity (ranking only, 5.3): 20-day median traded value >= Rs 5 cr and price >= Rs 20
-no recency / confirmation / separation gates (removed)
+zone test = range overlap   history >= 250 daily AND >= 50 weekly bars (whole history)
+liquidity (ranking only): 20-day median traded value >= Rs 5 cr and price >= Rs 20
+no recency / confirmation / separation gates
 ```
 
-### 3.8 Output (spec 5) - `output/top_recommended_for_<DATE>.txt`
-Section 1 (ranked): SYMBOL, COMPANY, SCORE, RSI label, PREV DIP (= Trough_prev_date), RECENT DIP
-(= Trough_recent_date), ZONE WK (= Zone_week_date), LIQ. Section 2 per stock: both trough dates + H
-values, both swing-low prices + dates, zone week, the three weekly EMAs + band + the week's range, RSI
-trough value + label, liquidity. Then PENDING, then "PASSES THE SETUP BUT FAILS LIQUIDITY" (symbol +
-turnover and/or price), then the scan summary. Optional CSV (`write_full_flagged_csv = true`) carries
-every spec-5 field for the ranked stocks.
+### 3.6 Output (spec 5) - `output/top_recommended_for_<DATE>.txt`
+Header (flag counts, as-of with count, NSE-check NOTE if any) -> SECTION 1 ranked list (PREV DIP =
+Trough_prev_date, RECENT DIP = Trough_recent_date, ZONE WK = Zone_week_date, RSI label) -> SECTION 2
+per ranked stock (both troughs + H, both swing lows + dates, zone week + EMAs + band + week range,
+lowest RSI in the window + label, liquidity) -> PENDING -> PASSES THE SETUP BUT FAILS LIQUIDITY
+(symbol + shortfall) -> SCAN SUMMARY -> NOTES -> APPENDIX (every spec-5 field per illiquid flag).
+Optional CSV: every flag, `ranked` True/False.
 
 ## 4. Clause-by-clause map (spec -> code)
 | Spec | Implementation | Status |
 |---|---|---|
-| 0 flag = (A) divergence in last 60 AND (B) zone; RSI tag attached | 3.3 + 3.4 + 3.6; illiquid spec passes still listed | matches (ranking is a product layer on top) |
-| 1.1 MACD 12/26/9 on Close | 3.1 | matches |
-| 1.2 negative zone H < 0 | 3.2 | matches |
-| 1.3 pivot trough, earliest on tie, Trough_date = bar t | 3.2 | matches |
-| 1.4 swing low = min(Low) over [t-K, t+K], date of that bar | 3.3 `_price_low` | matches |
-| 1.5 RSI 14 / SMA(14) / band 30 | 3.1 | **Wilder, see 5.1** |
-| 1.6 RSI trough over the same [t-K, t+K] | 3.6 | matches |
-| 2 last 60; < 2 troughs stop; two most recent; momentum; price with TOL | 3.3 | matches (TOL value: 5.2) |
-| 3.1 week containing the swing-low date; Zone_week_date = start of W | 3.4 | matches (start = first trading day) |
-| 3.2 zone_ok = (Low_W <= band_hi) and (High_W >= band_lo) | 3.4 | matches |
-| 4 RSI labels, never filters | 3.6 | matches |
-| 5 output fields | 3.8 | matches |
-| 6 parameters | 3.7 | matches (MIN_SEGMENT_LEN dropped, 5.4) |
-| 7.1 Low; 7.3 60 = sessions; 7.4 RSI only on shortlisted | 3.3 / 3.6 | matches |
-| 7.5 fully closed daily AND weekly bars | 3.4 + 3.5 | matches (see 5.5, 5.6) |
+| 0 flag = divergence (last 60) AND zone; RSI attached | 3.1 + 3.2 + 3.4; all flags reported (ranked or appendix) | matches |
+| 1.1 MACD 12/26/9 on Close | `src/indicators.py` | matches |
+| 1.2 / 1.3 pivot trough, H < 0, earliest on tie | 3.1 | matches |
+| 1.4 swing low = min(Low) over [t-K, t+K] + its date | 3.1 | matches |
+| 1.5 RSI 14 / SMA(14) / band 30 | `src/indicators.py` | **Wilder, 5.1** |
+| 1.6 RSI trough over the same [t-K, t+K] | 3.4; worded as "lowest RSI within K days of the MACD dip" | matches |
+| 2 last 60; < 2 stop; two most recent; momentum; price with TOL | 3.1 | matches (TOL value 5.2) |
+| 3.1 week of the swing-low date; Zone_week_date = start of W | 3.2 | matches |
+| 3.2 zone_ok range overlap | 3.2 | matches |
+| 4 RSI labels every shortlisted stock, never filters | 3.4 (ranked AND illiquid flags) | matches |
+| 5 output fields for the shortlist | 3.6 (Sections 1-2 for ranked; APPENDIX for illiquid; CSV for all) | matches |
+| 6 parameters | 3.5 | matches (MIN_SEGMENT_LEN dropped, 5.4) |
+| 7.1 Low; 7.3 60 = trading sessions; 7.4 RSI only on shortlisted | 3.1 / 3.4 / 3.4b (Yahoo filler rows dropped) | matches |
+| 7.5 fully closed daily and weekly bars | 3.2 + 3.3 | matches (residual 5.6) |
 
 ## 5. Deliberate choices beyond the literal text - please judge
-**5.1 RSI = Wilder(14)** (spec 1.5 says SMA(14)). Trader-confirmed FINAL: the desk reads RSI on
-TradingView, whose default is Wilder. Affects only the censored/uncensored label.
+**5.1 RSI = Wilder(14)** (spec says SMA(14)) and **5.2 TOLERANCE_PCT = 1%** (spec table 0.1%):
+trader-confirmed FINAL.
 
-**5.2 TOLERANCE_PCT = 1%** (spec 6 table says 0.1%). Trader-confirmed FINAL: at 0.1% the "equal low /
-double bottom" branch essentially never fires.
+**5.3 Product layer:** history gate >= 250 daily AND >= 50 weekly bars over the whole history (user
+decision; not applied at W). Liquidity decides only ranked vs appendix; it never hides a flag. An
+illiquid stock whose week is still pending is not listed (not a flag yet).
 
-**5.3 Product layer.** (a) History gate: a stock needs >= 250 daily bars AND >= 50 weekly bars (user
-decision, ~1 year). Note: this counts ALL weekly bars; at the swing-low week W (up to ~12 weeks before
-the last bar) the EMA50 of the youngest eligible stocks rests on ~38-50 weekly closes. Is that
-acceptable, or should the 50-bar minimum apply at W? (b) Liquidity decides only ranked vs listed; it
-never hides a spec pass (an illiquid stock whose zone week is still pending is not listed, as it is not
-a pass yet). (c) Open question (internal review M2): the user chose a COMPACT list (symbol + what it
-fell short on) for the illiquid spec passes, so their spec-5 fields (trough dates/H, swing lows, zone
-week, EMAs, RSI value/check) are not printed. Strictly, spec 4/5 attach those fields to every
-shortlisted stock. Should the compact list carry them (e.g. RSI label + the three dates), or is the
-compact list right for a product whose ranked list is the actionable output?
+**5.4 MIN_SEGMENT_LEN dropped** (orphaned in spec 6; spec 1.2/1.3 no longer use segments).
 
-**5.4 MIN_SEGMENT_LEN dropped** (spec 6 lists it, but spec 1.2/1.3 no longer use segments).
+**5.5 Weekly closure by DOWNLOAD time** (you agreed in round 2).
 
-**5.5 Weekly closure uses the DOWNLOAD time, not the scan's current time.** The user's rule is "close
-the week by clock after Friday 15:30 IST". The clock used is the time the data was downloaded
-(`fetched_at`). Reason: Step 2 may be re-run later without re-downloading (a supported workflow). With
-the scan's clock, data downloaded on Thursday evening and re-scanned on Saturday would treat a Mon-Thu
-candle as the finished week. With the download clock it stays pending until the next download. In the
-normal flow (Step 1 then Step 2) both clocks give the same answer. Do you agree?
+**5.6 Vendor lag - residual.** Detected: a lag for SOME stocks (cohort check) and a lag for EVERY
+stock when NSE answers (bhavcopy check). Not detected: a lag for every stock while NSE is unreachable
+or answers ambiguously (e.g. asked on the day itself before NSE publishes); then the week is closed by
+the clock, and both the Step 1 log and the report NOTE say so. Also: a stock that genuinely did not
+trade on the week's last session (e.g. no trades that day) stays pending until the next week's data
+arrives - conservative by design. Acceptable?
 
-**5.6 Residual: vendor lag.** If Yahoo has not yet published the newest session when Step 1 runs after
-the close, that day is missing (a week could then be closed on a Mon-Thu candle). Mitigation: Step 1
-warns when the newest day is published for only some stocks, and the report's as-of shows how many
-stocks end on the as-of date; Step 1 names stocks that end earlier than the rest. A possible
-code-level guard (not implemented, for your judgement): treat a stock's last week as NOT closed when
-another stock in the universe has a later bar inside that same week (proof the stock's data is
-incomplete). A universal lag (no stock has the day) is not detectable without a calendar. Acceptable?
+**5.7 Cache rule:** holiday weekdays count as a session close (no calendar), costing at most one
+extra download. Acceptable?
 
-**5.7 Residual: the 12-hour reuse window (user-approved).** Step 1 reuses a stock's file if it was
-downloaded within the last 12 hours (to resume an interrupted run). Edge: Step 1 run before the 15:30
-IST close (today's forming candle correctly dropped) and again after the close within 12 hours reuses
-the morning files, so today's finished candle is missing until the next download. An alternative rule
-would be "reuse only if no NSE session has closed since the file was downloaded". Worth changing, or
-fine for a weekend cadence?
+**5.8 Filler rule scope (user-approved per-stock rule).** It also drops:
+- a thin stock's no-trade days (TradingView shows no bar for those either);
+- Yahoo's empty placeholders on 2025-03-18. That was a real session (bhavcopy 200), but ~1,822
+  stocks carry a flat zero-volume row with no real data.
+
+On data stored before the rule, Step 2 cleans it at load time. The download-time labels catch up
+on the next Step 1 run. Until then, 5 young stocks with 250-252 stored rows (245-248 real sessions)
+are labelled "ok" by Step 1, but Step 2's own history gate skips them and the header counts them.
+Acceptable?
 
 ## 6. Evidence
-- **Tests: 32 pass, all offline** (`.venv/bin/python -m pytest -q`):
-  - The frozen BSE golden (Trough_prev 2026-08-21 H -18.13 low 3223.00; Trough_recent 2026-09-02
-    H -3.49 low 3131.50; Zone_week_date 2026-08-31; band [3178.3, 3520.1]; RSI 33.29 uncensored).
-  - Truthfulness: every printed number equals the computed value.
-  - Pivot-rule units plus the round-1 #4 pair tests.
-  - Closed-bar tests:
-    - forming bar at 15:29 vs 15:30 IST;
-    - the Good Friday 2026-04-03 week closes at Fri 15:30 IST;
-    - a Friday-morning partial week stays pending;
-    - the fallback when no download time is recorded.
-  - Report-prose tests:
-    - swing-low date in the narrative;
-    - no "fell inside";
-    - RSI band read from config;
-    - truthful liquidity line;
-    - illiquid list with its reasons;
-    - the as-of count.
-- **Fresh data.** Step 1 ran 2026-09-24 18:20-19:18 IST, after the close:
-  - 2,320 EQ symbols, 0 failures.
-  - 1,961 have >= 1 year of history (1,594 under the old ~4y gate); 359 skipped.
-  - Data as-of 2026-09-24 for 1,960 of 1,961 stocks (PARIN's last bar is 2026-09-23).
-- **Report `output/top_recommended_for_2026-09-24.txt`:**
-  - 153 flagged and ranked.
-  - 4 pending (CELLO, FIEMIND, UBL, VOLTAS: the swing low is in the current, unfinished week).
-  - 153 more pass the setup but fail liquidity (listed with the shortfall).
-  - 17 flagged stocks are "censored", which proves RSI never filters.
-  - 26 flagged stocks have < 1,000 daily bars and were admitted by the 1-year gate (e.g. BELRISE,
-    ENRIN, KAYNES, CEIGALL).
-  - BSE is correctly NOT flagged on this data: its two most recent troughs are now 2026-09-02 and
-    2026-09-21, and the later one is a lower momentum low.
-- **Independent end-to-end recompute** (from scratch; only the MACD/RSI/EMA formulas are shared with
-  the build). For every stored stock it recomputes:
-  - the history gate and the pivots;
-  - the two most recent troughs, and momentum + price;
-  - the swing-low week, and whether that week is closed (by download time);
-  - the zone and liquidity.
+- **Tests: 40 pass, all offline** (`.venv/bin/python -m pytest -q`). New since round 2:
+  - the cohort and NSE guards: a stock with only Mon-Thu data, downloaded Friday 17:30 IST, is
+    closed by the clock alone but pending with either guard, and closed for a Friday holiday;
+  - `last_week_check`: NSE is not asked before Friday 15:30 IST, nor when the Friday bar exists;
+    Good Friday gives no missing session; held -> missing; unknown -> unknown;
+  - NSE status mapping (200 / 404 on a later day / 404 on the day itself / 503);
+  - `load_week_guard` notes;
+  - the cache session rule across a close, an evening, a weekend and a Friday night;
+  - the APPENDIX carries every spec-5 field and the "(data to ...)" marker;
+  - flag counts; the CSV holds every flag with `ranked`;
+  - an illiquid flag gets its RSI (BSE: 33.34 uncensored);
+  - the filler rule (holiday + no-trade rows dropped; the five NSE holidays absent from the BSE
+    fixture). BSE golden on the fixture: same dates, lows, zone week and band; H -18.153 / -3.493 and
+    RSI 33.34 (were -18.127 / -3.491 and 33.29 with the fillers).
+- **Live NSE check through the real code path (2026-09-24 21:13 IST):**
+  - Good Friday week (newest bar 2026-04-02): no missing session, so the week is complete.
+  - Normal week with its Friday missing from the data (newest 2026-09-17): `sessions_missing =
+    ["2026-09-18"]`, so the week stays pending.
+  - The current week (newest 2026-09-24, before Friday's close): NSE not asked.
+- **Report `output/top_recommended_for_2026-09-24.txt`** (data downloaded 2026-09-24 18:20-19:18 IST;
+  1,960 of 1,961 stocks end on 2026-09-24; PARIN ends 2026-09-23 and is marked):
+  - 308 flags = 156 ranked + 152 in the appendix.
+  - 5 pending: BSE, FIEMIND, INDIAMART, UBL and VOLTAS.
+  - 12 of the 152 illiquid flags are censored (e.g. AKG, RSI 28.57); 16 of the ranked are censored.
+  - "Passed liquidity" is 922 (909 with the fillers: the 20-day median no longer counts the
+    zero-volume 09-14 row).
+- **Independent end-to-end recompute.** From scratch (only the MACD/RSI/EMA formulas are shared), it
+  checks against the written report:
+  - the flagged, pending and illiquid sets;
+  - the as-of line and the flag-count header;
+  - every ranked stock's trough dates, H, swing lows + dates, Zone_week_date, band, RSI + label, and
+    the narrative low date and RSI wording;
+  - every APPENDIX row: dates, H, lows, zone week, EMAs, RSI + label, data-to marker.
 
-  It then compares against the WRITTEN report:
-  - the flagged, pending and illiquid sets, and the as-of line;
-  - for every flagged stock: trough dates, H values, swing lows + dates, Zone_week_date, band, RSI
-    trough + label, and the narrative's "low on <swing date>".
-
-  Result: **2,302 assertions, 0 mismatches.** The same recompute on the pre-refresh data (as-of
-  2026-09-22) matched 130 flagged / 131 illiquid, against 102 flagged under the round-1 rules.
-- **Data note:** Yahoo's history for a few long-listed stocks starts late (e.g. KIRLPNU's history
-  starts 2023-04-26, with a 2:1 split on 2026-08-18). They are judged on the history Yahoo provides.
+  Result: **3,723 assertions, 0 mismatches**, including a check that the 5 young stocks above are
+  skipped by Step 2.
+- **Internal reviewer (a second, independent check):**
+  - Round-3 changes: GO. It confirmed the counts reconcile against the real report, and that the cohort
+    guard held back 0 setups when replaying the real holiday Fridays 2026-05-01 and 2026-06-26.
+  - Its follow-ups are fixed in `193d51e`: `min_score` header counts, stale/corrupt week-check file,
+    NSE probe day, PENDING markers, small-value decimals, CSV integer ranks.
+  - H1 was fixed as above, and the reviewer re-checked the fix across all 2,320 stored files: GO.
+    - Applying the rule twice changes nothing, and consecutive fillers all go.
+    - No row remains on any of the five holidays; the only market-wide dates removed are those five
+      plus 2025-03-18.
+    - Zero-volume bars that have a real price range are kept.
+    - Its nits are in: a 1e-6 float tolerance, and one "scanned" count throughout the report.
 
 ## 7. Please pressure-test specifically
-1. Is each round-1 finding fully fixed, with no regression (section 2)?
-2. `detect_divergence`: is `troughs[-2], troughs[-1]` plus the `recent_window_open` wait an exact
-   reading of spec 2 under spec 7.5, for any PRICE_WINDOW_K / TROUGH_PIVOT_K?
-3. Closed bars: any boundary error in `drop_forming_bar` / `_closed` (exactly 15:30 IST; UTC vs IST;
-   bar dated a previous day; Friday holiday; missing `fetched_at`)? Do you agree with 5.5 and 5.6?
-4. Does the liquidity-after-flag order change which stocks pass the spec's flag test in any case?
-5. Is every printed claim in the report true (numbers, dates, the zone sentence, the as-of line)?
-6. Anything in the spec that the build still does less or more than (sections 0-7)?
+1. Are all five round-2 findings fully fixed, with no regression?
+2. `_closed` + `last_week_check` + `session_from_status`: any case where an incomplete week is
+   treated as closed (other than 5.6's stated residual), or a complete week stays pending forever?
+3. Is the APPENDIX a complete and faithful spec-5 record for every illiquid flag?
+4. Does anything now count or print a flag inconsistently (header, Section 1, appendix, summary, CSV)?
+5. Is every printed claim true (RSI wording, as-of note, data-to markers, NSE NOTE)?
+6. Anything the build still does less or more than spec sections 0-7 plus the decisions?
 
 Please return: confirmed-correct items, issues (severity, file:line, spec clause, failing example),
 and the one-line percentage verdict.
