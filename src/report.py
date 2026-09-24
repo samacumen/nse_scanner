@@ -154,7 +154,7 @@ def _section2(ranked, cfg, as_of="") -> list:
             f"[{'OK' if r['zone_ok'] else 'X'}]"
         )
         lines.append(
-            f"     3) RSI health: the lowest RSI within {k} days of the MACD dip was {_num(r['rsi_trough'])} "
+            f"     3) RSI health: the lowest RSI within {k} trading days of the MACD dip was {_num(r['rsi_trough'])} "
             f"({rsi_word} {lower_band:g}) "
             f'=> "{r["rsi_check"]}"\n'
             f"        ({'a healthy dip, not a panic sell-off' if r['rsi_check'] == 'uncensored' else 'a weaker dip; still listed (RSI only labels)'})."
@@ -213,13 +213,11 @@ def build_report_text(ranked, pending, meta, cfg) -> str:
                  f"{meta['L']} passed liquidity")
     else:
         L.append(f" Universe   : {meta['U']} EQ scanned | {meta['L']} passed liquidity")
-    under = meta.get("under_min_score") or []
-    extra = f" + {len(under)} under min_score (named in the summary)" if under else ""
     if cfg.liquidity.apply_as_filter:
-        L.append(f" Flagged    : {meta['F'] + len(ill)} pass the setup (the spec's flag): {len(ranked)} ranked "
-                 f"below{extra} + {len(ill)} that fail liquidity (listed at the end) | {meta['P']} pending")
+        L.append(f" Flagged    : {len(ranked) + len(ill)} pass the setup (the spec's flag): {len(ranked)} ranked "
+                 f"below + {len(ill)} that fail liquidity (listed at the end) | {meta['P']} pending")
     else:
-        L.append(f" Flagged    : {meta['F']} pass the setup (the spec's flag): {len(ranked)} ranked below{extra} | "
+        L.append(f" Flagged    : {len(ranked)} pass the setup (the spec's flag), all ranked below | "
                  f"{meta['P']} pending")
     if meta.get("week_note"):
         L.extend(textwrap.wrap(meta["week_note"], width=100, initial_indent=" NOTE       : ",
@@ -258,14 +256,11 @@ def build_report_text(ranked, pending, meta, cfg) -> str:
         L.append("   " + ", ".join(row))
         L.append("")
     skips = meta.get("skips") or {}
-    under = meta.get("under_min_score") or []
-    if skips or under:
+    if skips:
         L.append(" SCAN SUMMARY (why the other stocks were not selected)")
         L.append(f"   scanned {meta['U']} | passed liquidity+history {meta['L']} | "
-                 f"setups {meta['F'] + len(ill)} ({len(ranked)} ranked, {len(under)} under min_score, "
-                 f"{len(ill)} fail liquidity) | pending {meta['P']}")
-        if under:
-            L.append(f"   under min_score (pass the setup and liquidity, not listed): {', '.join(under)}")
+                 f"setups {len(ranked) + len(ill)} ({len(ranked)} ranked, {len(ill)} fail liquidity) | "
+                 f"pending {meta['P']}")
         label = {
             "illiquid": "below liquidity/price floor (not a setup, or its week is still forming)",
             "insufficient_history": (f"too little history (under {cfg.data.min_rows_daily} days / "
@@ -307,7 +302,7 @@ def _appendix(ill, cfg, as_of) -> list:
     lines = [f" APPENDIX - EVERY SPEC FIELD FOR THE {len(ill)} SETUPS THAT FAIL LIQUIDITY (not ranked)",
              f"   DIP = MACD-histogram trough date (MACD value); LOW = swing-low price @ its date; ZONE WK = start "
              f"of the weekly EMA-zone candle;",
-             f"   RSI = the lowest RSI within {cfg.divergence.price_window_k} days of the recent dip (check vs "
+             f"   RSI = the lowest RSI within {cfg.divergence.price_window_k} trading days of the recent dip (check vs "
              f"{cfg.rsi.lower_band:g})",
              "",
              f"   {'SYMBOL':<12} {'PREV DIP (MACD)':<22} {'RECENT DIP (MACD)':<22} {'PREV LOW @ DATE':<23} "

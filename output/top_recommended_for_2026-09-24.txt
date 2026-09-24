@@ -1,10 +1,12 @@
 =====================================================================
  NSE SCANNER - TOP RECOMMENDATIONS
- Data as-of : 2026-09-24 (latest bar for 1960 of 1961 scanned stocks)        Generated: 2026-09-24 22:28 IST
+ Data as-of : 2026-09-24 (latest bar for 1960 of 1961 scanned stocks)        Generated: 2026-09-24 22:56 IST
  Setup      : Daily MACD-histogram bullish divergence + weekly EMA(11/22/50) support zone
  Universe   : 2320 NSE equities listed | 1956 had enough history
               (364 skipped - under 250 trading days / 50 weekly candles of history) | 922 passed liquidity
  Flagged    : 308 pass the setup (the spec's flag): 156 ranked below + 152 that fail liquidity (listed at the end) | 5 pending
+ NOTE       : NSE session check was not run for this download: each stock's last week is judged by
+              the download time and the other stocks only.
  Settings   : MACD 12/26/9 | lookback=60 pivotK=3 K=3 | tol=0.01 price_field=Low | weekEMA=[11, 22, 50] zone=range_overlap minWk=50 minDays=250 | RSI 14/wilder/lb30 | liq>=5cr&>=20 win=20 | adj=split_only | top_n=10
  Data source: yfinance (.NS, split_only, dividends unadjusted)
 =====================================================================
@@ -191,7 +193,7 @@
      2) Weekly support zone (week of 2026-08-31): the weekly averages were
         EMA11 155.5, EMA22 149.2, EMA50 133.9.
         They formed a band 133.9 to 155.5; that week's range 144.0 to 152.8 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 35.66 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 35.66 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 23 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -210,7 +212,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 686.3, EMA22 657.4, EMA50 590.9.
         They formed a band 590.9 to 686.3; that week's range 632.5 to 678.8 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 33.32 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 33.32 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 180 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -229,7 +231,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 750.9, EMA22 745.4, EMA50 699.0.
         They formed a band 699.0 to 750.9; that week's range 676.5 to 718.5 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 33.03 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 33.03 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 9 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -248,7 +250,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 778.5, EMA22 762.8, EMA50 708.0.
         They formed a band 708.0 to 778.5; that week's range 729.0 to 769.6 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 34.66 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 34.66 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 77 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -267,7 +269,7 @@
      2) Weekly support zone (week of 2026-08-31): the weekly averages were
         EMA11 1728.2, EMA22 1700.7, EMA50 1601.1.
         They formed a band 1601.1 to 1728.2; that week's range 1593.1 to 1716.9 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 30.93 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 30.93 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 323 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -286,7 +288,7 @@
      2) Weekly support zone (week of 2026-08-24): the weekly averages were
         EMA11 747.3, EMA22 708.8, EMA50 584.6.
         They formed a band 584.6 to 747.3; that week's range 637.3 to 681.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 31.44 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 31.44 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 11 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -305,7 +307,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 82.64, EMA22 80.30, EMA50 73.55.
         They formed a band 73.55 to 82.64; that week's range 79.20 to 84.61 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 39.60 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 39.60 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 117 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -324,7 +326,7 @@
      2) Weekly support zone (week of 2026-08-31): the weekly averages were
         EMA11 22.77, EMA22 22.51, EMA50 21.87.
         They formed a band 21.87 to 22.77; that week's range 21.82 to 22.83 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 34.73 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 34.73 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 126 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -343,7 +345,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 1901.3, EMA22 1889.1, EMA50 1839.3.
         They formed a band 1839.3 to 1901.3; that week's range 1811.0 to 1940.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 44.08 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 44.08 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 37 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -362,7 +364,7 @@
      2) Weekly support zone (week of 2026-08-31): the weekly averages were
         EMA11 791.0, EMA22 775.9, EMA50 688.6.
         They formed a band 688.6 to 791.0; that week's range 709.2 to 758.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 36.32 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 36.32 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 25 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -381,7 +383,7 @@
      2) Weekly support zone (week of 2026-08-31): the weekly averages were
         EMA11 1971.0, EMA22 1829.8, EMA50 1550.9.
         They formed a band 1550.9 to 1971.0; that week's range 1611.6 to 1869.7 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 32.92 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 32.92 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 31 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -400,7 +402,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 3312.0, EMA22 3293.2, EMA50 3164.4.
         They formed a band 3164.4 to 3312.0; that week's range 2968.0 to 3250.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 31.05 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 31.05 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 90 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -419,7 +421,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 101.3, EMA22 101.4, EMA50 98.47.
         They formed a band 98.47 to 101.4; that week's range 91.99 to 99.30 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 32.37 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 32.37 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 100 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -438,7 +440,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 234.3, EMA22 226.1, EMA50 200.9.
         They formed a band 200.9 to 234.3; that week's range 222.8 to 242.9 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 40.69 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 40.69 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 68 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -457,7 +459,7 @@
      2) Weekly support zone (week of 2026-09-07): the weekly averages were
         EMA11 74.41, EMA22 72.64, EMA50 69.23.
         They formed a band 69.23 to 74.41; that week's range 71.03 to 73.75 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 38.97 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 38.97 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 11 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -476,7 +478,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 1885.1, EMA22 1862.1, EMA50 1805.5.
         They formed a band 1805.5 to 1885.1; that week's range 1828.0 to 1877.2 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 33.19 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 33.19 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 259 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -495,7 +497,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 5252.0, EMA22 5238.3, EMA50 4881.2.
         They formed a band 4881.2 to 5252.0; that week's range 4844.0 to 5121.5 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 29.63 (below 30) => "censored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 29.63 (below 30) => "censored"
         (a weaker dip; still listed (RSI only labels)).
      4) Liquidity: about Rs 190 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -514,7 +516,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 206.5, EMA22 192.5, EMA50 171.2.
         They formed a band 171.2 to 206.5; that week's range 191.0 to 216.5 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 41.46 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 41.46 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 88 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -533,7 +535,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 494.0, EMA22 468.4, EMA50 444.5.
         They formed a band 444.5 to 494.0; that week's range 475.2 to 506.6 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 43.34 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 43.34 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 20 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -552,7 +554,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 210.3, EMA22 205.7, EMA50 184.8.
         They formed a band 184.8 to 210.3; that week's range 200.4 to 212.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 42.90 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 42.90 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 369 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -571,7 +573,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 177.8, EMA22 176.9, EMA50 173.2.
         They formed a band 173.2 to 177.8; that week's range 170.7 to 184.2 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 44.30 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 44.30 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 8 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -590,7 +592,7 @@
      2) Weekly support zone (week of 2026-08-31): the weekly averages were
         EMA11 1364.8, EMA22 1325.6, EMA50 1225.4.
         They formed a band 1225.4 to 1364.8; that week's range 1214.9 to 1310.9 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 29.28 (below 30) => "censored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 29.28 (below 30) => "censored"
         (a weaker dip; still listed (RSI only labels)).
      4) Liquidity: about Rs 115 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -609,7 +611,7 @@
      2) Weekly support zone (week of 2026-09-07): the weekly averages were
         EMA11 26.25, EMA22 24.15, EMA50 20.66.
         They formed a band 20.66 to 26.25; that week's range 24.29 to 26.85 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 37.72 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 37.72 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 28 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -628,7 +630,7 @@
      2) Weekly support zone (week of 2026-08-17): the weekly averages were
         EMA11 966.3, EMA22 912.8, EMA50 842.0.
         They formed a band 842.0 to 966.3; that week's range 908.2 to 966.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 39.53 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 39.53 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 5 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -647,7 +649,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 221.4, EMA22 213.3, EMA50 221.5.
         They formed a band 213.3 to 221.5; that week's range 214.2 to 240.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 41.13 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 41.13 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 26 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -666,7 +668,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 4766.7, EMA22 4623.7, EMA50 4491.2.
         They formed a band 4491.2 to 4766.7; that week's range 4615.8 to 4940.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 40.08 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 40.08 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 306 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -685,7 +687,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 33941.0, EMA22 33792.4, EMA50 33239.1.
         They formed a band 33239.1 to 33941.0; that week's range 31500.0 to 34450.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 26.95 (below 30) => "censored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 26.95 (below 30) => "censored"
         (a weaker dip; still listed (RSI only labels)).
      4) Liquidity: about Rs 7 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -704,7 +706,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 1047.3, EMA22 1026.0, EMA50 949.3.
         They formed a band 949.3 to 1047.3; that week's range 972.6 to 1044.9 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 29.15 (below 30) => "censored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 29.15 (below 30) => "censored"
         (a weaker dip; still listed (RSI only labels)).
      4) Liquidity: about Rs 416 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -723,7 +725,7 @@
      2) Weekly support zone (week of 2026-09-07): the weekly averages were
         EMA11 342.0, EMA22 326.5, EMA50 293.4.
         They formed a band 293.4 to 342.0; that week's range 337.6 to 347.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 43.31 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 43.31 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 163 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -742,7 +744,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 8766.8, EMA22 8536.4, EMA50 8081.3.
         They formed a band 8081.3 to 8766.8; that week's range 8672.5 to 8950.5 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 45.20 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 45.20 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 258 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -761,7 +763,7 @@
      2) Weekly support zone (week of 2026-09-07): the weekly averages were
         EMA11 1566.4, EMA22 1534.3, EMA50 1514.4.
         They formed a band 1514.4 to 1566.4; that week's range 1498.0 to 1593.6 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 33.08 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 33.08 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 263 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -780,7 +782,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 7675.9, EMA22 7555.2, EMA50 7189.2.
         They formed a band 7189.2 to 7675.9; that week's range 7406.0 to 7570.5 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 30.46 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 30.46 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 285 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -799,7 +801,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 1432.0, EMA22 1291.6, EMA50 1163.8.
         They formed a band 1163.8 to 1432.0; that week's range 1430.1 to 1631.4 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 53.89 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 53.89 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 34 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -818,7 +820,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 1037.9, EMA22 1023.6, EMA50 1054.8.
         They formed a band 1023.6 to 1054.8; that week's range 932.5 to 1024.8 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 39.79 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 39.79 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 7 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -837,7 +839,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 369.1, EMA22 368.7, EMA50 340.7.
         They formed a band 340.7 to 369.1; that week's range 350.1 to 363.2 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 37.02 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 37.02 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 136 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -856,7 +858,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 3972.4, EMA22 3970.7, EMA50 3911.1.
         They formed a band 3911.1 to 3972.4; that week's range 3799.9 to 3959.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 30.55 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 30.55 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 513 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -875,7 +877,7 @@
      2) Weekly support zone (week of 2026-08-10): the weekly averages were
         EMA11 854.6, EMA22 818.5, EMA50 761.4.
         They formed a band 761.4 to 854.6; that week's range 740.5 to 940.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 35.70 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 35.70 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 19 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -894,7 +896,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 1185.5, EMA22 1161.7, EMA50 1114.3.
         They formed a band 1114.3 to 1185.5; that week's range 1078.0 to 1172.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 32.13 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 32.13 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 6 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -913,7 +915,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 1585.5, EMA22 1559.0, EMA50 1577.6.
         They formed a band 1559.0 to 1585.5; that week's range 1500.3 to 1623.5 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 40.33 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 40.33 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 22 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -932,7 +934,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 76.99, EMA22 77.51, EMA50 78.67.
         They formed a band 76.99 to 78.67; that week's range 74.99 to 77.07 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 40.18 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 40.18 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 76 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -951,7 +953,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 1810.8, EMA22 1756.3, EMA50 1678.1.
         They formed a band 1678.1 to 1810.8; that week's range 1747.6 to 1842.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 37.54 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 37.54 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 208 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -970,7 +972,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 45.77, EMA22 44.43, EMA50 40.90.
         They formed a band 40.90 to 45.77; that week's range 44.54 to 47.89 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 42.09 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 42.09 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 40 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -989,7 +991,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 827.5, EMA22 820.4, EMA50 788.3.
         They formed a band 788.3 to 827.5; that week's range 791.2 to 826.3 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 32.90 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 32.90 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 139 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -1008,7 +1010,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 158.7, EMA22 149.8, EMA50 134.7.
         They formed a band 134.7 to 158.7; that week's range 156.4 to 165.4 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 41.86 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 41.86 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 157 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -1027,7 +1029,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 1111.1, EMA22 1105.5, EMA50 1041.1.
         They formed a band 1041.1 to 1111.1; that week's range 1043.6 to 1086.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 36.46 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 36.46 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 15 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -1046,7 +1048,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 599.0, EMA22 577.8, EMA50 561.0.
         They formed a band 561.0 to 599.0; that week's range 576.8 to 607.5 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 39.26 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 39.26 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 103 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -1065,7 +1067,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 203.8, EMA22 197.2, EMA50 180.5.
         They formed a band 180.5 to 203.8; that week's range 182.0 to 198.6 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 34.82 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 34.82 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 16 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -1084,7 +1086,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 1111.6, EMA22 1025.1, EMA50 898.6.
         They formed a band 898.6 to 1111.6; that week's range 1102.0 to 1237.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 48.06 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 48.06 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 18 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -1103,7 +1105,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 3350.8, EMA22 3142.2, EMA50 2728.0.
         They formed a band 2728.0 to 3350.8; that week's range 3152.2 to 3359.7 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 35.98 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 35.98 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 11 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -1122,7 +1124,7 @@
      2) Weekly support zone (week of 2026-09-07): the weekly averages were
         EMA11 1440.4, EMA22 1416.3, EMA50 1352.3.
         They formed a band 1352.3 to 1440.4; that week's range 1373.5 to 1415.1 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 33.49 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 33.49 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 131 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -1141,7 +1143,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 31.45, EMA22 32.30, EMA50 34.67.
         They formed a band 31.45 to 34.67; that week's range 30.12 to 32.40 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 40.86 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 40.86 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 14 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -1160,7 +1162,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 1767.5, EMA22 1727.4, EMA50 1674.3.
         They formed a band 1674.3 to 1767.5; that week's range 1712.7 to 1800.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 42.91 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 42.91 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 27 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -1179,7 +1181,7 @@
      2) Weekly support zone (week of 2026-08-31): the weekly averages were
         EMA11 806.8, EMA22 796.1, EMA50 815.1.
         They formed a band 796.1 to 815.1; that week's range 792.6 to 859.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 43.05 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 43.05 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 13 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -1198,7 +1200,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 1046.5, EMA22 1019.0, EMA50 979.7.
         They formed a band 979.7 to 1046.5; that week's range 1005.5 to 1040.3 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 30.98 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 30.98 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 563 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -1217,7 +1219,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 307.1, EMA22 313.1, EMA50 328.2.
         They formed a band 307.1 to 328.2; that week's range 280.3 to 321.1 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 37.10 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 37.10 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 5 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -1236,7 +1238,7 @@
      2) Weekly support zone (week of 2026-09-07): the weekly averages were
         EMA11 340.4, EMA22 328.5, EMA50 304.5.
         They formed a band 304.5 to 340.4; that week's range 312.3 to 335.1 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 31.96 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 31.96 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 116 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -1255,7 +1257,7 @@
      2) Weekly support zone (week of 2026-08-24): the weekly averages were
         EMA11 795.3, EMA22 751.6, EMA50 679.8.
         They formed a band 679.8 to 795.3; that week's range 773.7 to 809.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 43.57 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 43.57 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 126 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -1274,7 +1276,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 3602.1, EMA22 3654.3, EMA50 4049.0.
         They formed a band 3602.1 to 4049.0; that week's range 3293.0 to 3605.9 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 36.21 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 36.21 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 368 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -1293,7 +1295,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 763.7, EMA22 704.0, EMA50 624.0.
         They formed a band 624.0 to 763.7; that week's range 759.0 to 812.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 42.35 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 42.35 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 130 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -1312,7 +1314,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 2257.8, EMA22 2326.7, EMA50 2584.9.
         They formed a band 2257.8 to 2584.9; that week's range 2101.2 to 2323.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 38.12 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 38.12 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 593 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -1331,7 +1333,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 171.6, EMA22 165.5, EMA50 167.2.
         They formed a band 165.5 to 171.6; that week's range 165.1 to 183.9 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 45.37 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 45.37 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 16 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -1350,7 +1352,7 @@
      2) Weekly support zone (week of 2026-09-07): the weekly averages were
         EMA11 431.7, EMA22 412.1, EMA50 391.3.
         They formed a band 391.3 to 431.7; that week's range 409.7 to 427.5 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 33.60 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 33.60 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 86 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -1369,7 +1371,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 719.5, EMA22 708.0, EMA50 702.8.
         They formed a band 702.8 to 719.5; that week's range 706.8 to 743.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 44.65 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 44.65 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 103 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -1388,7 +1390,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 2138.6, EMA22 2010.0, EMA50 1697.6.
         They formed a band 1697.6 to 2138.6; that week's range 1934.0 to 2212.5 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 41.12 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 41.12 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 87 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -1407,7 +1409,7 @@
      2) Weekly support zone (week of 2026-08-17): the weekly averages were
         EMA11 337.1, EMA22 331.4, EMA50 312.8.
         They formed a band 312.8 to 337.1; that week's range 302.3 to 333.8 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 31.20 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 31.20 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 15 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -1426,7 +1428,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 776.1, EMA22 762.8, EMA50 737.7.
         They formed a band 737.7 to 776.1; that week's range 721.6 to 775.7 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 29.46 (below 30) => "censored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 29.46 (below 30) => "censored"
         (a weaker dip; still listed (RSI only labels)).
      4) Liquidity: about Rs 21 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -1445,7 +1447,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 564.6, EMA22 551.0, EMA50 519.9.
         They formed a band 519.9 to 564.6; that week's range 531.0 to 565.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 32.55 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 32.55 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 21 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -1464,7 +1466,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 423.7, EMA22 408.0, EMA50 382.5.
         They formed a band 382.5 to 423.7; that week's range 410.6 to 431.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 39.06 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 39.06 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 16 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -1483,7 +1485,7 @@
      2) Weekly support zone (week of 2026-08-10): the weekly averages were
         EMA11 1441.2, EMA22 1351.9, EMA50 1155.2.
         They formed a band 1155.2 to 1441.2; that week's range 1342.0 to 1447.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 38.20 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 38.20 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 53 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -1502,7 +1504,7 @@
      2) Weekly support zone (week of 2026-09-07): the weekly averages were
         EMA11 550.9, EMA22 519.0, EMA50 503.6.
         They formed a band 503.6 to 550.9; that week's range 540.0 to 579.3 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 40.73 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 40.73 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 11 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -1521,7 +1523,7 @@
      2) Weekly support zone (week of 2026-08-17): the weekly averages were
         EMA11 374.8, EMA22 360.2, EMA50 365.4.
         They formed a band 360.2 to 374.8; that week's range 334.5 to 405.4 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 37.44 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 37.44 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 31 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -1540,7 +1542,7 @@
      2) Weekly support zone (week of 2026-08-31): the weekly averages were
         EMA11 1239.4, EMA22 1101.2, EMA50 937.1.
         They formed a band 937.1 to 1239.4; that week's range 1180.0 to 1327.3 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 41.21 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 41.21 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 91 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -1559,7 +1561,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 361.1, EMA22 350.0, EMA50 333.9.
         They formed a band 333.9 to 361.1; that week's range 341.0 to 358.8 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 31.27 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 31.27 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 60 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -1578,7 +1580,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 559.2, EMA22 530.5, EMA50 476.8.
         They formed a band 476.8 to 559.2; that week's range 532.8 to 568.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 36.40 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 36.40 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 14 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -1597,7 +1599,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 1606.1, EMA22 1493.6, EMA50 1348.1.
         They formed a band 1348.1 to 1606.1; that week's range 1520.0 to 1787.8 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 39.25 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 39.25 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 9 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -1616,7 +1618,7 @@
      2) Weekly support zone (week of 2026-08-31): the weekly averages were
         EMA11 3483.7, EMA22 3392.4, EMA50 3104.2.
         They formed a band 3104.2 to 3483.7; that week's range 3303.3 to 3494.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 29.68 (below 30) => "censored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 29.68 (below 30) => "censored"
         (a weaker dip; still listed (RSI only labels)).
      4) Liquidity: about Rs 23 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -1635,7 +1637,7 @@
      2) Weekly support zone (week of 2026-08-17): the weekly averages were
         EMA11 222.1, EMA22 225.2, EMA50 230.8.
         They formed a band 222.1 to 230.8; that week's range 205.0 to 229.9 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 36.03 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 36.03 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 44 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -1654,7 +1656,7 @@
      2) Weekly support zone (week of 2026-09-07): the weekly averages were
         EMA11 263.2, EMA22 262.8, EMA50 276.8.
         They formed a band 262.8 to 276.8; that week's range 246.6 to 266.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 33.42 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 33.42 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 18 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -1673,7 +1675,7 @@
      2) Weekly support zone (week of 2026-08-31): the weekly averages were
         EMA11 661.6, EMA22 642.6, EMA50 622.6.
         They formed a band 622.6 to 661.6; that week's range 609.4 to 650.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 33.12 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 33.12 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 9 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -1692,7 +1694,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 153.7, EMA22 138.7, EMA50 115.8.
         They formed a band 115.8 to 153.7; that week's range 152.2 to 168.5 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 42.78 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 42.78 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 14 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -1711,7 +1713,7 @@
      2) Weekly support zone (week of 2026-08-31): the weekly averages were
         EMA11 67.58, EMA22 61.02, EMA50 51.68.
         They formed a band 51.68 to 67.58; that week's range 65.11 to 74.20 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 38.59 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 38.59 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 158 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -1730,7 +1732,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 332.5, EMA22 331.1, EMA50 338.0.
         They formed a band 331.1 to 338.0; that week's range 308.0 to 333.5 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 37.92 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 37.92 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 10 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -1749,7 +1751,7 @@
      2) Weekly support zone (week of 2026-08-31): the weekly averages were
         EMA11 657.6, EMA22 643.1, EMA50 618.6.
         They formed a band 618.6 to 657.6; that week's range 628.2 to 662.4 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 38.90 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 38.90 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 14 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -1768,7 +1770,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 527.7, EMA22 489.1, EMA50 434.9.
         They formed a band 434.9 to 527.7; that week's range 504.2 to 588.8 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 45.70 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 45.70 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 16 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -1787,7 +1789,7 @@
      2) Weekly support zone (week of 2026-09-07): the weekly averages were
         EMA11 753.7, EMA22 722.3, EMA50 654.2.
         They formed a band 654.2 to 753.7; that week's range 701.7 to 765.9 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 37.37 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 37.37 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 7 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -1806,7 +1808,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 1394.3, EMA22 1279.5, EMA50 1072.2.
         They formed a band 1072.2 to 1394.3; that week's range 1355.6 to 1475.6 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 39.13 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 39.13 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 27 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -1825,7 +1827,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 498.5, EMA22 483.9, EMA50 460.5.
         They formed a band 460.5 to 498.5; that week's range 459.5 to 494.5 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 33.90 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 33.90 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 29 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -1844,7 +1846,7 @@
      2) Weekly support zone (week of 2026-08-17): the weekly averages were
         EMA11 377.1, EMA22 375.8, EMA50 349.1.
         They formed a band 349.1 to 377.1; that week's range 351.0 to 364.3 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 37.86 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 37.86 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 25 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -1863,7 +1865,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 1018.3, EMA22 1051.0, EMA50 1112.2.
         They formed a band 1018.3 to 1112.2; that week's range 936.0 to 1039.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 39.73 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 39.73 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 12 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -1882,7 +1884,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 73.58, EMA22 71.72, EMA50 67.64.
         They formed a band 67.64 to 73.58; that week's range 65.91 to 70.33 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 30.25 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 30.25 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 14 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -1901,7 +1903,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 1559.8, EMA22 1425.4, EMA50 1219.5.
         They formed a band 1219.5 to 1559.8; that week's range 1552.7 to 1680.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 45.72 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 45.72 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 26 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -1920,7 +1922,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 640.9, EMA22 589.0, EMA50 476.8.
         They formed a band 476.8 to 640.9; that week's range 577.7 to 668.8 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 41.73 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 41.73 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 20 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -1939,7 +1941,7 @@
      2) Weekly support zone (week of 2026-09-07): the weekly averages were
         EMA11 3257.7, EMA22 3301.1, EMA50 3270.6.
         They formed a band 3257.7 to 3301.1; that week's range 3080.2 to 3321.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 41.17 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 41.17 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 11 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -1958,7 +1960,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 1221.4, EMA22 1137.7, EMA50 979.1.
         They formed a band 979.1 to 1221.4; that week's range 1156.7 to 1279.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 40.21 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 40.21 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 6 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -1977,7 +1979,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 692.4, EMA22 662.0, EMA50 614.0.
         They formed a band 614.0 to 692.4; that week's range 661.8 to 704.6 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 36.86 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 36.86 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 12 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -1996,7 +1998,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 320.2, EMA22 312.7, EMA50 317.1.
         They formed a band 312.7 to 320.2; that week's range 310.2 to 338.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 44.05 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 44.05 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 34 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -2015,7 +2017,7 @@
      2) Weekly support zone (week of 2026-08-31): the weekly averages were
         EMA11 784.6, EMA22 765.7, EMA50 724.8.
         They formed a band 724.8 to 784.6; that week's range 748.3 to 778.5 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 33.36 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 33.36 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 36 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -2034,7 +2036,7 @@
      2) Weekly support zone (week of 2026-08-31): the weekly averages were
         EMA11 665.5, EMA22 636.9, EMA50 605.6.
         They formed a band 605.6 to 665.5; that week's range 630.0 to 677.6 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 34.85 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 34.85 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 5 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -2053,7 +2055,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 4364.0, EMA22 4385.3, EMA50 4647.3.
         They formed a band 4364.0 to 4647.3; that week's range 4155.0 to 4568.9 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 37.72 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 37.72 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 133 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -2072,7 +2074,7 @@
      2) Weekly support zone (week of 2026-09-07): the weekly averages were
         EMA11 1740.0, EMA22 1736.9, EMA50 1858.6.
         They formed a band 1736.9 to 1858.6; that week's range 1593.8 to 1770.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 40.09 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 40.09 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 16 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -2091,7 +2093,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 343.3, EMA22 332.5, EMA50 308.2.
         They formed a band 308.2 to 343.3; that week's range 317.0 to 340.9 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 29.62 (below 30) => "censored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 29.62 (below 30) => "censored"
         (a weaker dip; still listed (RSI only labels)).
      4) Liquidity: about Rs 12 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -2110,7 +2112,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 684.8, EMA22 643.6, EMA50 615.3.
         They formed a band 615.3 to 684.8; that week's range 659.1 to 728.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 43.85 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 43.85 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 43 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -2129,7 +2131,7 @@
      2) Weekly support zone (week of 2026-08-03): the weekly averages were
         EMA11 524.9, EMA22 478.8, EMA50 415.6.
         They formed a band 415.6 to 524.9; that week's range 483.0 to 547.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 39.02 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 39.02 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 65 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -2148,7 +2150,7 @@
      2) Weekly support zone (week of 2026-08-17): the weekly averages were
         EMA11 1029.0, EMA22 1023.5, EMA50 975.4.
         They formed a band 975.4 to 1029.0; that week's range 931.3 to 1056.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 33.76 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 33.76 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 35 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -2167,7 +2169,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 496.7, EMA22 484.9, EMA50 456.2.
         They formed a band 456.2 to 496.7; that week's range 464.1 to 511.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 37.73 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 37.73 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 49 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -2186,7 +2188,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 2771.6, EMA22 2708.2, EMA50 2618.0.
         They formed a band 2618.0 to 2771.6; that week's range 2582.0 to 2743.6 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 28.59 (below 30) => "censored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 28.59 (below 30) => "censored"
         (a weaker dip; still listed (RSI only labels)).
      4) Liquidity: about Rs 23 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -2205,7 +2207,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 1695.9, EMA22 1650.2, EMA50 1687.5.
         They formed a band 1650.2 to 1695.9; that week's range 1691.2 to 1753.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 45.68 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 45.68 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 20 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -2224,7 +2226,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 436.7, EMA22 411.2, EMA50 373.7.
         They formed a band 373.7 to 436.7; that week's range 395.3 to 438.1 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 29.85 (below 30) => "censored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 29.85 (below 30) => "censored"
         (a weaker dip; still listed (RSI only labels)).
      4) Liquidity: about Rs 11 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -2243,7 +2245,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 1550.3, EMA22 1556.9, EMA50 1577.7.
         They formed a band 1550.3 to 1577.7; that week's range 1465.0 to 1558.9 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 38.11 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 38.11 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 10 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -2262,7 +2264,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 518.0, EMA22 525.1, EMA50 612.8.
         They formed a band 518.0 to 612.8; that week's range 487.1 to 528.6 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 36.11 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 36.11 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 30 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -2281,7 +2283,7 @@
      2) Weekly support zone (week of 2026-08-31): the weekly averages were
         EMA11 483.9, EMA22 469.7, EMA50 463.6.
         They formed a band 463.6 to 483.9; that week's range 454.1 to 490.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 36.34 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 36.34 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 8 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -2300,7 +2302,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 462.0, EMA22 423.5, EMA50 375.7.
         They formed a band 375.7 to 462.0; that week's range 436.9 to 476.9 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 40.72 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 40.72 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 9 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -2319,7 +2321,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 527.5, EMA22 502.6, EMA50 474.1.
         They formed a band 474.1 to 527.5; that week's range 477.4 to 534.8 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 32.57 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 32.57 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 29 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -2338,7 +2340,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 416.7, EMA22 405.7, EMA50 407.1.
         They formed a band 405.7 to 416.7; that week's range 411.0 to 439.9 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 52.18 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 52.18 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 6 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -2357,7 +2359,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 314.1, EMA22 293.8, EMA50 273.6.
         They formed a band 273.6 to 314.1; that week's range 306.6 to 347.5 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 50.54 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 50.54 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 11 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -2376,7 +2378,7 @@
      2) Weekly support zone (week of 2026-08-10): the weekly averages were
         EMA11 166.5, EMA22 165.8, EMA50 170.3.
         They formed a band 165.8 to 170.3; that week's range 160.5 to 170.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 42.29 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 42.29 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 23 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -2395,7 +2397,7 @@
      2) Weekly support zone (week of 2026-08-31): the weekly averages were
         EMA11 788.7, EMA22 770.8, EMA50 769.4.
         They formed a band 769.4 to 788.7; that week's range 763.0 to 802.5 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 40.57 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 40.57 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 17 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -2414,7 +2416,7 @@
      2) Weekly support zone (week of 2026-08-10): the weekly averages were
         EMA11 574.9, EMA22 552.1, EMA50 527.0.
         They formed a band 527.0 to 574.9; that week's range 557.1 to 590.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 35.95 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 35.95 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 35 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -2433,7 +2435,7 @@
      2) Weekly support zone (week of 2026-09-07): the weekly averages were
         EMA11 610.3, EMA22 593.3, EMA50 555.7.
         They formed a band 555.7 to 610.3; that week's range 586.5 to 636.9 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 42.73 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 42.73 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 23 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -2452,7 +2454,7 @@
      2) Weekly support zone (week of 2026-08-24): the weekly averages were
         EMA11 760.0, EMA22 725.3, EMA50 715.2.
         They formed a band 715.2 to 760.0; that week's range 739.1 to 822.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 42.30 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 42.30 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 31 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -2471,7 +2473,7 @@
      2) Weekly support zone (week of 2026-08-03): the weekly averages were
         EMA11 14.81, EMA22 14.34, EMA50 13.30.
         They formed a band 13.30 to 14.81; that week's range 13.81 to 14.85 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 39.25 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 39.25 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 42 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -2490,7 +2492,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 2150.0, EMA22 2064.7, EMA50 2057.0.
         They formed a band 2057.0 to 2150.0; that week's range 2078.7 to 2271.1 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 44.33 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 44.33 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 7 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -2509,7 +2511,7 @@
      2) Weekly support zone (week of 2026-07-27): the weekly averages were
         EMA11 25.68, EMA22 25.10, EMA50 23.94.
         They formed a band 23.94 to 25.68; that week's range 23.00 to 26.16 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 34.83 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 34.83 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 13 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -2528,7 +2530,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 685.8, EMA22 663.4, EMA50 636.0.
         They formed a band 636.0 to 685.8; that week's range 645.0 to 715.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 41.84 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 41.84 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 7 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -2547,7 +2549,7 @@
      2) Weekly support zone (week of 2026-08-24): the weekly averages were
         EMA11 3512.1, EMA22 3344.1, EMA50 2973.2.
         They formed a band 2973.2 to 3512.1; that week's range 3255.1 to 3486.5 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 35.16 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 35.16 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 33 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -2566,7 +2568,7 @@
      2) Weekly support zone (week of 2026-08-24): the weekly averages were
         EMA11 61.24, EMA22 62.58, EMA50 66.81.
         They formed a band 61.24 to 66.81; that week's range 59.33 to 61.88 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 44.06 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 44.06 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 5 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -2585,7 +2587,7 @@
      2) Weekly support zone (week of 2026-08-31): the weekly averages were
         EMA11 126.3, EMA22 129.4, EMA50 138.5.
         They formed a band 126.3 to 138.5; that week's range 116.6 to 128.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 34.60 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 34.60 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 6 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -2604,7 +2606,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 594.8, EMA22 547.8, EMA50 484.8.
         They formed a band 484.8 to 594.8; that week's range 578.2 to 633.7 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 43.40 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 43.40 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 6 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -2623,7 +2625,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 57.32, EMA22 57.39, EMA50 57.29.
         They formed a band 57.29 to 57.39; that week's range 54.25 to 57.30 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 41.14 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 41.14 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 6 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -2642,7 +2644,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 568.8, EMA22 544.3, EMA50 543.5.
         They formed a band 543.5 to 568.8; that week's range 543.8 to 577.8 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 35.08 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 35.08 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 22 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -2661,7 +2663,7 @@
      2) Weekly support zone (week of 2026-08-31): the weekly averages were
         EMA11 720.4, EMA22 741.0, EMA50 743.5.
         They formed a band 720.4 to 743.5; that week's range 648.0 to 724.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 35.90 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 35.90 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 76 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -2680,7 +2682,7 @@
      2) Weekly support zone (week of 2026-08-10): the weekly averages were
         EMA11 364.8, EMA22 362.5, EMA50 353.5.
         They formed a band 353.5 to 364.8; that week's range 345.0 to 377.5 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 39.38 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 39.38 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 26 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -2699,7 +2701,7 @@
      2) Weekly support zone (week of 2026-08-03): the weekly averages were
         EMA11 1076.6, EMA22 994.0, EMA50 907.9.
         They formed a band 907.9 to 1076.6; that week's range 1028.7 to 1250.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 38.09 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 38.09 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 7 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -2718,7 +2720,7 @@
      2) Weekly support zone (week of 2026-08-10): the weekly averages were
         EMA11 204.3, EMA22 194.3, EMA50 185.8.
         They formed a band 185.8 to 204.3; that week's range 194.0 to 210.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 41.31 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 41.31 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 5 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -2737,7 +2739,7 @@
      2) Weekly support zone (week of 2026-08-31): the weekly averages were
         EMA11 1137.8, EMA22 1088.5, EMA50 997.7.
         They formed a band 997.7 to 1137.8; that week's range 1095.1 to 1180.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 39.33 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 39.33 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 8 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -2756,7 +2758,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 787.6, EMA22 812.6, EMA50 893.5.
         They formed a band 787.6 to 893.5; that week's range 742.8 to 793.3 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 36.88 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 36.88 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 15 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -2775,7 +2777,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 1340.5, EMA22 1356.0, EMA50 1279.1.
         They formed a band 1279.1 to 1356.0; that week's range 1199.8 to 1295.9 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 27.32 (below 30) => "censored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 27.32 (below 30) => "censored"
         (a weaker dip; still listed (RSI only labels)).
      4) Liquidity: about Rs 11 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -2794,7 +2796,7 @@
      2) Weekly support zone (week of 2026-07-27): the weekly averages were
         EMA11 1302.0, EMA22 1277.1, EMA50 1188.4.
         They formed a band 1188.4 to 1302.0; that week's range 1232.5 to 1386.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 38.80 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 38.80 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 8 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -2813,7 +2815,7 @@
      2) Weekly support zone (week of 2026-08-03): the weekly averages were
         EMA11 1600.8, EMA22 1484.6, EMA50 1392.3.
         They formed a band 1392.3 to 1600.8; that week's range 1540.0 to 1700.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 36.87 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 36.87 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 34 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -2832,7 +2834,7 @@
      2) Weekly support zone (week of 2026-08-24): the weekly averages were
         EMA11 1075.1, EMA22 1000.4, EMA50 907.3.
         They formed a band 907.3 to 1075.1; that week's range 1055.3 to 1107.9 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 38.22 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 38.22 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 5 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -2851,7 +2853,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 1426.2, EMA22 1409.3, EMA50 1350.6.
         They formed a band 1350.6 to 1426.2; that week's range 1269.1 to 1353.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 25.88 (below 30) => "censored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 25.88 (below 30) => "censored"
         (a weaker dip; still listed (RSI only labels)).
      4) Liquidity: about Rs 25 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -2870,7 +2872,7 @@
      2) Weekly support zone (week of 2026-08-24): the weekly averages were
         EMA11 712.6, EMA22 710.7, EMA50 706.3.
         They formed a band 706.3 to 712.6; that week's range 688.0 to 717.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 41.60 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 41.60 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 14 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -2889,7 +2891,7 @@
      2) Weekly support zone (week of 2026-08-24): the weekly averages were
         EMA11 1142.0, EMA22 1125.0, EMA50 1028.0.
         They formed a band 1028.0 to 1142.0; that week's range 1010.8 to 1052.2 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 31.58 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 31.58 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 7 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -2908,7 +2910,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 4065.5, EMA22 4061.8, EMA50 4005.0.
         They formed a band 4005.0 to 4065.5; that week's range 3818.1 to 4260.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 35.51 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 35.51 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 19 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -2927,7 +2929,7 @@
      2) Weekly support zone (week of 2026-09-07): the weekly averages were
         EMA11 163.0, EMA22 164.9, EMA50 170.6.
         They formed a band 163.0 to 170.6; that week's range 148.9 to 172.5 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 28.60 (below 30) => "censored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 28.60 (below 30) => "censored"
         (a weaker dip; still listed (RSI only labels)).
      4) Liquidity: about Rs 13 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -2946,7 +2948,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 4304.3, EMA22 4280.3, EMA50 4060.1.
         They formed a band 4060.1 to 4304.3; that week's range 3778.0 to 4140.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 21.65 (below 30) => "censored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 21.65 (below 30) => "censored"
         (a weaker dip; still listed (RSI only labels)).
      4) Liquidity: about Rs 16 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -2965,7 +2967,7 @@
      2) Weekly support zone (week of 2026-09-07): the weekly averages were
         EMA11 657.5, EMA22 664.6, EMA50 672.5.
         They formed a band 657.5 to 672.5; that week's range 616.1 to 679.4 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 31.48 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 31.48 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 19 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -2984,7 +2986,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 219.3, EMA22 217.9, EMA50 213.2.
         They formed a band 213.2 to 219.3; that week's range 205.2 to 218.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 30.50 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 30.50 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 5 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -3003,7 +3005,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 466.2, EMA22 455.4, EMA50 443.3.
         They formed a band 443.3 to 466.2; that week's range 428.1 to 492.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 29.79 (below 30) => "censored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 29.79 (below 30) => "censored"
         (a weaker dip; still listed (RSI only labels)).
      4) Liquidity: about Rs 37 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -3022,7 +3024,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 130.3, EMA22 127.3, EMA50 131.0.
         They formed a band 127.3 to 131.0; that week's range 115.8 to 136.5 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 31.53 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 31.53 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 23 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -3041,7 +3043,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 427.0, EMA22 429.8, EMA50 441.7.
         They formed a band 427.0 to 441.7; that week's range 402.1 to 429.5 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 32.60 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 32.60 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 21 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -3060,7 +3062,7 @@
      2) Weekly support zone (week of 2026-08-17): the weekly averages were
         EMA11 860.5, EMA22 833.4, EMA50 808.6.
         They formed a band 808.6 to 860.5; that week's range 816.0 to 914.9 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 36.73 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 36.73 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 11 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -3079,7 +3081,7 @@
      2) Weekly support zone (week of 2026-08-10): the weekly averages were
         EMA11 4077.9, EMA22 4000.5, EMA50 3870.0.
         They formed a band 3870.0 to 4077.9; that week's range 3850.0 to 4628.0 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 35.09 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 35.09 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 7 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -3098,7 +3100,7 @@
      2) Weekly support zone (week of 2026-08-24): the weekly averages were
         EMA11 195.2, EMA22 183.3, EMA50 183.2.
         They formed a band 183.2 to 195.2; that week's range 185.0 to 217.7 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 39.20 (at/above 30) => "uncensored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 39.20 (at/above 30) => "uncensored"
         (a healthy dip, not a panic sell-off).
      4) Liquidity: about Rs 8 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -3117,7 +3119,7 @@
      2) Weekly support zone (week of 2026-09-15): the weekly averages were
         EMA11 648.2, EMA22 648.4, EMA50 639.3.
         They formed a band 639.3 to 648.4; that week's range 576.4 to 674.8 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 22.87 (below 30) => "censored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 22.87 (below 30) => "censored"
         (a weaker dip; still listed (RSI only labels)).
      4) Liquidity: about Rs 42 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -3136,7 +3138,7 @@
      2) Weekly support zone (week of 2026-08-17): the weekly averages were
         EMA11 430.5, EMA22 438.9, EMA50 457.7.
         They formed a band 430.5 to 457.7; that week's range 384.0 to 464.2 overlapped the band.  [OK]
-     3) RSI health: the lowest RSI within 3 days of the MACD dip was 25.71 (below 30) => "censored"
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 25.71 (below 30) => "censored"
         (a weaker dip; still listed (RSI only labels)).
      4) Liquidity: about Rs 10 cr traded per day (above the Rs 5 cr minimum) => tradeable.
 
@@ -3195,7 +3197,7 @@
    ZENITHEXPO (Rs 0.00 cr/d), ZIMLAB (Rs 1.40 cr/d)
 
  SCAN SUMMARY (why the other stocks were not selected)
-   scanned 1961 | passed liquidity+history 922 | setups 308 (156 ranked, 0 under min_score, 152 fail liquidity) | pending 5
+   scanned 1961 | passed liquidity+history 922 | setups 308 (156 ranked, 152 fail liquidity) | pending 5
        882  below liquidity/price floor (not a setup, or its week is still forming)
        609  no valid bullish divergence
        131  swing-low week did not touch the weekly EMA zone
@@ -3212,7 +3214,7 @@
 
  APPENDIX - EVERY SPEC FIELD FOR THE 152 SETUPS THAT FAIL LIQUIDITY (not ranked)
    DIP = MACD-histogram trough date (MACD value); LOW = swing-low price @ its date; ZONE WK = start of the weekly EMA-zone candle;
-   RSI = the lowest RSI within 3 days of the recent dip (check vs 30)
+   RSI = the lowest RSI within 3 trading days of the recent dip (check vs 30)
 
    SYMBOL       PREV DIP (MACD)        RECENT DIP (MACD)      PREV LOW @ DATE         RECENT LOW @ DATE       ZONE WK     EMA11 / EMA22 / EMA50       RSI (CHECK)
    AARON        2026-09-02 (-2.01)     2026-09-21 (-1.20)     124.68 @ 2026-09-02     115.00 @ 2026-09-18     2026-09-15  128.6 / 132.0 / 144.7       36.37 (uncensored)
@@ -3314,7 +3316,7 @@
    ORIENTCER    2026-09-04 (-0.2006)   2026-09-16 (-0.0803)   42.93 @ 2026-09-02      42.50 @ 2026-09-16      2026-09-15  44.02 / 42.70 / 41.65       52.14 (uncensored)
    ORIENTPPR    2026-08-14 (-0.1760)   2026-09-02 (-0.0593)   16.65 @ 2026-08-19      16.45 @ 2026-09-02      2026-08-31  17.40 / 17.86 / 20.38       40.22 (uncensored)
    ORIENTTECH   2026-09-02 (-0.9509)   2026-09-09 (-0.7770)   233.61 @ 2026-09-02     229.00 @ 2026-09-09     2026-09-07  253.2 / 263.5 / 284.5       28.38 (censored)
-   PARASPETRO   2026-08-20 (-0.0496)   2026-09-02 (-0.0305)   2.11 @ 2026-08-24       2.04 @ 2026-09-03       2026-08-31  2.215 / 2.198 / 2.249       38.52 (uncensored)
+   PARASPETRO   2026-08-20 (-0.0496)   2026-09-02 (-0.0305)   2.11 @ 2026-08-24       2.04 @ 2026-09-03       2026-08-31  2.215 / 2.198 / 2.250       38.52 (uncensored)
    PARIN        2026-08-12 (-3.42)     2026-09-11 (-1.64)     681.00 @ 2026-08-19     675.00 @ 2026-09-11     2026-09-07  704.5 / 690.0 / 630.7       39.50 (uncensored) (data to 2026-09-23)
    PIGL         2026-08-26 (-0.6117)   2026-09-08 (-0.4485)   100.00 @ 2026-08-31     95.50 @ 2026-09-08      2026-09-07  105.2 / 108.4 / 119.8       31.80 (uncensored)
    PLASTIBLEN   2026-09-02 (-1.29)     2026-09-17 (-0.5750)   181.80 @ 2026-09-02     180.86 @ 2026-09-16     2026-09-15  187.7 / 181.2 / 178.6       41.31 (uncensored)

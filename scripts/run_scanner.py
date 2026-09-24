@@ -153,6 +153,9 @@ def main() -> int:
             continue
 
         n_scanned += 1
+        if len(df) == 0:  # nothing but filler rows: no real session at all (and no last date)
+            skip_reasons["insufficient_history"] = skip_reasons.get("insufficient_history", 0) + 1
+            continue
         last_dates.append(df.index.max())
         isin = meta.get("isin", "") or (getattr(row, "isin", "") or "")
         company = company_map.get(sym, sym)
@@ -183,7 +186,6 @@ def main() -> int:
                 n_liquid += 1
 
     ranked = rankmod.rank(flagged, cfg)
-    under_min = sorted(r["symbol"] for r in flagged if "rank" not in r)  # dropped by [ranking] min_score
 
     # As-of = the date most scanned stocks' data actually ends on (ties -> newest), with
     # the count, so a partly-published newest day never overstates freshness.
@@ -198,7 +200,6 @@ def main() -> int:
         "L": n_liquid,
         "F": len(flagged),
         "P": len(pending),
-        "under_min_score": under_min,
         "illiquid_pass": sorted(illiquid_pass, key=lambda x: x["symbol"]),
         "week_note": week_note,
         "skips": skip_reasons,

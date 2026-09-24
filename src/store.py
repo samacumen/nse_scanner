@@ -49,9 +49,14 @@ def drop_filler_rows(df: pd.DataFrame) -> pd.DataFrame:
         return df
     c = df["Close"]
     same = lambda a, b: np.isclose(a, b, rtol=1e-6, atol=0.0)  # float noise only; a real tick is far larger
-    filler = ((df["Volume"] == 0) & same(df["Open"], c) & same(df["High"], c) & same(df["Low"], c)
-              & same(c, c.shift(1)))
-    return df[~filler]
+    flat0 = ((df["Volume"] == 0) & same(df["Open"], c) & same(df["High"], c) & same(df["Low"], c))
+    out = df[~(flat0 & same(c, c.shift(1)))]
+    # Leading flat zero-volume rows have no previous close to compare with: drop them too
+    # (the file starts with no-trade days), so the first row kept is a real session.
+    lead = ((out["Volume"] == 0) & same(out["Open"], out["Close"]) & same(out["High"], out["Close"])
+            & same(out["Low"], out["Close"]))
+    start = int(np.argmin(lead.to_numpy())) if not lead.all() else len(out)
+    return out.iloc[start:]
 
 
 def validate_and_prepare(df: pd.DataFrame, cfg):
@@ -225,15 +230,17 @@ def load_week_guard(manifest: pd.DataFrame, path: Path):
     dates = pd.to_datetime(manifest.get("last_date"), errors="coerce").dropna()
     newest = dates.max() if len(dates) else None
     guard = {"cohort_newest": newest, "incomplete_week": None}
-    if not path.exists():
-        return guard, ""
+    not_run = ("NSE session check was not run for this download: each stock's last week is judged by "
+               "the download time and the other stocks only.")
+    if not path.exists():  # data from a Step 1 run before this check existed
+        return guard, not_run
     try:
         chk = json.loads(path.read_text(encoding="utf-8"))
         week, cohort = chk["week"], chk["cohort_newest"]
     except (ValueError, KeyError, TypeError, OSError):
         return guard, "NSE session check file unreadable: last weeks were closed by the clock and the cohort check only."
     if newest is None or cohort != newest.date().isoformat():
-        return guard, ""  # the check belongs to an older download (Step 1 was interrupted): ignore it
+        return guard, not_run  # the file belongs to an older download (Step 1 was interrupted): ignore it
     if chk.get("sessions_missing"):
         guard["incomplete_week"] = pd.Timestamp(week)
         return guard, (f"NSE held a session on {', '.join(chk['sessions_missing'])} that no stock's data "

@@ -114,7 +114,6 @@ everyday settings:
 | `min_median_traded_value_inr` | Ignore stocks trading less than this per day. `50000000` = Rs 5 crore/day. | 50000000 |
 | `min_price` | Ignore cheap stocks below this price (avoids penny stocks). | 20 |
 | `top_n` | How many top picks to highlight. | 10 |
-| `min_score` | Blank = show every qualifying stock (never pad the list with weak ones). | (blank) |
 | `write_full_flagged_csv` | `false` = one text report per day; `true` = also save a spreadsheet CSV. | false |
 
 **Which step to re-run:** change `[universe]` or `[data]` -> **Step 1** then Step 2 (it changes the

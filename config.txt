@@ -23,7 +23,6 @@ min_price = 20                            # ignore stocks priced below this (avo
 
 [ranking]
 top_n = 10                      # how many top picks to highlight
-min_score =                     # blank = show every qualifying stock (never pad the list with weak ones)
 
 [output]
 write_full_flagged_csv = false  # false = one .txt report per day; true = also write a spreadsheet CSV

@@ -218,7 +218,6 @@ def load_config(path: Path | str | None = None) -> SimpleNamespace:
         weight_liquidity=K.float_("weight_liquidity", default=0.15),
         weight_recency=K.float_("weight_recency", default=0.10),
         weight_volume_expansion=K.float_("weight_volume_expansion", default=0.10),
-        min_score=K.float_("min_score", default=None),
     )
     output = SimpleNamespace(
         dir=O.str_("dir", default="output") or "output",

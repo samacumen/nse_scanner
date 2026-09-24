@@ -117,10 +117,13 @@ def test_nse_status_codes_and_the_week_guard_file(tmp_path):
     assert guard["incomplete_week"] is None and "unavailable" in note
     f.write_text('{"week": "2026-08-28", "cohort_newest": "2026-08-27", "sessions_missing": ["2026-08-28"]}')
     guard, note = storemod.load_week_guard(man, f)  # stale: from an older (interrupted) download
-    assert guard["incomplete_week"] is None and note == ""
+    assert guard["incomplete_week"] is None and "was not run" in note
     f.write_text('{"week": ')  # corrupt: never crashes Step 2
     guard, note = storemod.load_week_guard(man, f)
     assert guard["incomplete_week"] is None and "unreadable" in note
+    f.unlink()  # missing (data from a Step 1 run before the check existed): say so
+    guard, note = storemod.load_week_guard(man, f)
+    assert guard["incomplete_week"] is None and "was not run" in note
 
 
 def test_cache_is_not_reused_across_a_session_close():
@@ -148,6 +151,11 @@ def test_yahoo_filler_rows_are_not_sessions():
     two = pd.DataFrame({"Open": [5, 5, 5, 6], "High": [6, 5, 5, 6], "Low": [4, 5, 5, 5], "Close": [5, 5, 5, 6],
                         "Volume": [9, 0, 0, 4]}, index=pd.bdate_range("2026-01-12", periods=4), dtype=float)
     assert len(storemod.drop_filler_rows(two)) == 2  # two fillers in a row both go
+    lead = pd.DataFrame({"Open": [6.05, 6.05, 6.2, 6.3], "High": [6.05, 6.05, 6.4, 6.3],
+                         "Low": [6.05, 6.05, 6.0, 6.1], "Close": [6.05, 6.05, 6.3, 6.2],
+                         "Volume": [0, 0, 300, 50]}, index=pd.bdate_range("2020-09-24", periods=4), dtype=float)
+    once = storemod.drop_filler_rows(lead)  # a file that starts with no-trade days (e.g. 3PLAND)
+    assert once.index[0] == pd.Timestamp("2020-09-28") and once.equals(storemod.drop_filler_rows(once))
     assert storemod.drop_filler_rows(storemod.drop_filler_rows(df)).equals(storemod.drop_filler_rows(df))
     fixture, _ = storemod.load_parquet(FIXTURE)  # BSE: NSE had no session on these (bhavcopy 404)
     for holiday in ("2026-01-15", "2026-05-01", "2026-05-28", "2026-06-26", "2026-09-14"):

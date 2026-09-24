@@ -57,6 +57,16 @@
   setting and re-running `scripts/run_scanner.py` **re-analyzes the already-sourced data with no
   re-fetch** (§6). Report header echoes the exact settings used.
 
+## Changelog v1.7 -> v1.8 (external review round 3, 98%; user decisions in brackets)
+- **Missing NSE check file [warn, judge by clock].** Data downloaded before the check existed has no
+  `data/week_check.json`; the report and console now say the check was not run (last weeks judged by
+  the download time and the other stocks), instead of staying silent.
+- **Leading filler rows.** A file that starts with flat zero-volume rows (no previous close to compare,
+  e.g. 3PLAND on 2020-09-24; 90 files) now drops them too, so the first row kept is a real session.
+- **Wording:** "within K trading days of the MACD dip" (the window counts sessions, not calendar days).
+- **`min_score` removed [remove the setting].** It could hide spec flags (and their spec-5 fields)
+  from the report and CSV; every spec flag is now always reported.
+
 ## Changelog v1.6 -> v1.7 (external review round 2, 96%; user decisions in brackets)
 - **Every spec pass is a flag [appendix table].** Spec passes below the liquidity floor now get their
   full spec-4/5 record (RSI included) and are counted as flags ("306 pass the setup: 153 ranked + 153
@@ -69,7 +79,7 @@
   unreachable -> cohort check + clock, with a warning in the log and the report.
 - **Cache:** a file younger than 12 h is reused only if no NSE weekday 15:30 IST close fell since it
   was downloaded.
-- **Wording:** "the lowest RSI within K days of the MACD dip" (spec 1.6 window, not the price-low
+- **Wording:** "the lowest RSI within K trading days of the MACD dip" (spec 1.6 window, not the price-low
   day); the closing note qualifies the as-of date and stocks whose data ends on another date are
   marked "(data to <date>)".
 - **Kept [total-history rule]:** the 50-weekly-bar gate counts the whole history, not bars up to W.
@@ -172,7 +182,7 @@ Three questions per stock, in order:
    divergence** (selling exhausting).
 2. **Did that low happen at long-term support?** The **weekly** candle containing that price low
    must **touch the weekly EMA 11/22/50 band** (its range overlaps the band - a support zone).
-3. **Was the dip healthy?** Tag (never filter) with an **RSI check**: the lowest RSI within K days
+3. **Was the dip healthy?** Tag (never filter) with an **RSI check**: the lowest RSI within K trading days
    of the MACD dip ≥ 30 →
    `uncensored`; below 30 → `censored`.
 
@@ -299,7 +309,7 @@ Windows Task Scheduler weekly calling `.venv\Scripts\python.exe`.
 
 ## 6. Configuration - plain-text settings the user edits (`config.txt` + `advanced_config.txt`)
 **Settings are split across two INI files (v1.5)** parsed by stdlib `configparser` (no YAML): the
-everyday **`config.txt`** (universe scope, liquidity floor, `top_n`, `min_score`, CSV toggle,
+everyday **`config.txt`** (universe scope, liquidity floor, `top_n`, CSV toggle,
 `history_years`, `price_adjustment`) and the rarely-changed **`advanced_config.txt`** (the method
 knobs: MACD, divergence internals, RSI, weekly-zone, ranking weights, fetch mechanics). `config.py`
 holds a built-in default for **every** parameter and reads `advanced_config.txt` first then
@@ -377,7 +387,6 @@ weight_rsi_quality = 0.15
 weight_liquidity = 0.15
 weight_recency = 0.10
 weight_volume_expansion = 0.10
-min_score =                     # blank = no floor (never pad the list with weak names)
 
 [output]
 dir = output
@@ -531,7 +540,7 @@ null the whole column/top-10; the ATR denominator of `momentum` is finite-guarde
 **Small-cohort guard:** if `n_flagged < small_cohort_threshold` or a metric's std==0, skip z-scoring
 that metric (contribute 0) and fall back to sorting by `momentum` then `liquidity`. Sort desc;
 **top 10** = focus, **all** flagged listed. `tie_break` = liquidity (then `uncensored` before
-`censored`). If `min_score` set, drop below it (never pad to 10). If >10 flag, highlight 10, list rest.
+`censored`). Every liquid flag is ranked (no score floor since v1.8). If >10 flag, highlight 10, list rest.
 
 ### 8.7 Output - `output/top_recommended_for_<DATE>.txt` (UTF-8, human-readable)
 **TRUTHFULNESS MANDATE (hard requirement).** Every value printed is **computed from the actually
@@ -577,7 +586,7 @@ can't be computed, print `n/a` - never invent it. Every listed stock must genuin
         made a HIGHER low while price made a LOWER low [OK].
      2) Weekly support zone (week ending 2026-09-04): weekly averages formed a band
         3178.3-3520.1; that week's range 3131.5-3474.0 overlapped it [OK].
-     3) RSI health: the lowest RSI within 3 days of the MACD dip = 33.29, at/above 30 -> "uncensored" [OK].
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip = 33.34, at/above 30 -> "uncensored" [OK].
      4) Liquidity: ₹1,599 cr traded/day (> ₹5 cr floor) -> tradeable.
    Why it ranks #1: strongest blend of momentum turn, tight support, healthy RSI, liquidity.
  ---------------------------------------------------------------------

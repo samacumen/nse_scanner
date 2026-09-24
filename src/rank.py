@@ -113,9 +113,6 @@ def rank(records: list, cfg) -> list:
 
     ranked = sorted(records, key=sort_key, reverse=True)
 
-    if cfg.ranking.min_score is not None:
-        ranked = [r for r in ranked if r["score"] >= cfg.ranking.min_score]
-
     for pos, r in enumerate(ranked, 1):
         r["rank"] = pos
     return ranked

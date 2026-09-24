@@ -117,17 +117,17 @@ def test_csv_holds_every_spec_flag_marking_the_unranked():
     assert pd.isna(df.loc[1, "rank"]) and df.loc[1, "RSI_check"] == "uncensored"
 
 
-def test_small_values_min_score_and_csv_ranks():
+def test_small_values_every_liquid_flag_ranked_and_csv_ranks():
     assert reportmod._h(-0.00034) == "-0.0003" and reportmod._h(-18.127) == "-18.13"
     assert reportmod._lvl(2.2134) == "2.213" and reportmod._lvl(21.5) == "21.50" and reportmod._lvl(3178.26) == "3178.3"
     cfg = load_config()
+    assert not hasattr(cfg.ranking, "min_score")  # removed: no score floor can hide a spec flag
     _, rec = _bse(cfg)
-    other = dict(rec, symbol="CCC")
-    cfg.ranking.min_score = 10.0  # nothing reaches it
-    ranked = rankmod.rank([rec, other], cfg)
-    meta = dict(_meta(rec), F=2, under_min_score=["BSE", "CCC"])
-    text = reportmod.build_report_text(ranked, [], meta, cfg)
-    assert "0 ranked below + 2 under min_score" in text and "not listed): BSE, CCC" in text
+    ranked = rankmod.rank([rec, dict(rec, symbol="CCC")], cfg)
+    assert [r["rank"] for r in ranked] == [1, 2]
+    text = reportmod.build_report_text(ranked, [], dict(_meta(rec), F=2), cfg)
+    assert "Flagged    : 2 pass the setup (the spec's flag): 2 ranked below + 0 that fail liquidity" in text
+    assert "lowest RSI within 3 trading days of the MACD dip" in text
     df = reportmod._flagged_dataframe(rankmod.rank([dict(rec)], load_config()), [dict(rec, symbol="AAA")])
     assert str(df["rank"].dtype) == "Int64" and df["rank"].tolist()[0] == 1
 
