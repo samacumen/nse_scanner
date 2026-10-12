@@ -183,7 +183,7 @@ def load_config(path: Path | str | None = None) -> SimpleNamespace:
 
     divergence = SimpleNamespace(
         lookback_days=V.int_("lookback_days", default=60, lo=2),
-        trough_pivot_k=V.int_("trough_pivot_k", default=3, lo=1),
+        trough_pivot_k=V.int_("trough_pivot_k", default=1, lo=1),
         price_window_k=V.int_("price_window_k", default=3, lo=0),
         tolerance_pct=V.float_("tolerance_pct", default=0.01, lo=0.0),
         price_field=V.choice_("price_field", {"Low", "Close"}, default="Low"),

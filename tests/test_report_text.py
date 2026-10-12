@@ -1,6 +1,7 @@
 """Report prose tells the truth, and the new report parts render - offline.
 
-Built from the real BSE record (frozen fixture), whose swing low 3131.50 sits BELOW
+Built from the real BSE record (frozen fixture cut at 2026-09-18, a complete +-3 window;
+2026-09-04 for the open-window marker), whose swing low 3131.50 sits BELOW
 the weekly band floor 3178.3 (the week's range still touches the band):
   - the narrative never claims the low itself fell inside the band (spec 3.2 tests
     the week's range) and prints the SWING-LOW date for the low, not the trough date;
@@ -26,7 +27,7 @@ import run_scanner
 FIXTURE = ROOT / "tests" / "fixtures" / "BSE_2026-09-22.parquet"
 def _meta(rec, *ill):
     """Report meta whose illiquid spec passes are full copies of `rec` with the given overrides."""
-    return {"date": "2026-09-22", "generated": "test", "U": 1594, "L": 1, "F": 1, "P": 0,
+    return {"date": "2026-09-18", "generated": "test", "U": 1594, "L": 1, "F": 1, "P": 0,
             "as_of_n": 1591, "listed": 2319, "skipped_insufficient": 0,
             "illiquid_pass": [dict(rec, **o) for o in ill]}
 
@@ -35,8 +36,9 @@ AAA = {"symbol": "AAA", "liquidity": 1.2e7, "last_close": 50.0}
 BBB = {"symbol": "BBB", "liquidity": 9.0e7, "last_close": 12.5}
 
 
-def _bse(cfg):
+def _bse(cfg, cut="2026-09-18"):
     df, _ = storemod.load_parquet(FIXTURE)
+    df = df.loc[:cut]
     kind, rec = run_scanner.analyze_symbol("BSE", df, "", "BSE Ltd", cfg)
     assert kind == "flagged"
     return df, rec
@@ -73,7 +75,7 @@ def test_illiquid_spec_pass_is_listed_with_its_reason():
     cfg = load_config()
     cfg.liquidity.min_median_traded_value_inr = 1e12
     df, _ = storemod.load_parquet(FIXTURE)
-    kind, info = run_scanner.analyze_symbol("BSE", df, "", "BSE Ltd", cfg)
+    kind, info = run_scanner.analyze_symbol("BSE", df.loc[:"2026-09-18"], "", "BSE Ltd", cfg)
     assert kind == "illiquid_pass" and info["symbol"] == "BSE"
     assert info["rsi_check"] == "uncensored" and abs(info["rsi_trough"] - 33.34) < 0.01  # spec 4 on it too
     text = reportmod.build_report_text([], [], _meta(info, AAA, BBB), load_config())  # floors Rs 5 cr / Rs 20
@@ -97,19 +99,19 @@ def test_rsi_band_and_missing_turnover_are_printed_truthfully():
 def test_thin_setups_carry_every_spec5_field_and_all_flags_are_counted():
     cfg = load_config()
     _, rec = _bse(cfg)
-    ill = dict(rec, symbol="AAA", liquidity=1.2e7, last_date=pd.Timestamp("2026-09-18"))
+    ill = dict(rec, symbol="AAA", liquidity=1.2e7, last_date=pd.Timestamp("2026-09-11"))
     text = reportmod.build_report_text(rankmod.rank([rec], cfg), [], _meta(rec, ill), cfg)
     assert "2 stocks pass the setup (the spec's flag):" in text
     assert "1 tradeable and ranked" in text and "1 thinly traded" in text
     lines = text.split("SECTION 5")[1].splitlines()
     i = [n for n, ln in enumerate(lines) if ln.split()[:1] == ["AAA"]][0]
     glance, detail = lines[i], lines[i + 1]
-    for field in ("2026-08-21", "2026-09-02", "2026-08-31", "33.34 uncensored", "1.20", "(data to 2026-09-18)"):
+    for field in ("2026-08-21", "2026-09-02", "2026-08-31", "33.34 uncensored", "1.20", "(data to 2026-09-11)"):
         assert field in glance, field
     for field in ("MACD -18.15 -> -3.49", "LOW 3223.00 @ 2026-08-21 -> 3131.50 @ 2026-09-02",
                   "WEEK 3131.5 to 3474.0", "EMA11/22/50 3520.1 / 3498.0 / 3178.3"):
         assert field in detail, field
-    assert "The latest bar is" in text and "2026-09-22 for 1591 of 1594 scanned stocks" in text
+    assert "The latest bar is" in text and "2026-09-18 for 1591 of 1594 scanned stocks" in text
 
 
 def test_glance_first_layout_lists_every_flag_once():
@@ -117,7 +119,7 @@ def test_glance_first_layout_lists_every_flag_once():
     _, rec = _bse(cfg)
     many = [dict(rec, symbol=f"S{i:02d}", h_recent=rec["h_recent"] + i * 0.01) for i in range(12)]
     ranked = rankmod.rank(many, cfg)
-    text = reportmod.build_report_text(ranked, ["WAIT1 (data to 2026-09-18)"], _meta(rec, AAA), cfg)
+    text = reportmod.build_report_text(ranked, ["WAIT1 (data to 2026-09-11)"], _meta(rec, AAA), cfg)
     heads = ["AT A GLANCE", "HOW TO READ", "SECTION 1 - TOP 10", "SECTION 2 - WHY THE TOP 10",
              "SECTION 3 - OTHER TRADEABLE SETUPS (#11-#12)", "SECTION 4 - WAITING", "SECTION 5 - THINLY",
              "SCAN SUMMARY", "SETTINGS USED", "NOTES"]
@@ -129,7 +131,7 @@ def test_glance_first_layout_lists_every_flag_once():
     assert sorted(glance) == sorted(r["symbol"] for r in ranked)  # each ranked flag once (Sections 1 + 3)
     s3 = text.split("SECTION 3")[1].split("SECTION 4")[0]
     assert s3.count("MACD ") == 2 and " > " not in s3  # a detail line per stock; arrows, not "greater than"
-    assert "WAIT1 (data to 2026-09-18)" in text
+    assert "WAIT1 (data to 2026-09-11)" in text
 
 
 def test_csv_holds_every_spec_flag_marking_the_unranked():
@@ -162,3 +164,44 @@ def test_windows_notepad_bom_config_loads(tmp_path):
     cfg = load_config(cfg_file)
     assert cfg.ranking.top_n == 7 and cfg.output.write_full_flagged_csv is False  # blank/absent -> no CSV
 
+
+
+def test_v13_setup_key_in_between_low_and_open_window_marker():
+    cfg = load_config()
+    _, rec = _bse(cfg)  # complete window: no marker, the standard RSI wording
+    text = reportmod.build_report_text(rankmod.rank([rec], cfg), [], _meta(rec), cfg)
+    flat = " ".join(text.split())
+    assert ("the two lows on different days, each on its own side of the other MACD dip, no day in between "
+            "below the lower of the two lows, and the MACD on the recent low's day still above the earlier dip") in flat
+    assert "On the recent low's day" not in text  # BSE's low is on its trough day: nothing extra to say
+    assert ("no day in between went below the lower of the two lows (lowest in between: 3216.30 on "
+            "2026-08-31)") in " ".join(text.split())
+    assert "2026-09-02  2026-08-31" in text and "2026-09-02*" not in text
+    assert "trough pivot +-1 bar | price/RSI window +-3 bars" in text
+    _, fresh = _bse(cfg, cut="2026-09-04")  # the diagram's own date: the dip is two sessions old
+    text = reportmod.build_report_text(rankmod.rank([fresh], cfg), [], dict(_meta(fresh), date="2026-09-04"), cfg)
+    assert fresh["window_open"] and "2026-09-02* 2026-08-31" in text
+    assert "* after RECENT DIP = that dip is under 3 sessions old" in text
+    assert "lowest RSI from 3 trading days before the MACD dip to the latest close" in text
+    assert "As of     :" not in text
+    text = reportmod.build_report_text([], [], dict(_meta(fresh), cut="2026-10-09"), cfg)
+    assert " As of     : 2026-10-09 (run with --as-of: bars after this date are ignored)" in text
+
+
+def test_csv_carries_the_v13_checks():
+    cfg = load_config()
+    _, rec = _bse(cfg)
+    df = reportmod._flagged_dataframe(rankmod.rank([rec], cfg))
+    row = df.iloc[0]
+    assert round(row["intervening_low"], 2) == 3216.30 and row["intervening_low_date"] == "2026-08-31"
+    assert row["no_breach_ok"] and row["separate_lows_ok"] and row["momentum_at_low_ok"]
+    assert not row["recent_window_open"] and round(row["h_at_recent_low"], 3) == round(rec["h_recent"], 3)
+
+
+def test_macd_on_the_low_day_is_printed_when_the_low_is_not_on_the_trough_day():
+    cfg = load_config()
+    _, rec = _bse(cfg)
+    moved = dict(rec, swing_recent_date=pd.Timestamp("2026-09-03"), h_at_low=-2.5)  # low a day after the dip
+    text = reportmod.build_report_text(rankmod.rank([moved], cfg), [], _meta(moved), cfg)
+    assert "On the recent low's day the MACD was -2.50, still above the earlier dip." in text
+    assert "-3.49, still above" not in text  # the low day's MACD, not the trough's

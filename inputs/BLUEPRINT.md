@@ -14,6 +14,127 @@
 >
 > **Status:** v1.1 - revised after the expert-trader adversarial review (verdict: GO-WITH-CHANGES)
 > **and** an empirical validation run. **No product code is written until the user greenlights.**
+>
+> **Now tracks `prompts/NSE Scanner Rule Spec v1.3.docx`** (1-day trough rule + no intervening
+> breach) - see the `v1.8 -> v1.9` changelog right below; sec 8.2 is the v1.3 divergence rule with the
+> user's decisions of 2026-10-12.
+
+## Changelog v1.8 -> v1.9 (upgrade to Rule Spec v1.3; user decisions of 2026-10-12)
+**What v1.3 changes** (its Version Control table: "Updated logic for trough identification - 1 day
+rule" and "Logic for no lower dips between process dip pair"):
+1. **`TROUGH_PIVOT_K` 3 -> 1** (spec 1.3 / 6). A trough is any bar with `H < 0` that is `<=` the bar
+   before and the bar after (earliest bar on an adjacent tie). *(User's pick in the 2026-09-27
+   questions: "lowest within 1 day".)*
+2. **New third divergence condition "No intervening breach"** (spec 2): `InterveningLow = min(Low)`
+   over the daily bars strictly between `Trough_prev_date` and `Trough_recent_date` (the MACD trough
+   dates of spec 1.3, not the swing-low dates); require `InterveningLow >= PriceLow(Trough_recent)`.
+   No bar in between -> satisfied. *(Answers the trader's NH example; user's own words: "no dip lower
+   than the lowest dip ... no orphan dip in between the pair".)*
+3. **Only the latest pair, said outright** (spec 2): if any condition fails the stock is not flagged;
+   no earlier or alternative pair is checked. Already the behaviour since v1.6. *(User's pick: "only
+   the latest pair".)*
+4. `MIN_SEGMENT_LEN` deleted from the parameter table (already removed from the code in v1.5).
+
+Unchanged: MACD 12/26/9, 60 bars, `PRICE_WINDOW_K` 3, weekly EMA 11/22/50 zone, RSI 14 / band 30.
+The table still prints `TOLERANCE_PCT` 0.1% and RSI SMA(14): the trader-confirmed 1% (D5) and
+Wilder (D3) stay. **Reading notes (no question):** spec 2 still says "only if both" and then lists
+three conditions, followed by "If any condition fails -> Divergence = False": all three are
+required. The in-between minimum uses the same `price_field` as `PriceLow` (default `Low` = the
+spec's `min(Low)`), so the two sides of the comparison are always the same price series.
+
+**Evidence: what-if on the frozen 2026-09-25 data** (the data behind the last report; replaying v1.2
+on it reproduces that report exactly, 156 ranked + 162 thin):
+- **J&KBANK** (trader example 1): the pair becomes 2026-08-17 -> 2026-09-02 (H -1.398 -> -0.086),
+  lows 147.13 @ 08-17 -> 144.00 @ 09-02, lowest low in between 146.00 @ 08-24 -> passes, as the
+  trader expects.
+- **NH** (trader example 2): the pair stays 2026-08-10 -> 2026-09-17; lowest low in between 1781.00
+  @ 08-19 < the recent low 1811.00 -> fails, as the trader expects.
+- **BSE** (the spec's own diagram, Aug 21 -> Sep 2): with the 1-day rule BSE's 2026-09-21 dip is a
+  trough once 09-22 closes, so the frozen fixture (data to 09-22) no longer shows the diagram pair.
+  On the same fixture cut at 2026-09-18 (H > 0 on every bar 09-03..09-18, so no trough in between)
+  the diagram pair is the newest pair and passes all three conditions with unchanged numbers (H
+  -18.153 / -3.493, lows 3223.00 / 3131.50, lowest in between 3216.30 @ 08-31, zone week 2026-08-31,
+  band 3178.3-3520.1, RSI 33.34). The BSE golden is re-pinned on that cut.
+- v1.3 exactly as written: **140 ranked + 127 thin** (v1.2: 156 + 162).
+
+**Root cause of Q2-Q4 below:** v1.3 makes a trough a 1-day pivot but keeps the +-3-day price/RSI
+window (`PRICE_WINDOW_K` 3). The two windows no longer match, which lets a newest trough be judged
+before its window closes (Q2), lets two nearby momentum wiggles share one price dip (Q3), and lets
+the "recent low" sit on a day when momentum is deeper than the earlier trough (Q4). A +-1-day price
+window was tried and rejected: it does not fix CHOLAFIN (it just leaves the 09-24 crash outside the
+window and calls 09-22 an equal low), ABSLAMC still passes with lows a day apart, and it changes the
+spec's `PRICE_WINDOW_K`, which the trader reasons in (NH: "within 3 days of the MACD dip").
+
+**Decisions (asked in one batch on 2026-10-12; the user chose the recommended option every time;
+counts = ranked + thin on the 09-25 data, every number reproduced independently by the expert
+reviewer):**
+- **Q1 - the in-between floor for an "equal low".** When the recent low is slightly ABOVE the earlier
+  low (allowed by the 1% tolerance), the spec text's floor is the recent low; the user's description
+  ("no dip lower than the lowest dip") is the lower of the two lows. They are identical whenever
+  price made a true lower low (J&KBANK, NH, BSE unaffected). They differ on 10 stocks (7 ranked):
+  e.g. CENTRALBK - earlier MACD trough 09-01 whose own price low 29.89 printed on 09-02 (inside the
+  "between" dates), recent low 30.12, so the spec text fails the pair on its OWN earlier low (8 of
+  the 10 fail only on a bar of the earlier dip's own +-3 window); APOLLOHOSP - lows 8640 (09-02) and
+  8672.50 (09-16) with a dip to 8650 (09-07) in between. **DECIDED: the lower of the two lows**
+  (147 + 130 alone; never fails a pair on its own earlier low). Spec text: 140 + 127.
+- **Q2 - a newest trough only 1-2 sessions old.** With the 1-day rule it is confirmed by the next
+  close, but its +-3-session price/RSI window is not complete. Today (v1.6 rule) the pair is then not
+  judged ("newest dip's price window not closed yet"): 268 stocks (120 liquid) on 09-25, troughs on
+  09-23 / 09-24. Alternative: judge it now on the closed bars (window cut at the latest close; spec
+  7.5 holds, no forming bar is used; the low can still move in the next 1-2 sessions and next week's
+  run re-judges). **The spec's own diagram needs this:** on BSE's 2026-09-04 bar (the diagram: O 3400
+  H 3474 L 3391.7, two sessions after the 09-02 dip) "wait" does not judge BSE, "judge now" flags it
+  with the diagram numbers. **DECIDED: judge now, and mark such rows** ("*" = the dip is under 3
+  sessions old; its low and RSI use the sessions so far), so "within 3 trading days" stays true.
+  +18 ranked + 32 thin alone.
+- **Q3 - two momentum wiggles in one price dip.** Troughs 2-3 sessions apart often map to the SAME
+  price-low day, or a low lands on the wrong side of the other trough; the spec formula passes them
+  as an "equal low". E.g. ABSLAMC troughs 07-23 -> 07-27, both lows 973.30 @ 07-23; KIMS earlier low
+  dated on the recent trough's day; AMBIKCO recent low on the earlier trough's day. 100 flags (39
+  ranked) with Q1/Q2 as recommended (under v1.2: 2 of 318). **DECIDED: not a divergence** - the two
+  price lows must be two different days, the earlier low before the recent MACD trough and the
+  recent low after the earlier MACD trough (a double bottom needs two lows; only this pair is
+  tested, so the stock is not flagged). Lows 1-3 sessions apart on their own sides stay (e.g. GVPIL).
+- **Q4 - momentum lower at the recent price low.** In 10 flags (6 ranked: CHOLAFIN, CLEAN, CREDITACC,
+  IDFCFIRSTB, SARDAEN, SBICARD) the MACD on the recent dip's price-low day is BELOW the earlier
+  trough, so price and momentum both made lower lows - the opposite of a divergence. CHOLAFIN:
+  troughs 09-17 (-11.28) -> 09-22 (-9.85, a wiggle), price low 1629.90 on 09-24 with H -12.71, H
+  -15.86 on 09-25. (v1.2: 0 of 318.) **DECIDED: not a divergence** - require H on the recent
+  price-low day > H(Trough_prev). With Q1-Q4 as recommended: **117 + 105** (15 + 22 marked "*").
+- **Q5 - a report "as of Friday's close" when the run is later** (today: Monday 2026-10-12 after the
+  close; Yahoo already has 10-12 bars). **DECIDED: a Step 2 option `--as-of YYYY-MM-DD`**: analyse
+  as if Step 1 had run right after that day's close - bars after the date are ignored; the download
+  time used for the weekly-candle check is the earlier of the real download time and that day's
+  15:30 IST close; when the download has bars after the date, Yahoo had published every session up
+  to it, so the vendor-lag guards (cohort check, `week_check.json`) are skipped and the clock alone
+  closes the week; a weekend/holiday date simply takes the bars on or before it. Step 1 unchanged.
+  The header says so. This week: `--as-of 2026-10-09` -> `output/top_recommended_for_2026-10-09.txt`.
+
+**Seen, not in the spec, no change proposed (v1.6: no recency/confirmation gates):** after the
+recent dip price can still fall below its low - 33 of the 222 recommended flags (12 ranked); MACD is
+back at/below the earlier trough in 5 (2 ranked). Spec 2 only looks between the two dips.
+
+**Code changes (done):** `advanced_config.txt` + `config.py` default
+`trough_pivot_k` 1; `divergence.py`: the third condition and Q1-Q4 as decided, the lowest low in
+between and its date kept on the result, one reason per failure (`intervening_breach`,
+`same_price_dip`, `momentum_lower_at_low`); `run_scanner.py`: `--as-of` (Q5) and the new skip
+reasons; `report.py`: HOW TO READ's SETUP line names the in-between rule, the "*" marker (Q2),
+Section 2's divergence check prints the lowest low in between with its date, a scan-summary line per
+new reason, the settings line reads "trough pivot +-1 bar", the as-of header line, and the optional
+CSV gains `intervening_low` / `intervening_low_date`. README + this blueprint (sec 8.2, 11, 12).
+**Tests (done; 56 pass, was 42):** every BSE-based test (golden 3, truthfulness 3, report text 8) reads the fixture cut at
+2026-09-04 - the diagram's own date, which also exercises Q2 - plus a 09-18 cut (full window, same
+numbers); trader goldens on frozen 09-25 copies of J&KBANK (passes, 08-17 -> 09-02, in-between low
+146.00 @ 08-24) and NH (fails on 1781.00 @ 08-19); unit tests for the in-between rule, Q1-Q4 and the
+pair rule ("waits instead of an older pair" becomes "judges now, never an older pair"); `--as-of`
+(a Friday cut closes its week, a mid-week cut keeps it pending, a weekend date ends on Friday).
+
+**Result on the Friday 2026-10-09 close** (Step 1 on 2026-10-12 after the close: 2,351 symbols, 1,992
+ok, 0 failed; Step 2 `--as-of 2026-10-09`): 1,990 of 1,992 stocks end on 10-09; **239 flags = 112
+ranked + 127 thinly traded, 0 waiting** -> `output/top_recommended_for_2026-10-09.txt`. Not flagged:
+537 no divergence, 125 one price dip (Q3), 124 zone fail, 7 momentum lower at the low (Q4), 7 fewer
+than two troughs, 2 a lower day in between (spec), 949 below the liquidity floor. The v1.2 rules on
+the same data: 197 + 176.
 
 ## Changelog v1.0 → v1.1 (what the expert review + validation changed)
 - **Pinned ONE trough algorithm** using `scipy.signal.find_peaks` (true topographic prominence),
@@ -210,7 +331,7 @@ the rules, ranks, and writes **`top_recommended_for_<DATE>.txt`**.
 |---|---|
 | **Data feed** | Free hybrid. Primary `yfinance` (`.NS`), **split/bonus-adjusted, dividends NOT adjusted**. Universe from NSE `EQUITY_L.csv`. Fallback: per-symbol direct Yahoo chart API (browser UA); optional bhavcopy for the tail. |
 | **Universe + liquidity** | Scan full ~2,292 `EQ` (configurable); **liquidity floor** (20-day median traded value ≥ `LIQ_MIN_INR`, plus `MIN_PRICE`) keeps untradeable microcaps out of the ranked list; spec passes below the floor are listed separately with the reason (v1.6). Optional index-membership pre-trim. |
-| **Trough rule** | **Local-pivot** (Rule Spec v1.2 §1.3): `H<0` and `<=` all H in `[t-TROUGH_PIVOT_K, t+TROUGH_PIVOT_K]`, earliest on tie. Replaces the v1.1 prominence rule (see the `v1.4 -> v1.5` changelog); BSE golden unchanged. |
+| **Trough rule** | **Local-pivot** (Rule Spec v1.2/v1.3 §1.3): `H<0` and `<=` all H in `[t-TROUGH_PIVOT_K, t+TROUGH_PIVOT_K]`, earliest on tie; `TROUGH_PIVOT_K` = 1 since v1.3 (was 3). Replaces the v1.1 prominence rule (see the `v1.4 -> v1.5` changelog). |
 | **Top 10** | Rank flagged stocks by a composite; output **top 10** focus set **and** full flagged list. |
 | **RSI smoothing** | **Wilder RMA(14)** (spec's "SMA(14)" = mis-copy from the TV dialog). |
 | **Weekly zone anchor** | Week containing the **swing-low date**, **closed weeks only** (closed = downloaded after that week's Friday 15:30 IST close, §8.1); forming week → **wait** (pending). |
@@ -483,26 +604,33 @@ clock, with a warning. A stale or unreadable `week_check.json` is ignored with a
 is unreachable cannot be detected; Step 1 also warns when stocks end on different dates and says
 how to force a fresh download (`refresh_if_older_than_hours = 0` for one run).
 
-### 8.2 Divergence (`divergence.py`) - Rule Spec v1.2 §1.3-2
+### 8.2 Divergence (`divergence.py`) - Rule Spec v1.3 §1.3-2 (+ user decisions of 2026-10-12)
 ```
-# Trough = local pivot in negative territory (spec 1.3); Kp = TROUGH_PIVOT_K (=3):
+# Trough = local pivot in negative territory (spec 1.3); Kp = TROUGH_PIVOT_K (=1 since v1.3):
 troughs = [t for t in range(Kp, n-Kp)                 # full +-Kp window (no look-ahead)
            if H[t] < 0 and H[t] <= H[j] for every j in [t-Kp, t+Kp], j != t]
 #   adjacent bars tying for the minimum collapse to the earliest
 troughs = [t for t in troughs if date(t) in last LOOKBACK_DAYS sessions]
-if len(troughs) < 2: return flag0
-prev, recent = troughs[-2], troughs[-1]              # spec 2: the two most recent troughs
-if recent > n-1-K: return flag0 ("recent_window_open") # its [t-K, t+K] window is not closed yet
-                                                     #   (only if PRICE_WINDOW_K > TROUGH_PIVOT_K); never an older pair
-PriceLow(t)      = min(Low over [t-K, t+K])           # K = PRICE_WINDOW_K; clamp to bounds
-swing_low_date(t)= date of that min-Low bar (tie → earliest)
-momentum = H[recent] > H[prev]
-price_ok = PriceLow(recent) <= PriceLow(prev) * (1 + TOLERANCE_PCT)
-divergence = momentum and price_ok                    # nothing else gates the pair (v1.6)
+if len(troughs) < 2: return flag0 ("fewer_than_two_troughs")
+prev, recent = troughs[-2], troughs[-1]              # spec 2: ONLY the two most recent troughs
+PriceLow(t)      = min(Low over [t-K, t+K])           # K = PRICE_WINDOW_K (=3); clamped to the
+swing_low_date(t)= date of that min-Low bar (tie → earliest)   # latest close (judge now, Q2)
+window_open      = recent + K > n-1                   # recent's window cut at the latest close -> "*"
+momentum   = H[recent] > H[prev]                                         # spec 2
+price_ok   = PriceLow(recent) <= PriceLow(prev) * (1 + TOLERANCE_PCT)    # spec 2
+no_breach  = min(Low over bars strictly between prev and recent)         # spec 2 (v1.3)
+             >= min(PriceLow(prev), PriceLow(recent))                    #   floor: the lower low (Q1)
+separate   = sd_prev < sd_recent and sd_prev < date(recent)              # two price dips, each on
+             and sd_recent > date(prev)                                  #   its own side (Q3)
+mom_at_low = H[sd_recent] > H[prev]                                      # momentum at the low (Q4)
+reason = criteria_not_met | intervening_breach | same_price_dip | momentum_lower_at_low  (first failing, in that order)
+divergence = momentum and price_ok and no_breach and separate and mom_at_low
 ```
-The two most recent pivot troughs are compared; there is no separation guard (v1.2) and no recency or
-confirmation filter (v1.6) - freshness only feeds ranking (§8.6). `recent` still needs
-`TROUGH_PIVOT_K` closed bars after it (inherent to a pivot), so there is no look-ahead.
+Only the two most recent pivot troughs are compared (spec 2: "no earlier or alternative trough pairs
+are checked"); there is no separation guard (v1.2) and no recency or confirmation filter (v1.6) -
+freshness only feeds ranking (§8.6). `recent` still needs `TROUGH_PIVOT_K` closed bars after it
+(inherent to a pivot), so there is no look-ahead; a younger price/RSI window is cut at the latest
+close and the report marks the row (Q2). The in-between minimum uses `price_field` (default `Low`).
 
 ### 8.3 Weekly EMA zone (`zone.py`) - only if divergence
 **Precondition (B1):** the weekly series must have `≥ min_weekly_bars_for_zone` (50) bars, else the
@@ -650,8 +778,14 @@ for audit; rights approximate) • one bad symbol never aborts.
   moving (BSE formed a new, lower momentum trough on 2026-09-21), so only a frozen copy pins the
   golden. `tests/test_closed_bars.py` covers spec 7.5 (forming daily bar; Friday 15:30 IST week close
   incl. Good Friday 2026-04-03; v1.7: the cohort + NSE week guards, NSE status codes, the cache
-  session rule, the filler-row rule); `tests/test_report_text.py` the report prose, the illiquid list, the APPENDIX
-  fields, the flag counts and the CSV.
+  session rule, the filler-row rule; v1.9: `--as-of`); `tests/test_report_text.py` the report prose, the illiquid
+  list, the APPENDIX fields, the flag counts and the CSV.
+- **v1.3 goldens (v1.9):** the BSE goldens read the fixture cut at 2026-09-04 (the spec diagram's own
+  bar; the 09-02 dip's window is then open, judged now) and 2026-09-18 (complete window) - same
+  numbers, plus the lowest low in between 3216.30 @ 08-31. `tests/test_trader_examples.py` pins the
+  trader's two examples on frozen 2026-09-25 copies: J&KBANK compares 08-17 -> 09-02 and passes; NH
+  fails on 1781.00 @ 08-19 between its dips. `tests/test_divergence_pivot.py` covers each pair rule
+  (in-between breach, the lower-low floor, same/crossed lows, momentum at the low, judge-now).
 - **Indicator unit tests** vs a small fixed input and vs TradingView values (±0.2%).
 - **Truthfulness test:** parse the generated `top_recommended_for_<DATE>.txt` and assert every printed
   number (troughs, EMAs, band, RSI, liquidity, score) equals the value the pipeline computed for that
@@ -690,14 +824,16 @@ adjustment="split_only"`.
 
 ### Appendix B - Script 2 pseudo-code
 ```
-cfg=load_config()
+cfg=load_config(); cut = --as-of date or None
 week_guard = load_week_guard(manifest, "data/week_check.json")  # newest bar any stock has + Step 1's NSE check
+if cut and newest bar any stock has > cut: week_guard = None   # every session up to the cut was published
 for sym in manifest.status=="ok":
     d, meta = load_parquet(sym)
+    if cut: d = d[:cut]; meta.fetched_at = min(meta.fetched_at, cut's 15:30 IST close)   # as if downloaded then
     if daily_rows < min_rows_daily(250) or weekly_bars < min_weekly_bars_for_zone(50): skip("insufficient_history")
     liq=median(Close*Volume, 20); liq_ok = not apply_as_filter or (liq>=min and last_close>=min_price)
     H, rsi, atr = macd_hist(d.Close), wilder_rsi(d.Close), atr14(d)
-    div = detect_divergence(d, H, cfg)          # the two most recent pivot troughs (spec 2); nothing else gates the pair
+    div = detect_divergence(d, H, cfg)          # ONLY the two most recent pivot troughs (spec 2), all pair rules of sec 8.2
     if not div.is_true: skip(div.reason if liq_ok else "illiquid"); continue
     z = weekly_zone(d, div.swing_low_date, cfg, meta.fetched_at, week_guard)  # closed: later week OR downloaded
                                                 # after Fri 15:30 IST, unless the cohort/NSE guard shows the week incomplete

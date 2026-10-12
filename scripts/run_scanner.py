@@ -2,6 +2,7 @@
 """Deliverable 2 - analyzer (blueprint 8, Appendix B). Thin entry point.
 
   python scripts/run_scanner.py
+  python scripts/run_scanner.py --as-of 2026-10-09   (report as of that day's close)
 
 Reads the already-downloaded data/, computes indicators, applies the rules,
 ranks the flagged set, and writes ONE output/top_recommended_for_<DATE>.txt per day
@@ -10,6 +11,7 @@ Re-runnable with no re-fetch after editing any [macd]..[output] setting.
 """
 from __future__ import annotations
 
+import argparse
 import sys
 from collections import Counter
 from pathlib import Path
@@ -44,6 +46,25 @@ def _load_company_map(root: Path) -> dict:
     if not sym_col or not name_col:
         return {}
     return dict(zip(df[sym_col].str.strip(), df[name_col].str.strip()))
+
+
+def cut_to(df: pd.DataFrame, fetched_at, cut: pd.Timestamp):
+    """--as-of: the data as Step 1 would have stored it right after the cut date's close - bars
+    after the date dropped, the download time capped at that 15:30 IST close (spec 7.5: a week
+    is closed only once its Friday close has passed by then)."""
+    if fetched_at is not None:
+        fetched_at = min(fetched_at, storemod.session_close_utc(cut))
+    return df.loc[:cut], fetched_at
+
+
+def as_of_guard(week_guard, week_note: str, cut: pd.Timestamp):
+    """--as-of: when the download already has sessions after the cut date, Yahoo had published
+    every session up to it, so the vendor-lag guards (cohort check, Step 1's NSE check of the
+    download's newest week) do not apply; the clock alone closes the cut date's week."""
+    newest = week_guard.get("cohort_newest")
+    if newest is not None and newest > cut:
+        return None, ""
+    return week_guard, week_note
 
 
 def analyze_symbol(sym: str, df: pd.DataFrame, isin: str, company: str, cfg, fetched_at=None,
@@ -95,6 +116,9 @@ def analyze_symbol(sym: str, df: pd.DataFrame, isin: str, company: str, cfg, fet
         "prev_date": div.prev_date, "recent_date": div.recent_date,
         "swing_prev_date": div.swing_prev_date, "swing_recent_date": div.swing_low_date,
         "momentum_ok": div.momentum_ok, "price_ok": div.price_ok,
+        "between_low": div.between_low, "between_low_date": div.between_low_date,
+        "no_breach_ok": div.no_breach_ok, "separate_lows_ok": div.separate_lows_ok,
+        "h_at_low": div.h_at_low, "momentum_at_low_ok": div.momentum_at_low_ok, "window_open": div.window_open,
         "W": zone.W, "week_start": zone.week_start, "ema_vals": dict(zone.emas),
         "band_lo": zone.band_lo, "band_hi": zone.band_hi, "band_mid": zone.band_mid,
         "band_close_w": zone.week_close, "week_low": zone.week_low,
@@ -108,7 +132,19 @@ def analyze_symbol(sym: str, df: pd.DataFrame, isin: str, company: str, cfg, fet
     return ("flagged" if liq_ok else "illiquid_pass"), record
 
 
-def main() -> int:
+def main(argv=None) -> int:
+    ap = argparse.ArgumentParser(description="Analyze the downloaded data and write the report.")
+    ap.add_argument("--as-of", metavar="YYYY-MM-DD",
+                    help="report as of that day's close: bars after it are ignored (e.g. last Friday)")
+    args = ap.parse_args(argv)
+    cut = None
+    if args.as_of:
+        try:
+            cut = pd.Timestamp(args.as_of).normalize()
+        except ValueError:
+            print(f"[scan] --as-of {args.as_of!r} is not a date (use YYYY-MM-DD)", flush=True)
+            return 2
+
     cfg = load_config()
     root = cfg.project_root
     data_dir = root / "data"
@@ -125,11 +161,14 @@ def main() -> int:
     # Last-week closure guard (spec 7.5 under vendor lag): the newest bar any stock has, plus
     # Step 1's NSE session check (data/week_check.json).
     week_guard, week_note = storemod.load_week_guard(manifest, data_dir / "week_check.json")
+    if cut is not None:
+        week_guard, week_note = as_of_guard(week_guard, week_note, cut)
 
     def emit(msg):
         print(msg, flush=True)
 
-    emit(f"[scan] analyzing {len(ok)} ok symbols (of {len(manifest)} in manifest)")
+    emit(f"[scan] analyzing {len(ok)} ok symbols (of {len(manifest)} in manifest)"
+         + (f", as of {cut.date().isoformat()} (bars after it are ignored)" if cut is not None else ""))
 
     flagged = []
     pending = []
@@ -152,15 +191,17 @@ def main() -> int:
             skip_reasons["load_error"] = skip_reasons.get("load_error", 0) + 1
             continue
 
+        fetched_at = storemod.parse_fetched_at(meta.get("fetched_at"))
+        if cut is not None:
+            df, fetched_at = cut_to(df, fetched_at, cut)
         n_scanned += 1
-        if len(df) == 0:  # nothing but filler rows: no real session at all (and no last date)
+        if len(df) == 0:  # nothing but filler rows (or listed after --as-of): no real session at all
             skip_reasons["insufficient_history"] = skip_reasons.get("insufficient_history", 0) + 1
             continue
         last_dates.append(df.index.max())
         isin = meta.get("isin", "") or (getattr(row, "isin", "") or "")
         company = company_map.get(sym, sym)
 
-        fetched_at = storemod.parse_fetched_at(meta.get("fetched_at"))
         try:
             kind, payload = analyze_symbol(sym, df, isin, company, cfg, fetched_at, week_guard)
         except Exception as e:  # noqa: BLE001
@@ -202,6 +243,7 @@ def main() -> int:
         "P": len(pending),
         "illiquid_pass": sorted(illiquid_pass, key=lambda x: x["symbol"]),
         "week_note": week_note,
+        "cut": cut.date().isoformat() if cut is not None else "",
         "skips": skip_reasons,
         "failed_symbols": failed_syms,
         "listed": int(len(manifest)),

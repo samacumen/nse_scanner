@@ -6,7 +6,8 @@ computed value (at the printed precision) - the report contains zero
 hardcoded/placeholder data. Also asserts the listed stock genuinely passed
 8.2 (divergence) AND 8.3 (zone).
 
-Offline: uses the frozen BSE fixture (tests/fixtures/BSE_2026-09-22.parquet).
+Offline: uses the frozen BSE fixture (tests/fixtures/BSE_2026-09-22.parquet) cut at
+2026-09-04, the spec diagram's own bar (the 09-02 dip is then two sessions old: judged now).
 """
 import re
 import sys
@@ -29,6 +30,7 @@ import run_scanner
 def bse_report():
     cfg = load_config()
     df, _meta = storemod.load_parquet(ROOT / "tests" / "fixtures" / "BSE_2026-09-22.parquet")
+    df = df.loc[:"2026-09-04"]
     kind, rec = run_scanner.analyze_symbol("BSE", df, "INE118H01025", "BSE Ltd", cfg)
     assert kind == "flagged"
     ranked = rankmod.rank([rec], cfg)
@@ -64,8 +66,13 @@ def test_printed_equals_computed(bse_report):
     assert band_lo == round(r["band_lo"], 1)
     assert band_hi == round(r["band_hi"], 1)
 
-    # RSI + liquidity.
-    rsi = _f(r"lowest RSI within \d+ trading days of the MACD dip was (\d+\.\d+)", text)
+    # v1.3: the lowest low strictly between the two dips (and its date).
+    assert _f(r"lowest in between: (\d+\.\d+) on 2026-08-31", text) == round(r["between_low"], 2)
+
+    # RSI (its window is cut at the latest close: the dip is two sessions old) + liquidity.
+    assert r["window_open"] and "2026-09-02* " in text
+    rsi = _f(r"lowest RSI from \d+ trading days before the MACD dip to the latest close\s+"
+             r"\(the dip is under \d+ sessions old\) was (\d+\.\d+)", text)
     assert rsi == round(r["rsi_trough"], 2)
     liq_cr = _f(r"about Rs (\d+) cr traded per day", text)
     assert liq_cr == round(r["liquidity"] / 1e7)
@@ -73,7 +80,7 @@ def test_printed_equals_computed(bse_report):
 
 def test_listed_stock_passed_8_2_and_8_3(bse_report):
     cfg, r, text = bse_report
-    assert r["momentum_ok"] and r["price_ok"]                      # 8.2 (spec 2)
+    assert all(r[c] for c in reportmod.DIVERGENCE_CHECKS)          # 8.2 (spec 2 + user rules)
     assert r["zone_ok"] is True                                    # 8.3
     assert "uncensored" in text
     assert r["rsi_check"] == "uncensored"

@@ -4,14 +4,20 @@ Scans every NSE stock (~2,300) once a week and gives you the **10 best "bottomin
 every other stock that passes the rules, each with the dates and numbers you need to check it on a
 chart. Runs on **Windows 11 and Linux**. Free data (Yahoo Finance).
 
-The rules come from the trader's spec, `prompts/NSE Scanner Rule Spec v1.2.docx`; the full design
+The rules come from the trader's spec, `prompts/NSE Scanner Rule Spec v1.3.docx`; the full design
 notes are in `inputs/BLUEPRINT.md`.
 
 ## What it looks for
 A stock **passes the setup** (the spec's flag) when both of these are true:
 1. **Daily bullish divergence** - comparing the **two most recent MACD-momentum dips of the last 60
-   trading days**: price makes a lower (or equal, within 1%) low, but the daily **MACD momentum
-   makes a *higher* low** (selling may be running out of steam).
+   trading days** (a dip = a day whose MACD histogram is below zero and at or below the day before
+   and the day after): price makes a lower (or equal, within 1%) low, but the daily **MACD momentum
+   makes a *higher* low** (selling may be running out of steam). Each dip's price low is the lowest
+   low within 3 trading days of it. Only that one pair is tested, and it must also be a clean pair:
+   - no day between the two dips trades below the lower of the two lows (no deeper "orphan" dip);
+   - the two lows are on different days, each on its own side of the other MACD dip (not one price
+     dip seen by two MACD wiggles);
+   - on the recent low's day the MACD is still above the earlier dip.
 2. **Weekly support zone** - the price range of the week that low falls in touches the stock's
    **weekly EMA 11 / 22 / 50 band**.
 
@@ -73,10 +79,20 @@ python3 -m venv .venv
 - Windows: `.venv\Scripts\python scripts\run_scanner.py`
 - Linux:   `.venv/bin/python scripts/run_scanner.py`
 
+Ran Step 1 later than Friday evening (say on Monday after the close) but want the report as of
+Friday's close? Add `--as-of` with that Friday's date, e.g.
+`.venv/bin/python scripts/run_scanner.py --as-of 2026-10-09` (Windows: same with
+`.venv\Scripts\python`). Bars after that date are ignored and the week counts as finished exactly
+as if Step 1 had run right after Friday's close; the report header shows the date.
+
 Open the report in the `output/` folder.
 
 ## The weekly routine (and when to re-run what)
-- Run **Step 1 once a week, after Friday's close** (e.g. on the weekend), then **Step 2**.
+- Run **Step 1 once a week, after Friday's close** (e.g. on the weekend), then **Step 2** - the
+  weekly candle is then complete. Running later in the week? Use `--as-of <Friday>` in Step 2.
+- A dip only 1-2 sessions old is judged right away on the sessions so far; its row shows a `*`
+  after the RECENT DIP date (its low and RSI can still change in the next sessions, and the next
+  run judges it again).
 - **Step 2** only reads the saved data - run it as often as you like; after changing a setting,
   just run Step 2 again.
 - Step 1 only ever keeps **finished** candles: a download before the 15:30 IST close drops that
@@ -133,7 +149,7 @@ The ones you're most likely to care about:
 | Setting (section) | What it does | Default |
 |---|---|---|
 | `lookback_days` (`[divergence]`) | Recent trading days searched for the pattern (~3 months). | 60 |
-| `trough_pivot_k` (`[divergence]`) | Bars on each side that must be at/above a momentum dip for it to count. | 3 |
+| `trough_pivot_k` (`[divergence]`) | Bars on each side that must be at/above a momentum dip for it to count (spec v1.3: 1). | 1 |
 | `tolerance_pct` (`[divergence]`) | How close two lows count as "equal" (a double bottom). `0.01` = 1%. | 0.01 |
 | `zone_test` (`[weekly]`) | `range_overlap` (the week only has to touch the band) or `close_in_band` (stricter). | range_overlap |
 | `smoothing` (`[rsi]`) | `wilder` (TradingView's default) or `sma`. | wilder |
@@ -145,8 +161,8 @@ The ones you're most likely to care about:
 Every other setting - MACD `fast`/`slow`/`signal`, `price_window_k`, `price_field`, `ema_set`,
 `min_weekly_bars_for_zone`, RSI `period`, liquidity `window`, `min_rows_daily`,
 `refresh_if_older_than_hours`, `prune_stale`, output `dir` - is in the file with a one-line
-explanation. Fresher setups rank higher, but age never removes a setup: any pair of dips inside
-the 60-day window counts.
+explanation. Fresher setups rank higher, but age never removes a setup: the two most recent dips
+count wherever they fall inside the 60-day window.
 
 ## Windows 11 notes
 - Both Command Prompt and PowerShell work with the commands above; nothing needs admin rights.

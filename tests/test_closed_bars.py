@@ -3,7 +3,9 @@
   1) Step 1 never stores a still-forming daily candle (downloaded before its 15:30 IST close);
   2) the last weekly candle counts as closed once the data was downloaded at/after that
      week's Friday 15:30 IST close - also when Friday is an exchange holiday (Good Friday
-     2026-04-03: Thursday 2026-04-02 is the week's last bar) - and never before it.
+     2026-04-03: Thursday 2026-04-02 is the week's last bar) - and never before it;
+  3) Step 2's --as-of date reads the data as if it had been downloaded right after that
+     day's close (a Friday cut closes its week, a mid-week cut keeps it forming).
 """
 import sys
 from datetime import datetime, timezone
@@ -13,10 +15,12 @@ import pandas as pd
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
+sys.path.insert(0, str(ROOT / "scripts"))
 
 from src.config import load_config
 from src import store as storemod
 from src.zone import weekly_zone
+import run_scanner
 
 FIXTURE = ROOT / "tests" / "fixtures" / "BSE_2026-09-22.parquet"
 
@@ -161,3 +165,28 @@ def test_yahoo_filler_rows_are_not_sessions():
     for holiday in ("2026-01-15", "2026-05-01", "2026-05-28", "2026-06-26", "2026-09-14"):
         assert pd.Timestamp(holiday) not in fixture.index
 
+
+
+def test_as_of_reads_the_data_as_if_downloaded_right_after_that_close():
+    cfg = load_config()
+    df, _ = storemod.load_parquet(FIXTURE)  # last bar Tue 2026-09-22
+    later = _utc("2026-09-22T12:00:00")     # downloaded 17:30 IST, weeks after the cut dates
+    swing = pd.Timestamp("2026-09-02")
+    fri, fa = run_scanner.cut_to(df, later, pd.Timestamp("2026-09-04"))
+    assert fri.index[-1].date().isoformat() == "2026-09-04" and fa == storemod.session_close_utc("2026-09-04")
+    assert weekly_zone(fri, swing, cfg, fa).status == "ok"             # Friday cut: its week is complete
+    wed, fa = run_scanner.cut_to(df, later, pd.Timestamp("2026-09-02"))
+    assert weekly_zone(wed, swing, cfg, fa).status == "pending_week"   # mid-week cut: still forming
+    sun, fa = run_scanner.cut_to(df, later, pd.Timestamp("2026-09-06"))
+    assert sun.index[-1].date().isoformat() == "2026-09-04"            # a weekend date ends on Friday
+    assert weekly_zone(sun, swing, cfg, fa).status == "ok"
+    early, fa = run_scanner.cut_to(df, _utc("2026-09-04T06:00:00"), pd.Timestamp("2026-09-04"))
+    assert weekly_zone(early, swing, cfg, fa).status == "pending_week"  # never later than the real download
+    assert run_scanner.cut_to(df, None, pd.Timestamp("2026-09-04"))[1] is None
+
+
+def test_as_of_drops_the_vendor_lag_guards_only_when_the_download_goes_past_it():
+    guard = {"cohort_newest": pd.Timestamp("2026-10-12"), "incomplete_week": pd.Timestamp("2026-10-16")}
+    assert run_scanner.as_of_guard(guard, "a note about 2026-10-16", pd.Timestamp("2026-10-09")) == (None, "")
+    assert run_scanner.as_of_guard(guard, "n", pd.Timestamp("2026-10-12")) == (guard, "n")
+    assert run_scanner.main(["--as-of", "not-a-date"]) == 2

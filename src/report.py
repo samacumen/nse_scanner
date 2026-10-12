@@ -21,6 +21,9 @@ import pandas as pd
 REPORT_PATTERN = "top_recommended_for_{date}.txt"
 FLAGGED_PATTERN = "flagged_{date}.csv"
 
+# Every spec-2 divergence condition (+ the two user-decided ones) a listed stock must pass.
+DIVERGENCE_CHECKS = ("momentum_ok", "price_ok", "no_breach_ok", "separate_lows_ok", "momentum_at_low_ok")
+
 BAR = "=" * 69
 SUBBAR = "-" * 69
 
@@ -84,8 +87,9 @@ def _glance_head(mid_title: str, mid_w: int) -> list:
 
 def _glance_row(r, as_of: str, num: str, mid: str, mid_w: int) -> str:
     rsi = f"{_num(r['rsi_trough']):>5} {r['rsi_check']}"
+    star = "*" if r.get("window_open") else " "  # dip younger than its +-K window: low/RSI so far
     return (f"   {num:>4}  {r['symbol']:<10}  {(r['company'] or '')[:20]:<20}  {mid:<{mid_w}}  "
-            f"{_d(r['prev_date'])}  {_d(r['recent_date'])}  {_d(r['week_start'])}  {rsi:<18}  "
+            f"{_d(r['prev_date'])}  {_d(r['recent_date'])}{star} {_d(r['week_start'])}  {rsi:<18}  "
             f"{_turnover(r['liquidity']):>7}{_data_to(r, as_of)}")
 
 
@@ -126,10 +130,11 @@ def _settings_lines(cfg) -> list:
     liq_txt = (f"liquidity >= Rs {liq.min_median_traded_value_inr / 1e7:g} cr/day and price >= Rs "
                f"{liq.min_price:g} ({liq.window}-day median)" if liq.apply_as_filter else "liquidity filter off")
     adj = "dividends unadjusted" if cfg.data.price_adjustment == "split_only" else "total return"
+    bars = lambda n: f"+-{n} bar{'' if n == 1 else 's'}"
     return [
         " SETTINGS USED",
         f"   MACD {cfg.macd.fast}/{cfg.macd.slow}/{cfg.macd.signal} | {d.lookback_days}-day lookback | "
-        f"trough pivot +-{d.trough_pivot_k} bars | price/RSI window +-{d.price_window_k} bars",
+        f"trough pivot {bars(d.trough_pivot_k)} | price/RSI window {bars(d.price_window_k)}",
         f"   equal-low tolerance {d.tolerance_pct * 100:g}% on {d.price_field} | weekly EMA {emas}, zone = {zone} | "
         f"history >= {cfg.data.min_rows_daily} days and {cfg.weekly.min_weekly_bars_for_zone} weeks",
         f"   RSI {cfg.rsi.period} ({cfg.rsi.smoothing}), band {cfg.rsi.lower_band:g} | {liq_txt} | "
@@ -180,13 +185,19 @@ def _section2(ranked, cfg, as_of="") -> list:
         lines.append("")
         lines.append("   The checks it passed:")
         rsi_word = "at/above" if r["rsi_trough"] >= lower_band else "below"
+        between = ("no day in between" if r.get("between_low_date") is None else
+                   f"no day in between went below the lower of the two lows\n        (lowest in between: "
+                   f"{_num(r['between_low'])} on {r['between_low_date'].date()})")
+        at_low = ("" if r["swing_recent_date"] == r["recent_date"] else
+                  f"\n        On the recent low's day the MACD was {_h(r['h_at_low'])}, still above the earlier dip.")
         lines.append(
             f"     1) Divergence (daily): dip on {r['prev_date'].date()} "
             f"(MACD {_h(r['h_prev'])}, low {_num(r['pl_prev'])} on {r['swing_prev_date'].date()}), then a\n"
             f"        higher-momentum dip on {r['recent_date'].date()} "
             f"(MACD {_h(r['h_recent'])}, low {_num(r['pl_recent'])} on {r['swing_recent_date'].date()}).\n"
-            f"        Momentum made a HIGHER low while price made {_price_dir_word(r['pl_recent'], r['pl_prev'])}.  "
-            f"[{'OK' if r['momentum_ok'] and r['price_ok'] else 'X'}]"
+            f"        Momentum made a HIGHER low while price made {_price_dir_word(r['pl_recent'], r['pl_prev'])};\n"
+            f"        {between}.{at_low}  "
+            f"[{'OK' if all(r[c] for c in DIVERGENCE_CHECKS) else 'X'}]"
         )
         ema_str = ", ".join(f"EMA{p} {_lvl(r['ema_vals'].get(p))}" for p in cfg.weekly.ema_set)
         lines.append(
@@ -196,8 +207,10 @@ def _section2(ranked, cfg, as_of="") -> list:
             f"{_lvl(r['week_low'])} to {_lvl(r['week_high'])} {zone_word}.  "
             f"[{'OK' if r['zone_ok'] else 'X'}]"
         )
+        span = (f"from {k} trading days before the MACD dip to the latest close\n        (the dip is under "
+                f"{k} sessions old)" if r.get("window_open") else f"within {k} trading days of the MACD dip")
         lines.append(
-            f"     3) RSI health: the lowest RSI within {k} trading days of the MACD dip was {_num(r['rsi_trough'])} "
+            f"     3) RSI health: the lowest RSI {span} was {_num(r['rsi_trough'])} "
             f"({rsi_word} {lower_band:g}) "
             f'=> "{r["rsi_check"]}"\n'
             f"        ({'a healthy dip, not a panic sell-off' if r['rsi_check'] == 'uncensored' else 'a weaker dip; still listed (RSI only labels)'})."
@@ -242,8 +255,10 @@ def build_report_text(ranked, pending, meta, cfg) -> str:
     who = f"{meta['as_of_n']} of {meta['U']} scanned stocks" if meta.get("as_of_n") else "the scanned stocks"
     gap = ["", BAR, ""]
     L = [BAR, " NSE SCANNER - WEEKLY SETUPS",
-         f" Data to   : {as_of} (latest bar for {who})",
-         f" Generated : {meta['generated']} IST", BAR, ""]
+         f" Data to   : {as_of} (latest bar for {who})"]
+    if meta.get("cut"):
+        L.append(f" As of     : {meta['cut']} (run with --as-of: bars after this date are ignored)")
+    L += [f" Generated : {meta['generated']} IST", BAR, ""]
 
     # ---- AT A GLANCE ----
     L.append(" AT A GLANCE")
@@ -275,8 +290,13 @@ def build_report_text(ranked, pending, meta, cfg) -> str:
     zone = "touches" if cfg.weekly.zone_test == "range_overlap" else "closes inside"
     L += [" HOW TO READ",
           f"   SETUP    the daily MACD histogram makes a HIGHER low while the price makes a LOWER (or equal)",
-          f"            low, and the weekly candle of that price low {zone} the weekly EMA {emas} band",
+          "            low: the two lows on different days, each on its own side of the other MACD dip, no",
+          "            day in between below the lower of the two lows, and the MACD on the recent low's day",
+          f"            still above the earlier dip. The weekly candle of that price low {zone} the weekly",
+          f"            EMA {emas} band.",
           "   DIPS     PREV / RECENT DIP = the dates of the two MACD-histogram troughs compared (daily chart)",
+          f"            * after RECENT DIP = that dip is under {k} sessions old: its low and RSI use the",
+          "            sessions so far (it is judged now; the next run judges it again)",
           "   ZONE WK  first trading day of the week whose candle is tested against the EMA band (weekly chart)",
           f"   RSI      the lowest RSI within {k} trading days of the recent dip, and its check:",
           f"              uncensored = it stayed at/above {lb:g} (a healthier dip)",
@@ -322,7 +342,11 @@ def build_report_text(ranked, pending, meta, cfg) -> str:
             "insufficient_history": (f"too little history (under {cfg.data.min_rows_daily} days / "
                                      f"{cfg.weekly.min_weekly_bars_for_zone} weeks)"),
             "no_divergence:criteria_not_met": "no valid bullish divergence",
-            "no_divergence:recent_window_open": "newest dip's price window not closed yet",
+            "no_divergence:intervening_breach": ("divergence, but a day between the two dips went below "
+                                                  "the lower of the two lows"),
+            "no_divergence:same_price_dip": "divergence, but the two lows are the same day or past the other MACD dip",
+            "no_divergence:momentum_lower_at_low": ("divergence, but the MACD on the recent low's day was "
+                                                    "below the earlier dip"),
             "no_divergence:fewer_than_two_troughs": "fewer than two troughs",
             "zone:zone_fail": ("swing-low week did not touch the weekly EMA zone"
                                if cfg.weekly.zone_test == "range_overlap"
@@ -366,6 +390,13 @@ def _flagged_dataframe(ranked, illiquid=()) -> pd.DataFrame:
             "swing_recent_date": r["swing_recent_date"].date().isoformat(),
             "momentum_ok": r["momentum_ok"],
             "price_ok": r["price_ok"],
+            "intervening_low": r["between_low"],
+            "intervening_low_date": _d(r["between_low_date"]) if r["between_low_date"] is not None else "",
+            "no_breach_ok": r["no_breach_ok"],
+            "separate_lows_ok": r["separate_lows_ok"],
+            "h_at_recent_low": r["h_at_low"],
+            "momentum_at_low_ok": r["momentum_at_low_ok"],
+            "recent_window_open": r["window_open"],
             "Zone_week_date": r["week_start"].date().isoformat(),
             "weekly_bucket_fri": r["W"].date().isoformat(),
             **{f"ema{p}": v for p, v in r["ema_vals"].items()},
