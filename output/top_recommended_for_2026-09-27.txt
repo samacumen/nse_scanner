@@ -1,0 +1,964 @@
+=====================================================================
+ NSE SCANNER - WEEKLY SETUPS
+ Data to   : 2026-09-25 (latest bar for 1953 of 1954 scanned stocks)
+ Generated : 2026-09-27 20:21 IST
+=====================================================================
+
+ AT A GLANCE
+   318 stocks pass the setup (the spec's flag):
+     156 tradeable and ranked: #1-#10 in Sections 1-2, #11-#156 in Section 3
+     162 thinly traded (fail the liquidity floor): Section 5, not ranked
+   0 more wait for their week's candle to close: Section 4
+   Universe: 2317 NSE equities listed | 1954 with enough history (363 with too little) | 920 pass liquidity
+
+ HOW TO READ
+   SETUP    the daily MACD histogram makes a HIGHER low while the price makes a LOWER (or equal)
+            low, and the weekly candle of that price low touches the weekly EMA 11/22/50 band
+   DIPS     PREV / RECENT DIP = the dates of the two MACD-histogram troughs compared (daily chart)
+   ZONE WK  first trading day of the week whose candle is tested against the EMA band (weekly chart)
+   RSI      the lowest RSI within 3 trading days of the recent dip, and its check:
+              uncensored = it stayed at/above 30 (a healthier dip)
+              censored   = it fell below 30 (oversold); still listed - RSI never removes a stock
+   SCORE    strength versus the other ranked setups (0 = average, higher = stronger)
+   2nd line (Sections 3 and 5) the spec's numbers, earlier -> recent: MACD at the two dips |
+            LOW = the two price lows @ their dates | WEEK = the zone week's price range |
+            EMA11/22/50 = the weekly averages that form the band
+   Rs cr/d  median turnover of the last 20 trading days, in Rs crore per day
+   (data to <date>) marks a stock whose data ends on another date than 2026-09-25
+
+=====================================================================
+
+ SECTION 1 - TOP 10 (ranked by SCORE)
+
+      #  SYMBOL      COMPANY               SCORE   PREV DIP    RECENT DIP  ZONE WK     RSI (CHECK)         Rs cr/d
+   ----  ----------  --------------------  ------  ----------  ----------  ----------  ------------------  -------
+      1  J&KBANK     The Jammu & Kashmir     1.74  2026-07-31  2026-09-02  2026-08-31  35.66 uncensored         22
+      2  HSCL        Himadri Speciality C    1.63  2026-08-25  2026-09-15  2026-09-15  33.32 uncensored        177
+      3  KIRLPNU     Kirloskar Pneumatic     1.13  2026-07-28  2026-09-17  2026-09-15  33.03 uncensored       9.40
+      4  ASTERDM     Aster DM Quality Car    0.98  2026-08-24  2026-09-16  2026-09-15  34.66 uncensored         77
+      5  ADANIPORTS  Adani Ports and Spec    0.89  2026-07-31  2026-09-01  2026-08-31  30.93 uncensored        290
+      6  GVPIL       GE Power India Limit    0.82  2026-07-14  2026-08-25  2026-08-24  31.44 uncensored         10
+      7  YESBANK     Yes Bank Limited        0.81  2026-07-09  2026-08-28  2026-08-31  34.73 uncensored        126
+      8  NH          Narayana Hrudayalaya    0.77  2026-08-10  2026-09-17  2026-09-15  44.08 uncensored         34
+      9  MAHABANK    Bank of Maharashtra     0.77  2026-07-09  2026-09-17  2026-09-15  39.60 uncensored        114
+     10  BBOX        Black Box Limited       0.73  2026-07-22  2026-09-04  2026-08-31  36.32 uncensored         29
+
+=====================================================================
+
+ SECTION 2 - WHY THE TOP 10 (plain words, with the numbers behind each check)
+
+ ---------------------------------------------------------------------
+ #1  J&KBANK  (The Jammu & Kashmir Bank Limited)     score 1.74   RSI: uncensored
+
+   What happened: over recent weeks J&KBANK's price made a lower low (down to
+   144.00 on 2026-09-02), while its daily MACD momentum made a
+   HIGHER low - an early sign the slide may be easing. That week's price range touched
+   J&KBANK's weekly EMA 11/22/50 support band, and RSI stayed at/above 30 around the dip (healthy).
+
+   The checks it passed:
+     1) Divergence (daily): dip on 2026-07-31 (MACD -3.91, low 146.70 on 2026-07-30), then a
+        higher-momentum dip on 2026-09-02 (MACD -0.0858, low 144.00 on 2026-09-02).
+        Momentum made a HIGHER low while price made a LOWER low.  [OK]
+     2) Weekly support zone (week of 2026-08-31): the weekly averages were
+        EMA11 155.5, EMA22 149.2, EMA50 133.9.
+        They formed a band 133.9 to 155.5; that week's range 144.0 to 152.8 overlapped the band.  [OK]
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 35.66 (at/above 30) => "uncensored"
+        (a healthy dip, not a panic sell-off).
+     4) Liquidity: about Rs 22 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+
+ ---------------------------------------------------------------------
+ #2  HSCL  (Himadri Speciality Chemical Limited)     score 1.63   RSI: uncensored
+
+   What happened: over recent weeks HSCL's price made a lower low (down to
+   632.50 on 2026-09-15), while its daily MACD momentum made a
+   HIGHER low - an early sign the slide may be easing. That week's price range touched
+   HSCL's weekly EMA 11/22/50 support band, and RSI stayed at/above 30 around the dip (healthy).
+
+   The checks it passed:
+     1) Divergence (daily): dip on 2026-08-25 (MACD -16.54, low 650.00 on 2026-08-21), then a
+        higher-momentum dip on 2026-09-15 (MACD -1.46, low 632.50 on 2026-09-15).
+        Momentum made a HIGHER low while price made a LOWER low.  [OK]
+     2) Weekly support zone (week of 2026-09-15): the weekly averages were
+        EMA11 686.3, EMA22 657.4, EMA50 590.9.
+        They formed a band 590.9 to 686.3; that week's range 632.5 to 678.8 overlapped the band.  [OK]
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 33.32 (at/above 30) => "uncensored"
+        (a healthy dip, not a panic sell-off).
+     4) Liquidity: about Rs 177 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+
+ ---------------------------------------------------------------------
+ #3  KIRLPNU  (Kirloskar Pneumatic Company Limited)     score 1.13   RSI: uncensored
+
+   What happened: over recent weeks KIRLPNU's price made a lower low (down to
+   676.55 on 2026-09-16), while its daily MACD momentum made a
+   HIGHER low - an early sign the slide may be easing. That week's price range touched
+   KIRLPNU's weekly EMA 11/22/50 support band, and RSI stayed at/above 30 around the dip (healthy).
+
+   The checks it passed:
+     1) Divergence (daily): dip on 2026-07-28 (MACD -20.51, low 715.00 on 2026-07-28), then a
+        higher-momentum dip on 2026-09-17 (MACD -3.09, low 676.55 on 2026-09-16).
+        Momentum made a HIGHER low while price made a LOWER low.  [OK]
+     2) Weekly support zone (week of 2026-09-15): the weekly averages were
+        EMA11 750.9, EMA22 745.4, EMA50 699.0.
+        They formed a band 699.0 to 750.9; that week's range 676.5 to 718.5 overlapped the band.  [OK]
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 33.03 (at/above 30) => "uncensored"
+        (a healthy dip, not a panic sell-off).
+     4) Liquidity: about Rs 9.40 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+
+ ---------------------------------------------------------------------
+ #4  ASTERDM  (Aster DM Quality Care Limited)     score 0.98   RSI: uncensored
+
+   What happened: over recent weeks ASTERDM's price made a lower low (down to
+   729.05 on 2026-09-16), while its daily MACD momentum made a
+   HIGHER low - an early sign the slide may be easing. That week's price range touched
+   ASTERDM's weekly EMA 11/22/50 support band, and RSI stayed at/above 30 around the dip (healthy).
+
+   The checks it passed:
+     1) Divergence (daily): dip on 2026-08-24 (MACD -11.37, low 744.00 on 2026-08-24), then a
+        higher-momentum dip on 2026-09-16 (MACD -1.96, low 729.05 on 2026-09-16).
+        Momentum made a HIGHER low while price made a LOWER low.  [OK]
+     2) Weekly support zone (week of 2026-09-15): the weekly averages were
+        EMA11 778.5, EMA22 762.8, EMA50 708.0.
+        They formed a band 708.0 to 778.5; that week's range 729.0 to 769.6 overlapped the band.  [OK]
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 34.66 (at/above 30) => "uncensored"
+        (a healthy dip, not a panic sell-off).
+     4) Liquidity: about Rs 77 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+
+ ---------------------------------------------------------------------
+ #5  ADANIPORTS  (Adani Ports and Special Economic Zone Limited)     score 0.89   RSI: uncensored
+
+   What happened: over recent weeks ADANIPORTS's price made a lower low (down to
+   1593.10 on 2026-08-31), while its daily MACD momentum made a
+   HIGHER low - an early sign the slide may be easing. That week's price range touched
+   ADANIPORTS's weekly EMA 11/22/50 support band, and RSI stayed at/above 30 around the dip (healthy).
+
+   The checks it passed:
+     1) Divergence (daily): dip on 2026-07-31 (MACD -17.11, low 1650.00 on 2026-07-31), then a
+        higher-momentum dip on 2026-09-01 (MACD -0.8534, low 1593.10 on 2026-08-31).
+        Momentum made a HIGHER low while price made a LOWER low.  [OK]
+     2) Weekly support zone (week of 2026-08-31): the weekly averages were
+        EMA11 1728.2, EMA22 1700.7, EMA50 1601.1.
+        They formed a band 1601.1 to 1728.2; that week's range 1593.1 to 1716.9 overlapped the band.  [OK]
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 30.93 (at/above 30) => "uncensored"
+        (a healthy dip, not a panic sell-off).
+     4) Liquidity: about Rs 290 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+
+ ---------------------------------------------------------------------
+ #6  GVPIL  (GE Power India Limited)     score 0.82   RSI: uncensored
+
+   What happened: over recent weeks GVPIL's price made a lower low (down to
+   637.35 on 2026-08-26), while its daily MACD momentum made a
+   HIGHER low - an early sign the slide may be easing. That week's price range touched
+   GVPIL's weekly EMA 11/22/50 support band, and RSI stayed at/above 30 around the dip (healthy).
+
+   The checks it passed:
+     1) Divergence (daily): dip on 2026-07-14 (MACD -26.85, low 780.00 on 2026-07-14), then a
+        higher-momentum dip on 2026-08-25 (MACD -8.47, low 637.35 on 2026-08-26).
+        Momentum made a HIGHER low while price made a LOWER low.  [OK]
+     2) Weekly support zone (week of 2026-08-24): the weekly averages were
+        EMA11 747.3, EMA22 708.8, EMA50 584.6.
+        They formed a band 584.6 to 747.3; that week's range 637.3 to 681.0 overlapped the band.  [OK]
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 31.44 (at/above 30) => "uncensored"
+        (a healthy dip, not a panic sell-off).
+     4) Liquidity: about Rs 10 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+
+ ---------------------------------------------------------------------
+ #7  YESBANK  (Yes Bank Limited)     score 0.81   RSI: uncensored
+
+   What happened: over recent weeks YESBANK's price made a lower low (down to
+   21.82 on 2026-09-02), while its daily MACD momentum made a
+   HIGHER low - an early sign the slide may be easing. That week's price range touched
+   YESBANK's weekly EMA 11/22/50 support band, and RSI stayed at/above 30 around the dip (healthy).
+
+   The checks it passed:
+     1) Divergence (daily): dip on 2026-07-09 (MACD -0.2344, low 23.32 on 2026-07-08), then a
+        higher-momentum dip on 2026-08-28 (MACD -0.0371, low 21.82 on 2026-09-02).
+        Momentum made a HIGHER low while price made a LOWER low.  [OK]
+     2) Weekly support zone (week of 2026-08-31): the weekly averages were
+        EMA11 22.77, EMA22 22.51, EMA50 21.87.
+        They formed a band 21.87 to 22.77; that week's range 21.82 to 22.83 overlapped the band.  [OK]
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 34.73 (at/above 30) => "uncensored"
+        (a healthy dip, not a panic sell-off).
+     4) Liquidity: about Rs 126 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+
+ ---------------------------------------------------------------------
+ #8  NH  (Narayana Hrudayalaya Ltd.)     score 0.77   RSI: uncensored
+
+   What happened: over recent weeks NH's price made a lower low (down to
+   1811.00 on 2026-09-16), while its daily MACD momentum made a
+   HIGHER low - an early sign the slide may be easing. That week's price range touched
+   NH's weekly EMA 11/22/50 support band, and RSI stayed at/above 30 around the dip (healthy).
+
+   The checks it passed:
+     1) Divergence (daily): dip on 2026-08-10 (MACD -23.75, low 1819.40 on 2026-08-12), then a
+        higher-momentum dip on 2026-09-17 (MACD -0.5311, low 1811.00 on 2026-09-16).
+        Momentum made a HIGHER low while price made a LOWER low.  [OK]
+     2) Weekly support zone (week of 2026-09-15): the weekly averages were
+        EMA11 1901.3, EMA22 1889.1, EMA50 1839.3.
+        They formed a band 1839.3 to 1901.3; that week's range 1811.0 to 1940.0 overlapped the band.  [OK]
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 44.08 (at/above 30) => "uncensored"
+        (a healthy dip, not a panic sell-off).
+     4) Liquidity: about Rs 34 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+
+ ---------------------------------------------------------------------
+ #9  MAHABANK  (Bank of Maharashtra)     score 0.77   RSI: uncensored
+
+   What happened: over recent weeks MAHABANK's price made a lower low (down to
+   79.20 on 2026-09-16), while its daily MACD momentum made a
+   HIGHER low - an early sign the slide may be easing. That week's price range touched
+   MAHABANK's weekly EMA 11/22/50 support band, and RSI stayed at/above 30 around the dip (healthy).
+
+   The checks it passed:
+     1) Divergence (daily): dip on 2026-07-09 (MACD -1.38, low 79.35 on 2026-07-14), then a
+        higher-momentum dip on 2026-09-17 (MACD -0.4922, low 79.20 on 2026-09-16).
+        Momentum made a HIGHER low while price made a LOWER low.  [OK]
+     2) Weekly support zone (week of 2026-09-15): the weekly averages were
+        EMA11 82.64, EMA22 80.30, EMA50 73.55.
+        They formed a band 73.55 to 82.64; that week's range 79.20 to 84.61 overlapped the band.  [OK]
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 39.60 (at/above 30) => "uncensored"
+        (a healthy dip, not a panic sell-off).
+     4) Liquidity: about Rs 114 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+
+ ---------------------------------------------------------------------
+ #10  BBOX  (Black Box Limited)     score 0.73   RSI: uncensored
+
+   What happened: over recent weeks BBOX's price made a lower low (down to
+   709.15 on 2026-09-02), while its daily MACD momentum made a
+   HIGHER low - an early sign the slide may be easing. That week's price range touched
+   BBOX's weekly EMA 11/22/50 support band, and RSI stayed at/above 30 around the dip (healthy).
+
+   The checks it passed:
+     1) Divergence (daily): dip on 2026-07-22 (MACD -18.20, low 759.00 on 2026-07-22), then a
+        higher-momentum dip on 2026-09-04 (MACD -0.9455, low 709.15 on 2026-09-02).
+        Momentum made a HIGHER low while price made a LOWER low.  [OK]
+     2) Weekly support zone (week of 2026-08-31): the weekly averages were
+        EMA11 791.0, EMA22 775.9, EMA50 688.6.
+        They formed a band 688.6 to 791.0; that week's range 709.2 to 758.0 overlapped the band.  [OK]
+     3) RSI health: the lowest RSI within 3 trading days of the MACD dip was 36.32 (at/above 30) => "uncensored"
+        (a healthy dip, not a panic sell-off).
+     4) Liquidity: about Rs 29 cr traded per day (above the Rs 5 cr minimum) => tradeable.
+
+=====================================================================
+
+ SECTION 3 - OTHER TRADEABLE SETUPS (#11-#156)
+   Each stock: a summary line, then its numbers, earlier -> recent (see HOW TO READ).
+
+      #  SYMBOL      COMPANY               SCORE   PREV DIP    RECENT DIP  ZONE WK     RSI (CHECK)         Rs cr/d
+   ----  ----------  --------------------  ------  ----------  ----------  ----------  ------------------  -------
+     11  KERNEX      Kernex Microsystems     0.63  2026-08-19  2026-09-01  2026-08-31  32.92 uncensored         30
+          MACD -69.63 -> -37.79 | LOW 1711.70 @ 2026-08-17 -> 1611.60 @ 2026-09-01 | WEEK 1611.6 to 1869.7 | EMA11/22/50 1971.0 / 1829.8 / 1550.9
+     12  RATEGAIN    Rategain Travel Tech    0.61  2026-09-07  2026-09-22  2026-09-21  36.62 uncensored         24
+          MACD -11.75 -> -3.15 | LOW 833.25 @ 2026-09-10 -> 815.00 @ 2026-09-25 | WEEK 815.0 to 858.0 | EMA11/22/50 876.0 / 831.5 / 742.5
+     13  GMRAIRPORT  GMR AIRPORTS LIMITED    0.54  2026-09-01  2026-09-16  2026-09-15  32.37 uncensored        102
+          MACD -0.6295 -> -0.0200 | LOW 92.60 @ 2026-09-02 -> 91.99 @ 2026-09-16 | WEEK 91.99 to 99.30 | EMA11/22/50 101.3 / 101.4 / 98.47
+     14  ENRIN       Siemens Energy India    0.54  2026-09-02  2026-09-16  2026-09-15  31.05 uncensored         90
+          MACD -39.86 -> -16.84 | LOW 3104.50 @ 2026-09-02 -> 2968.00 @ 2026-09-16 | WEEK 2968.0 to 3250.0 | EMA11/22/50 3312.0 / 3293.2 / 3164.4
+     15  BELRISE     Belrise Industries L    0.52  2026-08-25  2026-09-15  2026-09-15  40.69 uncensored         70
+          MACD -2.72 -> -0.6013 | LOW 226.20 @ 2026-08-28 -> 222.75 @ 2026-09-16 | WEEK 222.8 to 242.9 | EMA11/22/50 234.3 / 226.1 / 200.9
+
+     16  SUNPHARMA   Sun Pharmaceutical I    0.50  2026-08-18  2026-09-15  2026-09-15  33.19 uncensored        259
+          MACD -12.84 -> -9.06 | LOW 1868.30 @ 2026-08-18 -> 1828.00 @ 2026-09-15 | WEEK 1828.0 to 1877.2 | EMA11/22/50 1885.1 / 1862.1 / 1805.5
+     17  CUMMINSIND  Cummins India Limite    0.49  2026-08-21  2026-09-16  2026-09-15  29.63 censored          178
+          MACD -27.34 -> -6.61 | LOW 5083.00 @ 2026-08-24 -> 4844.00 @ 2026-09-16 | WEEK 4844.0 to 5121.5 | EMA11/22/50 5252.0 / 5238.3 / 4881.2
+     18  RAIN        Rain Industries Limi    0.49  2026-08-27  2026-09-17  2026-09-15  41.46 uncensored         88
+          MACD -2.65 -> -0.6918 | LOW 193.10 @ 2026-08-27 -> 191.04 @ 2026-09-16 | WEEK 191.0 to 216.5 | EMA11/22/50 206.5 / 192.5 / 171.2
+     19  SAREGAMA    Saregama India Limit    0.47  2026-08-31  2026-09-17  2026-09-15  43.34 uncensored         19
+          MACD -5.89 -> -0.5402 | LOW 475.00 @ 2026-08-31 -> 475.20 @ 2026-09-16 | WEEK 475.2 to 506.6 | EMA11/22/50 494.0 / 468.4 / 444.5
+     20  EQUITASBNK  Equitas Small Financ    0.46  2026-07-30  2026-09-04  2026-09-07  38.97 uncensored         11
+          MACD -0.9990 -> -0.1971 | LOW 70.61 @ 2026-07-29 -> 71.03 @ 2026-09-09 | WEEK 71.03 to 73.75 | EMA11/22/50 74.41 / 72.64 / 69.23
+
+     21  BSE         BSE Limited             0.46  2026-09-02  2026-09-21  2026-09-21  38.29 uncensored       1399
+          MACD -3.49 -> -2.90 | LOW 3131.50 @ 2026-09-02 -> 3085.10 @ 2026-09-21 | WEEK 3085.1 to 3308.0 | EMA11/22/50 3414.4 / 3444.7 / 3189.6
+     22  GARUDA      Garuda Construction     0.45  2026-08-31  2026-09-18  2026-09-15  44.30 uncensored       7.56
+          MACD -1.40 -> -0.5477 | LOW 171.10 @ 2026-08-31 -> 170.70 @ 2026-09-16 | WEEK 170.7 to 184.2 | EMA11/22/50 177.8 / 176.9 / 173.2
+     23  ADANIPOWER  Adani Power Limited     0.44  2026-08-17  2026-09-17  2026-09-15  42.90 uncensored        347
+          MACD -0.2846 -> -0.0590 | LOW 201.77 @ 2026-08-17 -> 200.40 @ 2026-09-16 | WEEK 200.4 to 212.0 | EMA11/22/50 210.3 / 205.7 / 184.8
+     24  ADANIGREEN  Adani Green Energy L    0.40  2026-08-19  2026-09-01  2026-08-31  29.28 censored          125
+          MACD -4.80 -> -2.19 | LOW 1281.10 @ 2026-08-19 -> 1214.90 @ 2026-08-31 | WEEK 1214.9 to 1310.9 | EMA11/22/50 1364.8 / 1325.6 / 1225.4
+     25  IBULLSLTD   Indiabulls Limited      0.39  2026-08-21  2026-09-10  2026-09-07  37.72 uncensored         36
+          MACD -0.3812 -> -0.0814 | LOW 25.50 @ 2026-08-21 -> 24.29 @ 2026-09-10 | WEEK 24.29 to 26.85 | EMA11/22/50 26.25 / 24.15 / 20.66
+
+     26  BECTORFOOD  Mrs. Bectors Food Sp    0.39  2026-09-02  2026-09-18  2026-09-15  41.13 uncensored         24
+          MACD -4.83 -> -2.94 | LOW 222.14 @ 2026-09-02 -> 214.21 @ 2026-09-16 | WEEK 214.2 to 240.0 | EMA11/22/50 221.4 / 213.3 / 221.5
+     27  HAL         Hindustan Aeronautic    0.38  2026-09-03  2026-09-16  2026-09-15  40.08 uncensored        306
+          MACD -40.41 -> -28.53 | LOW 4707.00 @ 2026-09-02 -> 4615.80 @ 2026-09-16 | WEEK 4615.8 to 4940.0 | EMA11/22/50 4766.7 / 4623.7 / 4491.2
+     28  3MINDIA     3M India Limited        0.37  2026-09-03  2026-09-16  2026-09-15  26.95 censored         6.89
+          MACD -178.00 -> -116.46 | LOW 32480.00 @ 2026-09-07 -> 31500.00 @ 2026-09-15 | WEEK 31500.0 to 34450.0 | EMA11/22/50 33941.0 / 33792.4 / 33239.1
+     29  SHRIRAMFIN  Shriram Finance Limi    0.34  2026-09-04  2026-09-16  2026-09-15  29.15 censored          393
+          MACD -12.62 -> -11.50 | LOW 1013.00 @ 2026-09-09 -> 972.60 @ 2026-09-16 | WEEK 972.6 to 1044.9 | EMA11/22/50 1047.3 / 1026.0 / 949.3
+     30  APOLLOHOSP  Apollo Hospitals Ent    0.29  2026-09-04  2026-09-16  2026-09-15  45.20 uncensored        271
+          MACD -15.40 -> -4.51 | LOW 8640.00 @ 2026-09-02 -> 8672.50 @ 2026-09-16 | WEEK 8672.5 to 8950.5 | EMA11/22/50 8766.8 / 8536.4 / 8081.3
+
+     31  TECHM       Tech Mahindra Limite    0.29  2026-08-21  2026-09-10  2026-09-07  33.08 uncensored        254
+          MACD -12.79 -> -12.75 | LOW 1562.00 @ 2026-08-25 -> 1498.00 @ 2026-09-09 | WEEK 1498.0 to 1593.6 | EMA11/22/50 1566.4 / 1534.3 / 1514.4
+     32  UNIMECH     Unimech Aerospace an    0.28  2026-09-03  2026-09-16  2026-09-15  53.89 uncensored         34
+          MACD -13.78 -> -5.31 | LOW 1421.20 @ 2026-09-02 -> 1430.10 @ 2026-09-16 | WEEK 1430.1 to 1631.4 | EMA11/22/50 1432.0 / 1291.6 / 1163.8
+     33  EICHERMOT   Eicher Motors Limite    0.28  2026-09-04  2026-09-15  2026-09-15  30.46 uncensored        268
+          MACD -65.14 -> -56.66 | LOW 7507.50 @ 2026-09-02 -> 7406.00 @ 2026-09-16 | WEEK 7406.0 to 7570.5 | EMA11/22/50 7675.9 / 7555.2 / 7189.2
+     34  GANECOS     Ganesha Ecosphere Li    0.28  2026-08-28  2026-09-17  2026-09-15  39.79 uncensored       6.79
+          MACD -8.33 -> -0.5148 | LOW 1001.80 @ 2026-09-02 -> 932.50 @ 2026-09-17 | WEEK 932.5 to 1024.8 | EMA11/22/50 1037.9 / 1023.6 / 1054.8
+     35  SUPRIYA     Supriya Lifescience     0.27  2026-07-10  2026-08-19  2026-08-10  35.70 uncensored         21
+          MACD -20.74 -> -9.55 | LOW 835.50 @ 2026-07-07 -> 740.45 @ 2026-08-14 | WEEK 740.5 to 940.0 | EMA11/22/50 854.6 / 818.5 / 761.4
+
+     36  NATIONALUM  National Aluminium C    0.26  2026-09-07  2026-09-15  2026-09-15  37.02 uncensored        136
+          MACD -4.01 -> -3.89 | LOW 365.90 @ 2026-09-07 -> 350.10 @ 2026-09-16 | WEEK 350.1 to 363.2 | EMA11/22/50 369.1 / 368.7 / 340.7
+     37  LT          Larsen & Toubro Limi    0.26  2026-07-16  2026-09-16  2026-09-15  30.55 uncensored        513
+          MACD -36.89 -> -22.77 | LOW 3762.30 @ 2026-07-16 -> 3799.90 @ 2026-09-16 | WEEK 3799.9 to 3959.0 | EMA11/22/50 3972.4 / 3970.7 / 3911.1
+     38  NHPC        NHPC Limited            0.24  2026-08-28  2026-09-17  2026-09-15  40.18 uncensored         76
+          MACD -0.1080 -> -0.0009 | LOW 74.30 @ 2026-08-31 -> 74.99 @ 2026-09-17 | WEEK 74.99 to 77.07 | EMA11/22/50 76.99 / 77.51 / 78.67
+     39  AFFLE       Affle 3i Limited        0.24  2026-09-03  2026-09-16  2026-09-15  40.33 uncensored         22
+          MACD -27.45 -> -11.63 | LOW 1489.20 @ 2026-09-03 -> 1500.30 @ 2026-09-16 | WEEK 1500.3 to 1623.5 | EMA11/22/50 1585.5 / 1559.0 / 1577.6
+     40  CHOLAFIN    Cholamandalam Invest    0.23  2026-09-02  2026-09-17  2026-09-15  37.54 uncensored        225
+          MACD -11.79 -> -11.28 | LOW 1773.50 @ 2026-09-02 -> 1747.60 @ 2026-09-17 | WEEK 1747.6 to 1842.0 | EMA11/22/50 1810.8 / 1756.3 / 1678.1
+
+     41  MARICO      Marico Limited          0.20  2026-09-07  2026-09-15  2026-09-15  32.90 uncensored        132
+          MACD -3.77 -> -3.51 | LOW 799.55 @ 2026-09-10 -> 791.25 @ 2026-09-15 | WEEK 791.2 to 826.3 | EMA11/22/50 827.5 / 820.4 / 788.3
+     42  MOTHERSON   Samvardhana Motherso    0.19  2026-09-04  2026-09-16  2026-09-15  41.86 uncensored        157
+          MACD -1.62 -> -1.34 | LOW 159.92 @ 2026-09-02 -> 156.40 @ 2026-09-16 | WEEK 156.4 to 165.4 | EMA11/22/50 158.7 / 149.8 / 134.7
+     43  CCL         CCL Products (India)    0.18  2026-08-24  2026-09-17  2026-09-15  36.46 uncensored         15
+          MACD -5.29 -> -2.40 | LOW 1075.10 @ 2026-08-21 -> 1043.60 @ 2026-09-16 | WEEK 1043.6 to 1086.0 | EMA11/22/50 1111.1 / 1105.5 / 1041.1
+     44  SPARC       Sun Pharma Advanced     0.17  2026-08-18  2026-09-16  2026-09-15  34.82 uncensored         16
+          MACD -1.39 -> -0.4967 | LOW 191.88 @ 2026-08-18 -> 182.00 @ 2026-09-16 | WEEK 182.0 to 198.6 | EMA11/22/50 203.8 / 197.2 / 180.5
+     45  ANANTRAJ    Anant Raj Limited       0.17  2026-09-02  2026-09-16  2026-09-15  39.26 uncensored        103
+          MACD -5.88 -> -4.31 | LOW 571.35 @ 2026-09-02 -> 576.85 @ 2026-09-16 | WEEK 576.8 to 607.5 | EMA11/22/50 599.0 / 577.8 / 561.0
+
+     46  ANTELOPUS   Antelopus Selan Ener    0.15  2026-08-14  2026-08-27  2026-08-24  43.57 uncensored        207
+          MACD -7.51 -> -3.33 | LOW 776.45 @ 2026-08-14 -> 773.70 @ 2026-08-26 | WEEK 773.7 to 809.0 | EMA11/22/50 795.3 / 751.6 / 679.8
+     47  PGIL        Pearl Global Industr    0.14  2026-09-07  2026-09-21  2026-09-15  48.06 uncensored         20
+          MACD -13.00 -> -7.57 | LOW 1107.75 @ 2026-09-09 -> 1102.00 @ 2026-09-17 | WEEK 1102.0 to 1237.0 | EMA11/22/50 1111.6 / 1025.1 / 898.6
+     48  STYLAMIND   Stylam Industries Li    0.13  2026-09-03  2026-09-16  2026-09-15  35.98 uncensored         11
+          MACD -52.14 -> -25.50 | LOW 3220.00 @ 2026-09-03 -> 3152.20 @ 2026-09-17 | WEEK 3152.2 to 3359.7 | EMA11/22/50 3350.8 / 3142.2 / 2728.0
+     49  CENTRALBK   Central Bank of Indi    0.13  2026-09-01  2026-09-17  2026-09-15  40.86 uncensored         14
+          MACD -0.0631 -> -0.0021 | LOW 29.89 @ 2026-09-02 -> 30.12 @ 2026-09-17 | WEEK 30.12 to 32.40 | EMA11/22/50 31.45 / 32.30 / 34.67
+     50  NESTLEIND   Nestle India Limited    0.13  2026-08-20  2026-09-07  2026-09-07  33.49 uncensored        131
+          MACD -9.65 -> -9.02 | LOW 1449.00 @ 2026-08-21 -> 1377.70 @ 2026-09-10 | WEEK 1373.5 to 1415.1 | EMA11/22/50 1440.4 / 1416.3 / 1352.3
+
+     51  APLLTD      Alembic Pharmaceutic    0.12  2026-08-25  2026-09-07  2026-08-31  43.05 uncensored         13
+          MACD -3.15 -> -2.85 | LOW 801.05 @ 2026-08-25 -> 792.60 @ 2026-09-04 | WEEK 792.6 to 859.0 | EMA11/22/50 806.8 / 796.1 / 815.1
+     52  IKS         Inventurus Knowledge    0.12  2026-08-31  2026-09-17  2026-09-15  42.91 uncensored         27
+          MACD -7.50 -> -0.9410 | LOW 1712.10 @ 2026-09-02 -> 1712.70 @ 2026-09-17 | WEEK 1712.7 to 1800.0 | EMA11/22/50 1767.5 / 1727.4 / 1674.3
+     53  BAJFINANCE  Bajaj Finance Limite    0.11  2026-09-03  2026-09-16  2026-09-15  30.98 uncensored        552
+          MACD -7.61 -> -7.33 | LOW 1034.80 @ 2026-09-02 -> 1005.50 @ 2026-09-15 | WEEK 1005.5 to 1040.3 | EMA11/22/50 1046.5 / 1019.0 / 979.7
+     54  MANAPPURAM  Manappuram Finance L    0.10  2026-08-19  2026-09-09  2026-09-07  31.96 uncensored        116
+          MACD -3.86 -> -3.82 | LOW 336.40 @ 2026-08-19 -> 312.30 @ 2026-09-09 | WEEK 312.3 to 335.1 | EMA11/22/50 340.4 / 328.5 / 304.5
+     55  LXCHEM      Laxmi Organic Indust    0.10  2026-08-27  2026-09-16  2026-09-15  45.37 uncensored         16
+          MACD -1.48 -> -0.0993 | LOW 164.00 @ 2026-09-01 -> 165.11 @ 2026-09-16 | WEEK 165.1 to 183.9 | EMA11/22/50 171.6 / 165.5 / 167.2
+
+     56  KAYNES      Kaynes Technology In    0.09  2026-09-03  2026-09-16  2026-09-15  36.21 uncensored        388
+          MACD -55.91 -> -46.98 | LOW 3450.00 @ 2026-09-04 -> 3293.00 @ 2026-09-16 | WEEK 3293.0 to 3605.9 | EMA11/22/50 3602.1 / 3654.3 / 4049.0
+     57  SONACOMS    Sona BLW Precision F    0.09  2026-09-07  2026-09-16  2026-09-15  42.35 uncensored        130
+          MACD -7.73 -> -6.53 | LOW 773.40 @ 2026-09-02 -> 759.05 @ 2026-09-17 | WEEK 759.0 to 812.0 | EMA11/22/50 763.7 / 704.0 / 624.0
+     58  EXIDEIND    Exide Industries Lim    0.09  2026-08-27  2026-09-03  2026-09-07  33.60 uncensored         83
+          MACD -6.32 -> -6.10 | LOW 434.00 @ 2026-09-01 -> 415.55 @ 2026-09-08 | WEEK 409.7 to 427.5 | EMA11/22/50 431.7 / 412.1 / 391.3
+     59  INDHOTEL    The Indian Hotels Co    0.06  2026-08-28  2026-09-16  2026-09-15  44.65 uncensored        111
+          MACD -2.23 -> -0.9348 | LOW 701.55 @ 2026-08-31 -> 706.75 @ 2026-09-16 | WEEK 706.8 to 743.0 | EMA11/22/50 719.5 / 708.0 / 702.8
+     60  CEIGALL     Ceigall India Limite    0.06  2026-07-20  2026-08-18  2026-08-17  31.20 uncensored         13
+          MACD -4.84 -> -1.46 | LOW 331.30 @ 2026-07-23 -> 302.30 @ 2026-08-18 | WEEK 302.3 to 333.8 | EMA11/22/50 337.1 / 331.4 / 312.8
+
+     61  CHOICEIN    Choice International    0.04  2026-08-27  2026-09-16  2026-09-15  29.46 censored           23
+          MACD -6.40 -> -4.00 | LOW 772.10 @ 2026-09-01 -> 721.60 @ 2026-09-17 | WEEK 721.6 to 775.7 | EMA11/22/50 776.1 / 762.8 / 737.7
+     62  KIRLOSENG   Kirloskar Oil Engine    0.04  2026-08-26  2026-09-16  2026-09-15  41.12 uncensored         85
+          MACD -8.69 -> -8.18 | LOW 2024.10 @ 2026-08-27 -> 1934.00 @ 2026-09-16 | WEEK 1934.0 to 2212.5 | EMA11/22/50 2138.6 / 2010.0 / 1697.6
+     63  STARHEALTH  Star Health and Alli    0.03  2026-09-04  2026-09-16  2026-09-15  32.55 uncensored         23
+          MACD -2.71 -> -2.23 | LOW 546.95 @ 2026-09-07 -> 531.05 @ 2026-09-16 | WEEK 531.0 to 565.0 | EMA11/22/50 564.6 / 551.0 / 519.9
+     64  SIS         SIS LIMITED             0.03  2026-08-20  2026-09-16  2026-09-15  39.06 uncensored         16
+          MACD -2.66 -> -1.13 | LOW 410.20 @ 2026-08-20 -> 410.65 @ 2026-09-16 | WEEK 410.6 to 431.0 | EMA11/22/50 423.7 / 408.0 / 382.5
+     65  OPTIEMUS    Optiemus Infracom Li    0.02  2026-08-11  2026-09-09  2026-09-07  40.73 uncensored         11
+          MACD -14.10 -> -3.36 | LOW 536.40 @ 2026-08-12 -> 540.00 @ 2026-09-11 | WEEK 540.0 to 579.3 | EMA11/22/50 550.9 / 519.0 / 503.6
+
+     66  WHEELS      Wheels India Limited    0.02  2026-07-09  2026-08-13  2026-08-10  38.20 uncensored         56
+          MACD -32.07 -> -4.06 | LOW 1415.10 @ 2026-07-08 -> 1342.00 @ 2026-08-13 | WEEK 1342.0 to 1447.0 | EMA11/22/50 1441.2 / 1351.9 / 1155.2
+     67  AEGISLOG    Aegis Logistics Limi    0.01  2026-08-14  2026-09-02  2026-08-31  41.21 uncensored         91
+          MACD -21.30 -> -16.74 | LOW 1241.50 @ 2026-08-13 -> 1180.00 @ 2026-09-01 | WEEK 1180.0 to 1327.3 | EMA11/22/50 1239.4 / 1101.2 / 937.1
+     68  KARURVYSYA  Karur Vysya Bank Lim    0.01  2026-09-15  2026-09-22  2026-09-21  36.19 uncensored         46
+          MACD -2.89 -> -2.77 | LOW 322.75 @ 2026-09-15 -> 318.00 @ 2026-09-22 | WEEK 318.0 to 336.0 | EMA11/22/50 329.4 / 317.7 / 290.9
+     69  M&MFIN      Mahindra & Mahindra     0.00  2026-09-01  2026-09-16  2026-09-15  31.27 uncensored         60
+          MACD -4.76 -> -4.35 | LOW 360.30 @ 2026-09-02 -> 341.00 @ 2026-09-15 | WEEK 341.0 to 358.8 | EMA11/22/50 361.1 / 350.0 / 333.9
+     70  THYROCARE   Thyrocare Technologi   -0.01  2026-08-21  2026-09-16  2026-09-15  36.40 uncensored         12
+          MACD -7.95 -> -5.70 | LOW 563.10 @ 2026-08-21 -> 532.75 @ 2026-09-16 | WEEK 532.8 to 568.0 | EMA11/22/50 559.2 / 530.5 / 476.8
+
+     71  PRIVISCL    Privi Speciality Che   -0.02  2026-08-18  2026-09-02  2026-08-31  29.68 censored           29
+          MACD -26.18 -> -12.52 | LOW 3409.00 @ 2026-08-18 -> 3303.30 @ 2026-09-02 | WEEK 3303.3 to 3494.0 | EMA11/22/50 3483.7 / 3392.4 / 3104.2
+     72  PARAGMILK   Parag Milk Foods Lim   -0.02  2026-07-24  2026-08-20  2026-08-17  36.03 uncensored         49
+          MACD -1.75 -> -1.20 | LOW 210.10 @ 2026-07-24 -> 205.00 @ 2026-08-17 | WEEK 205.0 to 229.9 | EMA11/22/50 222.1 / 225.2 / 230.8
+     73  RPGLIFE     RPG Life Sciences Li   -0.03  2026-08-10  2026-08-28  2026-08-24  37.24 uncensored       5.07
+          MACD -49.40 -> -23.57 | LOW 2604.00 @ 2026-08-12 -> 2490.10 @ 2026-08-28 | WEEK 2490.1 to 2666.2 | EMA11/22/50 2601.0 / 2471.7 / 2336.9
+     74  TATVA       Tatva Chintan Pharma   -0.03  2026-08-25  2026-09-15  2026-09-15  39.25 uncensored       8.59
+          MACD -33.07 -> -9.42 | LOW 1570.90 @ 2026-08-26 -> 1520.00 @ 2026-09-16 | WEEK 1520.0 to 1787.8 | EMA11/22/50 1606.1 / 1493.6 / 1348.1
+     75  FSL         Firstsource Solution   -0.04  2026-08-18  2026-09-11  2026-09-07  33.42 uncensored         18
+          MACD -5.30 -> -2.32 | LOW 263.10 @ 2026-08-19 -> 246.65 @ 2026-09-11 | WEEK 246.6 to 266.0 | EMA11/22/50 263.2 / 262.8 / 276.8
+
+     76  PICCADIL    Piccadily Agro Indus   -0.04  2026-08-14  2026-09-02  2026-08-31  33.12 uncensored       8.96
+          MACD -16.35 -> -9.63 | LOW 638.70 @ 2026-08-17 -> 609.40 @ 2026-09-03 | WEEK 609.4 to 650.0 | EMA11/22/50 661.6 / 642.6 / 622.6
+     77  AGARWALEYE  Dr. Agarwal's Health   -0.04  2026-08-24  2026-09-22  2026-09-21  38.72 uncensored         13
+          MACD -3.60 -> -2.70 | LOW 491.70 @ 2026-08-20 -> 484.80 @ 2026-09-23 | WEEK 484.8 to 506.2 | EMA11/22/50 499.1 / 488.3 / 473.1
+     78  MBAPL       Madhya Bharat Agro P   -0.04  2026-09-02  2026-09-15  2026-09-15  42.78 uncensored         13
+          MACD -2.11 -> -1.55 | LOW 155.53 @ 2026-09-03 -> 152.16 @ 2026-09-16 | WEEK 152.2 to 168.5 | EMA11/22/50 153.7 / 138.7 / 115.8
+     79  QUADFUTURE  Quadrant Future Tek    -0.05  2026-07-28  2026-08-20  2026-08-17  37.44 uncensored         31
+          MACD -11.55 -> -1.20 | LOW 338.80 @ 2026-07-24 -> 334.45 @ 2026-08-19 | WEEK 334.5 to 405.4 | EMA11/22/50 374.8 / 360.2 / 365.4
+     80  PAISALO     Paisalo Digital Limi   -0.06  2026-08-07  2026-09-02  2026-08-31  38.59 uncensored        158
+          MACD -0.8930 -> -0.3632 | LOW 68.25 @ 2026-08-05 -> 65.11 @ 2026-09-01 | WEEK 65.11 to 74.20 | EMA11/22/50 67.58 / 61.02 / 51.68
+
+     81  NUVOCO      Nuvoco Vistas Corpor   -0.06  2026-08-19  2026-09-17  2026-09-15  37.92 uncensored       9.67
+          MACD -3.80 -> -1.48 | LOW 317.00 @ 2026-08-20 -> 307.95 @ 2026-09-16 | WEEK 308.0 to 333.5 | EMA11/22/50 332.5 / 331.1 / 338.0
+     82  MAYURUNIQ   Mayur Uniquoters Ltd   -0.06  2026-08-18  2026-09-07  2026-09-07  37.37 uncensored       7.48
+          MACD -5.05 -> -2.17 | LOW 722.00 @ 2026-08-19 -> 701.70 @ 2026-09-07 | WEEK 701.7 to 765.9 | EMA11/22/50 753.7 / 722.3 / 654.2
+     83  GNA         GNA Axles Limited      -0.06  2026-09-03  2026-09-16  2026-09-15  45.70 uncensored         16
+          MACD -5.67 -> -2.95 | LOW 524.00 @ 2026-09-01 -> 504.20 @ 2026-09-16 | WEEK 504.2 to 588.8 | EMA11/22/50 527.7 / 489.1 / 434.9
+     84  TIPSMUSIC   Tips Music Limited     -0.06  2026-08-24  2026-09-02  2026-08-31  38.90 uncensored         14
+          MACD -2.69 -> -1.69 | LOW 640.55 @ 2026-08-25 -> 628.20 @ 2026-09-02 | WEEK 628.2 to 662.4 | EMA11/22/50 657.6 / 643.1 / 618.6
+     85  SMSPHARMA   SMS Pharmaceuticals    -0.07  2026-08-06  2026-08-19  2026-08-17  37.86 uncensored         25
+          MACD -3.41 -> -1.12 | LOW 355.50 @ 2026-08-06 -> 351.00 @ 2026-08-21 | WEEK 351.0 to 364.3 | EMA11/22/50 377.1 / 375.8 / 349.1
+
+     86  AARTIIND    Aarti Industries Lim   -0.08  2026-09-07  2026-09-16  2026-09-15  33.90 uncensored         28
+          MACD -6.63 -> -6.22 | LOW 486.50 @ 2026-09-08 -> 459.55 @ 2026-09-16 | WEEK 459.5 to 494.5 | EMA11/22/50 498.5 / 483.9 / 460.5
+     87  SENORES     Senores Pharmaceutic   -0.08  2026-09-04  2026-09-17  2026-09-15  39.13 uncensored         30
+          MACD -13.69 -> -13.26 | LOW 1410.40 @ 2026-09-07 -> 1355.60 @ 2026-09-16 | WEEK 1355.6 to 1475.6 | EMA11/22/50 1394.3 / 1279.5 / 1072.2
+     88  TECHNOE     Techno Electric & En   -0.09  2026-09-08  2026-09-15  2026-09-15  39.73 uncensored         12
+          MACD -1.66 -> -1.09 | LOW 957.25 @ 2026-09-07 -> 936.00 @ 2026-09-16 | WEEK 936.0 to 1039.0 | EMA11/22/50 1018.3 / 1051.0 / 1112.2
+     89  AETHER      Aether Industries Li   -0.10  2026-09-09  2026-09-16  2026-09-15  45.72 uncensored         26
+          MACD -13.64 -> -13.39 | LOW 1567.70 @ 2026-09-15 -> 1552.70 @ 2026-09-16 | WEEK 1552.7 to 1680.0 | EMA11/22/50 1559.8 / 1425.4 / 1219.5
+     90  DEEDEV      DEE Development Engi   -0.10  2026-08-31  2026-09-17  2026-09-15  41.73 uncensored         20
+          MACD -3.73 -> -1.14 | LOW 577.50 @ 2026-08-31 -> 577.65 @ 2026-09-16 | WEEK 577.7 to 668.8 | EMA11/22/50 640.9 / 589.0 / 476.8
+
+     91  TIMKEN      Timken India Limited   -0.10  2026-08-26  2026-09-08  2026-09-07  41.17 uncensored         11
+          MACD -12.98 -> -4.29 | LOW 3069.50 @ 2026-08-21 -> 3080.20 @ 2026-09-08 | WEEK 3080.2 to 3321.0 | EMA11/22/50 3257.7 / 3301.1 / 3270.6
+     92  LLOYDSENT   Lloyds Enterprises L   -0.11  2026-08-27  2026-09-16  2026-09-15  30.25 uncensored         15
+          MACD -0.7927 -> -0.4783 | LOW 71.05 @ 2026-09-01 -> 65.91 @ 2026-09-16 | WEEK 65.91 to 70.33 | EMA11/22/50 73.58 / 71.72 / 67.64
+     93  HIRECT      Hirect Limited         -0.11  2026-08-25  2026-09-16  2026-09-15  40.21 uncensored       5.27
+          MACD -10.90 -> -5.13 | LOW 1202.10 @ 2026-08-27 -> 1156.70 @ 2026-09-16 | WEEK 1156.7 to 1279.0 | EMA11/22/50 1221.4 / 1137.7 / 979.1
+     94  ITDC        India Tourism Develo   -0.12  2026-08-11  2026-09-02  2026-08-31  34.85 uncensored       5.43
+          MACD -9.62 -> -6.65 | LOW 667.15 @ 2026-08-12 -> 630.00 @ 2026-09-02 | WEEK 630.0 to 677.6 | EMA11/22/50 665.5 / 636.9 / 605.6
+     95  MINDACORP   Minda Corporation Li   -0.12  2026-08-27  2026-09-16  2026-09-15  36.86 uncensored         11
+          MACD -5.80 -> -4.32 | LOW 685.50 @ 2026-08-27 -> 661.80 @ 2026-09-16 | WEEK 661.8 to 704.6 | EMA11/22/50 692.4 / 662.0 / 614.0
+
+     96  PCBL        PCBL Chemical Limite   -0.13  2026-09-03  2026-09-16  2026-09-15  44.05 uncensored         34
+          MACD -0.9393 -> -0.1511 | LOW 310.70 @ 2026-09-02 -> 310.25 @ 2026-09-16 | WEEK 310.2 to 338.0 | EMA11/22/50 320.2 / 312.7 / 317.1
+     97  KIMS        Krishna Institute of   -0.13  2026-07-23  2026-08-26  2026-08-31  33.36 uncensored         32
+          MACD -5.95 -> -5.53 | LOW 778.10 @ 2026-07-22 -> 750.10 @ 2026-08-31 | WEEK 748.3 to 778.5 | EMA11/22/50 784.6 / 765.7 / 724.8
+     98  LTM         LTM Limited            -0.13  2026-08-27  2026-09-16  2026-09-15  37.72 uncensored        133
+          MACD -47.84 -> -45.27 | LOW 4460.00 @ 2026-08-26 -> 4155.00 @ 2026-09-18 | WEEK 4155.0 to 4568.9 | EMA11/22/50 4364.0 / 4385.3 / 4647.3
+     99  GOLDIAM     Goldiam Internationa   -0.14  2026-09-01  2026-09-11  2026-09-15  29.62 censored           12
+          MACD -3.29 -> -3.07 | LOW 336.05 @ 2026-09-02 -> 317.00 @ 2026-09-16 | WEEK 317.0 to 340.9 | EMA11/22/50 343.3 / 332.5 / 308.2
+    100  EBGNG       GNG Electronics Limi   -0.15  2026-07-21  2026-08-04  2026-08-03  39.02 uncensored         65
+          MACD -15.66 -> -10.36 | LOW 531.75 @ 2026-07-22 -> 483.05 @ 2026-08-05 | WEEK 483.0 to 547.0 | EMA11/22/50 524.9 / 478.8 / 415.6
+
+    101  STAR        Strides Pharma Scien   -0.16  2026-08-05  2026-08-19  2026-08-17  33.76 uncensored         35
+          MACD -6.55 -> -3.48 | LOW 963.00 @ 2026-08-05 -> 931.30 @ 2026-08-19 | WEEK 931.3 to 1056.0 | EMA11/22/50 1029.0 / 1023.5 / 975.4
+    102  RKFORGE     Ramkrishna Forgings    -0.16  2026-09-08  2026-09-16  2026-09-15  43.85 uncensored         42
+          MACD -9.67 -> -8.42 | LOW 689.45 @ 2026-09-04 -> 659.10 @ 2026-09-16 | WEEK 659.1 to 728.0 | EMA11/22/50 684.8 / 643.6 / 615.3
+    103  ENDURANCE   Endurance Technologi   -0.17  2026-09-03  2026-09-15  2026-09-15  28.59 censored           24
+          MACD -36.49 -> -31.78 | LOW 2702.00 @ 2026-09-08 -> 2582.00 @ 2026-09-16 | WEEK 2582.0 to 2743.6 | EMA11/22/50 2771.6 / 2708.2 / 2618.0
+    104  USHAMART    Usha Martin Limited    -0.17  2026-08-21  2026-09-16  2026-09-15  37.73 uncensored         49
+          MACD -2.70 -> -2.14 | LOW 477.80 @ 2026-08-21 -> 464.15 @ 2026-09-16 | WEEK 464.1 to 511.0 | EMA11/22/50 496.7 / 484.9 / 456.2
+    105  POLYMED     Poly Medicure Limite   -0.20  2026-09-07  2026-09-16  2026-09-15  45.68 uncensored         20
+          MACD -8.06 -> -6.18 | LOW 1682.30 @ 2026-09-08 -> 1691.20 @ 2026-09-16 | WEEK 1691.2 to 1753.0 | EMA11/22/50 1695.9 / 1650.2 / 1687.5
+
+    106  BHARTIHEXA  Bharti Hexacom Limit   -0.20  2026-09-04  2026-09-17  2026-09-15  38.11 uncensored         11
+          MACD -10.41 -> -5.60 | LOW 1490.00 @ 2026-09-04 -> 1465.00 @ 2026-09-17 | WEEK 1465.0 to 1558.9 | EMA11/22/50 1550.3 / 1556.9 / 1577.7
+    107  SANGHVIMOV  Sanghvi Movers Limit   -0.20  2026-08-28  2026-09-16  2026-09-15  29.85 censored           11
+          MACD -8.28 -> -6.02 | LOW 433.30 @ 2026-08-31 -> 395.30 @ 2026-09-16 | WEEK 395.3 to 438.1 | EMA11/22/50 436.7 / 411.2 / 373.7
+    108  NEWGEN      Newgen Software Tech   -0.20  2026-08-19  2026-09-17  2026-09-15  36.11 uncensored         30
+          MACD -5.36 -> -3.93 | LOW 518.70 @ 2026-08-19 -> 487.10 @ 2026-09-18 | WEEK 487.1 to 528.6 | EMA11/22/50 518.0 / 525.1 / 612.8
+    109  JASH        Jash Engineering Lim   -0.20  2026-08-24  2026-09-01  2026-08-31  36.34 uncensored       8.69
+          MACD -2.99 -> -2.03 | LOW 466.35 @ 2026-08-24 -> 454.10 @ 2026-09-01 | WEEK 454.1 to 490.0 | EMA11/22/50 483.9 / 469.7 / 463.6
+    110  PANAMAPET   Panama Petrochem Lim   -0.21  2026-08-28  2026-09-17  2026-09-15  40.72 uncensored       8.40
+          MACD -5.57 -> -4.68 | LOW 460.00 @ 2026-08-31 -> 436.85 @ 2026-09-16 | WEEK 436.9 to 476.9 | EMA11/22/50 462.0 / 423.5 / 375.7
+
+    111  SOUTHBANK   The South Indian Ban   -0.22  2026-09-16  2026-09-22  2026-09-21  44.49 uncensored         41
+          MACD -0.1019 -> -0.0935 | LOW 44.54 @ 2026-09-16 -> 44.86 @ 2026-09-21 | WEEK 44.86 to 50.68 | EMA11/22/50 46.46 / 44.91 / 41.26
+    112  AHCL        Anlon Healthcare Lim   -0.23  2026-07-17  2026-08-06  2026-08-03  39.25 uncensored         74
+          MACD -0.1709 -> -0.1195 | LOW 14.61 @ 2026-07-20 -> 13.81 @ 2026-08-06 | WEEK 13.81 to 14.85 | EMA11/22/50 14.81 / 14.34 / 13.30
+    113  AARTIDRUGS  Aarti Drugs Limited    -0.23  2026-09-09  2026-09-16  2026-09-15  52.18 uncensored       5.98
+          MACD -0.1348 -> -0.0632 | LOW 419.20 @ 2026-09-08 -> 411.00 @ 2026-09-16 | WEEK 411.0 to 439.9 | EMA11/22/50 416.7 / 405.7 / 407.1
+    114  ARTEMISMED  Artemis Medicare Ser   -0.24  2026-08-31  2026-09-17  2026-09-15  50.54 uncensored         12
+          MACD -1.63 -> -1.63 | LOW 314.05 @ 2026-08-31 -> 306.60 @ 2026-09-16 | WEEK 306.6 to 347.5 | EMA11/22/50 314.1 / 293.8 / 273.6
+    115  JSFB        Jana Small Finance B   -0.24  2026-09-02  2026-09-15  2026-09-15  32.57 uncensored         29
+          MACD -7.29 -> -6.21 | LOW 519.00 @ 2026-09-02 -> 477.40 @ 2026-09-16 | WEEK 477.4 to 534.8 | EMA11/22/50 527.5 / 502.6 / 474.1
+
+    116  NOCIL       NOCIL Limited          -0.24  2026-07-17  2026-08-19  2026-08-10  42.29 uncensored         23
+          MACD -2.10 -> -0.3994 | LOW 160.36 @ 2026-07-20 -> 160.50 @ 2026-08-14 | WEEK 160.5 to 170.0 | EMA11/22/50 166.5 / 165.8 / 170.3
+    117  WELENT      Welspun Enterprises    -0.24  2026-07-30  2026-08-06  2026-08-10  35.95 uncensored         35
+          MACD -6.19 -> -5.57 | LOW 585.00 @ 2026-07-30 -> 558.40 @ 2026-08-11 | WEEK 557.1 to 590.0 | EMA11/22/50 574.9 / 552.1 / 527.0
+    118  ABDL        Allied Blenders and    -0.27  2026-08-21  2026-09-08  2026-09-07  42.73 uncensored         27
+          MACD -2.31 -> -0.9029 | LOW 584.30 @ 2026-08-21 -> 586.55 @ 2026-09-09 | WEEK 586.5 to 636.9 | EMA11/22/50 610.3 / 593.3 / 555.7
+    119  STLNETWORK  STL Networks Limited   -0.27  2026-07-08  2026-07-30  2026-07-27  34.83 uncensored         18
+          MACD -0.3656 -> -0.0286 | LOW 24.75 @ 2026-07-08 -> 23.00 @ 2026-07-30 | WEEK 23.00 to 26.16 | EMA11/22/50 25.68 / 25.10 / 23.94
+    120  63MOONS     63 moons technologie   -0.29  2026-08-20  2026-08-27  2026-08-24  42.30 uncensored         31
+          MACD -14.79 -> -11.71 | LOW 753.00 @ 2026-08-18 -> 739.10 @ 2026-08-27 | WEEK 739.1 to 822.0 | EMA11/22/50 760.0 / 725.3 / 715.2
+
+    121  GALAXYSURF  Galaxy Surfactants L   -0.29  2026-09-07  2026-09-16  2026-09-15  44.33 uncensored       7.50
+          MACD -29.86 -> -23.03 | LOW 2126.00 @ 2026-09-07 -> 2078.70 @ 2026-09-16 | WEEK 2078.7 to 2271.1 | EMA11/22/50 2150.0 / 2064.7 / 2057.0
+    122  SUNFLAG     Sunflag Iron And Ste   -0.32  2026-08-27  2026-09-09  2026-09-15  34.93 uncensored       5.03
+          MACD -2.62 -> -1.71 | LOW 335.80 @ 2026-09-01 -> 328.50 @ 2026-09-15 | WEEK 325.0 to 354.0 | EMA11/22/50 348.5 / 337.9 / 310.2
+    123  CENTUM      Centum Electronics L   -0.34  2026-08-19  2026-08-25  2026-08-24  35.16 uncensored         37
+          MACD -46.71 -> -46.14 | LOW 3313.80 @ 2026-08-18 -> 3255.10 @ 2026-08-25 | WEEK 3255.1 to 3486.5 | EMA11/22/50 3512.1 / 3344.1 / 2973.2
+    124  HCG         Healthcare Global En   -0.34  2026-09-08  2026-09-16  2026-09-15  41.84 uncensored       6.88
+          MACD -5.33 -> -5.04 | LOW 676.55 @ 2026-09-08 -> 644.95 @ 2026-09-16 | WEEK 645.0 to 715.0 | EMA11/22/50 685.8 / 663.4 / 636.0
+    125  ANDHRAPAP   ANDHRA PAPER LIMITED   -0.35  2026-08-12  2026-08-25  2026-08-24  44.06 uncensored       5.41
+          MACD -0.1631 -> -0.0017 | LOW 59.27 @ 2026-08-12 -> 59.33 @ 2026-08-25 | WEEK 59.33 to 61.88 | EMA11/22/50 61.24 / 62.58 / 66.81
+
+    126  TARC        TARC Limited           -0.36  2026-08-19  2026-08-27  2026-08-31  34.60 uncensored       5.82
+          MACD -1.59 -> -1.09 | LOW 119.31 @ 2026-08-20 -> 116.57 @ 2026-08-31 | WEEK 116.6 to 128.0 | EMA11/22/50 126.3 / 129.4 / 138.5
+    127  GODREJIND   Godrej Industries Li   -0.36  2026-09-15  2026-09-22  2026-09-21  35.03 uncensored       6.46
+          MACD -1.98 -> -0.0417 | LOW 1078.00 @ 2026-09-16 -> 1085.30 @ 2026-09-24 | WEEK 1085.3 to 1146.0 | EMA11/22/50 1172.1 / 1156.8 / 1113.9
+    128  MMFL        MM Forgings Limited    -0.39  2026-09-09  2026-09-16  2026-09-15  43.40 uncensored       5.74
+          MACD -7.51 -> -7.45 | LOW 583.50 @ 2026-09-15 -> 578.20 @ 2026-09-16 | WEEK 578.2 to 633.7 | EMA11/22/50 594.8 / 547.8 / 484.8
+    129  GUJTHEM     Gujarat Themis Biosy   -0.39  2026-07-22  2026-08-14  2026-08-10  39.38 uncensored         26
+          MACD -3.00 -> -0.0224 | LOW 346.50 @ 2026-07-23 -> 345.00 @ 2026-08-14 | WEEK 345.0 to 377.5 | EMA11/22/50 364.8 / 362.5 / 353.5
+    130  BHAGERIA    Bhageria Industries    -0.39  2026-07-30  2026-08-14  2026-08-10  41.31 uncensored       5.38
+          MACD -1.78 -> -1.70 | LOW 199.00 @ 2026-07-30 -> 194.00 @ 2026-08-14 | WEEK 194.0 to 210.0 | EMA11/22/50 204.3 / 194.3 / 185.8
+
+    131  RML         Rane (Madras) Limite   -0.39  2026-07-24  2026-08-10  2026-08-03  38.09 uncensored       7.00
+          MACD -24.45 -> -19.33 | LOW 1080.10 @ 2026-07-29 -> 1028.70 @ 2026-08-06 | WEEK 1028.7 to 1250.0 | EMA11/22/50 1076.6 / 994.0 / 907.9
+    132  BLUEJET     Blue Jet Healthcare    -0.40  2026-09-07  2026-09-15  2026-09-15  35.08 uncensored         22
+          MACD -3.34 -> -3.21 | LOW 561.00 @ 2026-09-07 -> 543.75 @ 2026-09-16 | WEEK 543.8 to 577.8 | EMA11/22/50 568.8 / 544.3 / 543.5
+    133  HBLENGINE   HBL Engineering Limi   -0.40  2026-08-18  2026-09-01  2026-08-31  35.90 uncensored         88
+          MACD -2.58 -> -1.07 | LOW 661.25 @ 2026-08-19 -> 648.00 @ 2026-09-02 | WEEK 648.0 to 724.0 | EMA11/22/50 720.4 / 741.0 / 743.5
+    134  CARYSIL     CARYSIL LIMITED        -0.40  2026-07-24  2026-08-28  2026-08-31  39.33 uncensored       8.19
+          MACD -10.23 -> -9.02 | LOW 1094.20 @ 2026-07-24 -> 1095.10 @ 2026-08-31 | WEEK 1095.1 to 1180.0 | EMA11/22/50 1137.8 / 1088.5 / 997.7
+    135  TEMBO       Tembo Global Industr   -0.41  2026-09-03  2026-09-15  2026-09-15  41.14 uncensored       6.36
+          MACD -0.4511 -> -0.2437 | LOW 55.40 @ 2026-09-04 -> 54.25 @ 2026-09-16 | WEEK 54.25 to 57.30 | EMA11/22/50 57.32 / 57.39 / 57.29
+
+    136  SIGNATURE   Signatureglobal (Ind   -0.41  2026-08-31  2026-09-16  2026-09-15  36.88 uncensored         15
+          MACD -3.70 -> -3.20 | LOW 755.40 @ 2026-08-31 -> 742.85 @ 2026-09-16 | WEEK 742.8 to 793.3 | EMA11/22/50 787.6 / 812.6 / 893.5
+    137  RACLGEAR    RACL Geartech Limite   -0.42  2026-07-10  2026-07-31  2026-07-27  38.80 uncensored       7.56
+          MACD -12.20 -> -9.21 | LOW 1252.20 @ 2026-07-09 -> 1232.50 @ 2026-07-30 | WEEK 1232.5 to 1386.0 | EMA11/22/50 1302.0 / 1277.1 / 1188.4
+    138  IMFA        Indian Metals & Ferr   -0.42  2026-09-03  2026-09-15  2026-09-15  27.32 censored           11
+          MACD -16.05 -> -9.75 | LOW 1272.10 @ 2026-09-07 -> 1199.80 @ 2026-09-16 | WEEK 1199.8 to 1295.9 | EMA11/22/50 1340.5 / 1356.0 / 1279.1
+    139  INDNIPPON   India Nippon Electri   -0.43  2026-08-11  2026-08-25  2026-08-24  38.22 uncensored       6.51
+          MACD -16.47 -> -13.26 | LOW 1053.10 @ 2026-08-10 -> 1055.30 @ 2026-08-25 | WEEK 1055.3 to 1107.9 | EMA11/22/50 1075.1 / 1000.4 / 907.3
+    140  VENUSPIPES  Venus Pipes & Tubes    -0.44  2026-07-23  2026-08-03  2026-08-03  36.87 uncensored         34
+          MACD -25.77 -> -25.38 | LOW 1649.20 @ 2026-07-28 -> 1540.00 @ 2026-08-04 | WEEK 1540.0 to 1700.0 | EMA11/22/50 1600.8 / 1484.6 / 1392.3
+
+    141  DEEPAKFERT  Deepak Fertilizers a   -0.47  2026-09-07  2026-09-15  2026-09-15  25.88 censored           27
+          MACD -9.95 -> -8.70 | LOW 1330.00 @ 2026-09-10 -> 1269.10 @ 2026-09-16 | WEEK 1269.1 to 1353.0 | EMA11/22/50 1426.2 / 1409.3 / 1350.6
+    142  SPLPETRO    Supreme Petrochem Li   -0.47  2026-08-11  2026-08-24  2026-08-24  41.60 uncensored         14
+          MACD -4.58 -> -1.79 | LOW 681.85 @ 2026-08-11 -> 688.05 @ 2026-08-25 | WEEK 688.0 to 717.0 | EMA11/22/50 712.6 / 710.7 / 706.3
+    143  KRISHNADEF  Krishna Defence And    -0.50  2026-08-17  2026-08-21  2026-08-24  31.58 uncensored       6.87
+          MACD -15.99 -> -12.67 | LOW 1026.00 @ 2026-08-20 -> 1010.80 @ 2026-08-24 | WEEK 1010.8 to 1052.2 | EMA11/22/50 1142.0 / 1125.0 / 1028.0
+    144  SAMHI       Samhi Hotels Limited   -0.53  2026-08-17  2026-09-02  2026-09-07  28.60 censored           13
+          MACD -1.95 -> -0.7670 | LOW 157.41 @ 2026-08-17 -> 148.92 @ 2026-09-07 | WEEK 148.9 to 172.5 | EMA11/22/50 163.0 / 164.9 / 170.6
+    145  SCHAEFFLER  Schaeffler India Lim   -0.54  2026-09-04  2026-09-16  2026-09-15  35.51 uncensored         19
+          MACD -7.49 -> -5.77 | LOW 3871.70 @ 2026-09-04 -> 3818.10 @ 2026-09-16 | WEEK 3818.1 to 4260.0 | EMA11/22/50 4065.5 / 4061.8 / 4005.0
+
+    146  AIAENG      AIA Engineering Limi   -0.56  2026-08-24  2026-09-16  2026-09-15  21.65 censored           16
+          MACD -36.60 -> -29.42 | LOW 4223.00 @ 2026-08-27 -> 3778.00 @ 2026-09-16 | WEEK 3778.0 to 4140.0 | EMA11/22/50 4304.3 / 4280.3 / 4060.1
+    147  TATAINVEST  Tata Investment Corp   -0.60  2026-08-24  2026-09-09  2026-09-07  31.48 uncensored         19
+          MACD -3.44 -> -2.04 | LOW 637.00 @ 2026-08-27 -> 616.10 @ 2026-09-09 | WEEK 616.1 to 679.4 | EMA11/22/50 657.5 / 664.6 / 672.5
+    148  POONAWALLA  Poonawalla Fincorp L   -0.62  2026-09-02  2026-09-16  2026-09-15  29.79 censored           37
+          MACD -4.61 -> -4.37 | LOW 450.60 @ 2026-09-02 -> 428.10 @ 2026-09-16 | WEEK 428.1 to 492.0 | EMA11/22/50 466.2 / 455.4 / 443.3
+    149  SHRINGARMS  Shringar House of Ma   -0.62  2026-09-02  2026-09-16  2026-09-15  30.50 uncensored       5.25
+          MACD -1.45 -> -0.9005 | LOW 213.50 @ 2026-09-01 -> 205.17 @ 2026-09-16 | WEEK 205.2 to 218.0 | EMA11/22/50 219.3 / 217.9 / 213.2
+    150  ARIS        Arisinfra Solutions    -0.67  2026-09-07  2026-09-16  2026-09-15  31.53 uncensored         21
+          MACD -2.62 -> -2.51 | LOW 125.33 @ 2026-09-10 -> 115.75 @ 2026-09-16 | WEEK 115.8 to 136.5 | EMA11/22/50 130.3 / 127.3 / 131.0
+
+    151  APOLLOTYRE  Apollo Tyres Limited   -0.67  2026-09-08  2026-09-15  2026-09-15  32.60 uncensored         18
+          MACD -3.23 -> -3.22 | LOW 408.00 @ 2026-09-09 -> 402.15 @ 2026-09-16 | WEEK 402.1 to 429.5 | EMA11/22/50 427.0 / 429.8 / 441.7
+    152  KSL         Kalyani Steels Limit   -0.75  2026-08-10  2026-08-18  2026-08-17  36.73 uncensored         11
+          MACD -8.52 -> -6.66 | LOW 829.00 @ 2026-08-11 -> 816.00 @ 2026-08-19 | WEEK 816.0 to 914.9 | EMA11/22/50 860.5 / 833.4 / 808.6
+    153  IKIO        IKIO Technologies Li   -0.77  2026-08-21  2026-08-27  2026-08-24  39.20 uncensored       7.57
+          MACD -2.46 -> -2.38 | LOW 188.56 @ 2026-08-21 -> 185.00 @ 2026-08-27 | WEEK 185.0 to 217.7 | EMA11/22/50 195.2 / 183.3 / 183.2
+    154  TVSSRICHAK  TVS Srichakra Limite   -0.77  2026-07-23  2026-08-12  2026-08-10  35.09 uncensored       6.10
+          MACD -39.45 -> -7.54 | LOW 3882.00 @ 2026-07-24 -> 3850.00 @ 2026-08-13 | WEEK 3850.0 to 4628.0 | EMA11/22/50 4077.9 / 4000.5 / 3870.0
+    155  ATGL        Adani Total Gas Limi   -0.83  2026-09-07  2026-09-15  2026-09-15  22.87 censored           36
+          MACD -2.54 -> -2.48 | LOW 600.25 @ 2026-09-10 -> 576.40 @ 2026-09-15 | WEEK 576.4 to 674.8 | EMA11/22/50 648.2 / 648.4 / 639.3
+
+    156  SHANTIGEAR  Shanthi Gears Limite   -1.04  2026-08-13  2026-08-19  2026-08-17  25.71 censored         9.69
+          MACD -1.16 -> -1.11 | LOW 384.00 @ 2026-08-18 -> 384.00 @ 2026-08-18 | WEEK 384.0 to 464.2 | EMA11/22/50 430.5 / 438.9 / 457.7
+
+=====================================================================
+
+ SECTION 4 - WAITING FOR THEIR WEEK'S CANDLE TO CLOSE (0)
+   Their price low is in a week whose candle is not complete in the data yet (normally the
+   current week, until Friday's 15:30 IST close). The weekly check needs a finished candle,
+   so they are re-checked on the next download.
+
+   (none)
+
+=====================================================================
+
+ SECTION 5 - THINLY TRADED SETUPS (162, not ranked)
+   They pass the setup but fail the liquidity floor (Rs 5 cr/day traded and price >= Rs 20).
+   SHORT OF = what each one falls short on. Same two lines per stock as Section 3.
+
+      #  SYMBOL      COMPANY               SHORT OF                  PREV DIP    RECENT DIP  ZONE WK     RSI (CHECK)         Rs cr/d
+   ----  ----------  --------------------  ------------------------  ----------  ----------  ----------  ------------------  -------
+         AARON       Aaron Industries Lim  turnover                  2026-09-02  2026-09-21  2026-09-15  36.37 uncensored       0.15
+          MACD -2.01 -> -1.20 | LOW 124.68 @ 2026-09-02 -> 115.00 @ 2026-09-18 | WEEK 115.0 to 132.2 | EMA11/22/50 128.6 / 132.0 / 144.7
+         AARVI       Aarvi Encon Limited   turnover                  2026-08-31  2026-09-21  2026-09-21  32.24 uncensored       0.12
+          MACD -1.61 -> -0.4236 | LOW 139.71 @ 2026-09-01 -> 134.50 @ 2026-09-21 | WEEK 134.5 to 141.3 | EMA11/22/50 143.6 / 141.8 / 135.7
+         ABCOTS      A B Cotspin India Li  turnover                  2026-07-13  2026-09-16  2026-09-07  44.14 uncensored       0.10
+          MACD -0.9112 -> -0.4905 | LOW 205.83 @ 2026-07-16 -> 200.10 @ 2026-09-10 | WEEK 200.1 to 223.4 | EMA11/22/50 211.0 / 239.9 / 298.4
+         ACEINTEG    Ace Integrated Solut  turnover, price Rs 17.58  2026-08-14  2026-08-31  2026-08-31  34.76 uncensored      <0.01
+          MACD -0.1309 -> -0.0152 | LOW 17.15 @ 2026-08-13 -> 16.81 @ 2026-09-03 | WEEK 16.81 to 19.80 | EMA11/22/50 18.73 / 19.20 / 20.61
+         ADFFOODS    ADF Foods Limited     turnover                  2026-08-03  2026-09-18  2026-09-15  40.62 uncensored       2.32
+          MACD -5.00 -> -0.0852 | LOW 256.05 @ 2026-08-06 -> 248.80 @ 2026-09-16 | WEEK 248.8 to 276.0 | EMA11/22/50 272.0 / 267.1 / 252.3
+
+         AJAXENGG    Ajax Engineering Lim  turnover                  2026-08-13  2026-09-21  2026-09-15  41.40 uncensored       3.67
+          MACD -3.17 -> -2.73 | LOW 551.15 @ 2026-08-14 -> 554.00 @ 2026-09-18 | WEEK 554.0 to 598.0 | EMA11/22/50 569.7 / 561.1 / 565.0
+         AKASH       Akash Infra-Projects  turnover                  2026-08-19  2026-09-18  2026-09-21  38.38 uncensored       0.01
+          MACD -0.1638 -> -0.0280 | LOW 24.00 @ 2026-08-14 -> 23.56 @ 2026-09-21 | WEEK 23.56 to 25.47 | EMA11/22/50 25.37 / 25.83 / 26.57
+         AKG         Akg Exim Limited      turnover, price Rs 9.59   2026-07-23  2026-08-10  2026-08-03  28.57 censored         0.02
+          MACD -0.1483 -> -0.1219 | LOW 9.01 @ 2026-07-24 -> 8.06 @ 2026-08-05 | WEEK 8.060 to 10.69 | EMA11/22/50 10.33 / 10.90 / 12.01
+         ALPA        Alpa Laboratories Li  turnover                  2026-08-19  2026-09-21  2026-09-15  34.64 uncensored       0.09
+          MACD -0.6360 -> -0.1637 | LOW 60.05 @ 2026-08-19 -> 55.76 @ 2026-09-17 | WEEK 55.76 to 64.50 | EMA11/22/50 63.99 / 65.99 / 72.19
+         AMBIKCO     Ambika Cotton Mills   turnover                  2026-08-14  2026-09-17  2026-09-15  33.08 uncensored       1.30
+          MACD -21.98 -> -4.91 | LOW 1571.10 @ 2026-08-14 -> 1536.70 @ 2026-09-16 | WEEK 1536.7 to 1609.0 | EMA11/22/50 1649.6 / 1616.3 / 1540.3
+
+         ARIHANT     Arihant Foundations   turnover                  2026-09-01  2026-09-10  2026-09-15  31.30 uncensored       0.14
+          MACD -23.21 -> -10.31 | LOW 878.00 @ 2026-09-02 -> 841.00 @ 2026-09-16 | WEEK 841.0 to 960.0 | EMA11/22/50 936.5 / 819.7 / 558.2
+         ARTNIRMAN   Art Nirman Limited    turnover                  2026-08-31  2026-09-15  2026-09-07  40.49 uncensored      <0.01 (data to 2026-09-24)
+          MACD -0.2573 -> -0.1036 | LOW 38.26 @ 2026-09-01 -> 38.00 @ 2026-09-11 | WEEK 38.00 to 41.10 | EMA11/22/50 40.51 / 41.08 / 43.65
+         ARVEE       Arvee Laboratories (  turnover                  2026-09-07  2026-09-18  2026-09-15  47.61 uncensored       0.08
+          MACD -1.04 -> -0.9558 | LOW 162.20 @ 2026-09-07 -> 162.00 @ 2026-09-16 | WEEK 162.0 to 180.0 | EMA11/22/50 167.5 / 165.8 / 166.2
+         ASHIANA     Ashiana Housing Limi  turnover                  2026-08-17  2026-09-15  2026-09-15  29.89 censored         1.03
+          MACD -2.83 -> -1.80 | LOW 356.00 @ 2026-08-14 -> 332.95 @ 2026-09-16 | WEEK 333.0 to 366.7 | EMA11/22/50 363.2 / 358.8 / 342.4
+         BAJAJELEC   Bajaj Electricals Li  turnover                  2026-09-01  2026-09-18  2026-09-15  38.24 uncensored       3.37
+          MACD -4.25 -> -1.31 | LOW 320.10 @ 2026-09-02 -> 319.05 @ 2026-09-16 | WEEK 319.0 to 340.4 | EMA11/22/50 337.8 / 349.5 / 408.4
+
+         BAJAJHCARE  Bajaj Healthcare Lim  turnover                  2026-08-19  2026-09-16  2026-09-15  43.84 uncensored       3.74
+          MACD -1.53 -> -0.1127 | LOW 317.00 @ 2026-08-19 -> 313.05 @ 2026-09-16 | WEEK 313.0 to 334.1 | EMA11/22/50 328.4 / 331.4 / 359.6
+         BAJAJINDEF  Indef Manufacturing   turnover                  2026-08-18  2026-09-21  2026-09-15  40.45 uncensored       0.25
+          MACD -1.46 -> -0.3062 | LOW 212.66 @ 2026-08-18 -> 214.01 @ 2026-09-16 | WEEK 214.0 to 234.3 | EMA11/22/50 229.5 / 243.3 / 269.7
+         BALPHARMA   Bal Pharma Limited    turnover                  2026-08-19  2026-08-26  2026-08-24  42.74 uncensored       0.58
+          MACD -0.6353 -> -0.5476 | LOW 84.01 @ 2026-08-24 -> 82.05 @ 2026-08-26 | WEEK 82.05 to 87.70 | EMA11/22/50 85.19 / 83.02 / 83.28
+         BANKA       Banka BioLoo Limited  turnover                  2026-08-17  2026-09-03  2026-08-31  35.73 uncensored       0.02
+          MACD -0.9279 -> -0.1247 | LOW 74.73 @ 2026-08-18 -> 74.11 @ 2026-09-03 | WEEK 74.11 to 81.00 | EMA11/22/50 83.12 / 81.48 / 79.12
+         BEDMUTHA    Bedmutha Industries   turnover                  2026-08-31  2026-09-16  2026-09-15  37.25 uncensored       0.04
+          MACD -0.8786 -> -0.5893 | LOW 103.15 @ 2026-08-31 -> 98.20 @ 2026-09-16 | WEEK 98.20 to 108.8 | EMA11/22/50 108.5 / 110.7 / 119.4
+
+         BELLACASA   Bella Casa Fashion &  turnover                  2026-07-22  2026-08-19  2026-08-10  32.04 uncensored       0.33
+          MACD -2.27 -> -1.81 | LOW 234.90 @ 2026-07-22 -> 214.68 @ 2026-08-14 | WEEK 214.7 to 248.2 | EMA11/22/50 242.3 / 257.7 / 301.2
+         BFINVEST    BF Investment Limite  turnover                  2026-08-24  2026-09-16  2026-09-15  36.06 uncensored       0.69
+          MACD -2.67 -> -1.77 | LOW 437.50 @ 2026-08-19 -> 425.55 @ 2026-09-16 | WEEK 425.5 to 453.7 | EMA11/22/50 452.7 / 445.1 / 445.2
+         BHAGCHEM    Bhagiradha Chemicals  turnover                  2026-09-08  2026-09-16  2026-09-15  27.57 censored         1.82
+          MACD -2.91 -> -2.85 | LOW 254.60 @ 2026-09-11 -> 242.00 @ 2026-09-16 | WEEK 242.0 to 258.8 | EMA11/22/50 267.8 / 262.8 / 256.7
+         BHARATSE    Bharat Seats Limited  turnover                  2026-09-04  2026-09-16  2026-09-15  37.50 uncensored       2.34
+          MACD -2.57 -> -1.73 | LOW 209.00 @ 2026-09-07 -> 198.36 @ 2026-09-16 | WEEK 198.4 to 219.7 | EMA11/22/50 219.1 / 210.1 / 187.8
+         BIRLANU     BirlaNu Limited       turnover                  2026-08-31  2026-09-17  2026-09-15  38.90 uncensored       0.97
+          MACD -22.10 -> -10.29 | LOW 1403.10 @ 2026-09-02 -> 1345.00 @ 2026-09-16 | WEEK 1345.0 to 1459.0 | EMA11/22/50 1434.2 / 1442.4 / 1566.5
+
+         BORANA      Borana Weaves Limite  turnover                  2026-08-24  2026-09-03  2026-08-31  39.17 uncensored       0.71
+          MACD -3.04 -> -1.34 | LOW 301.55 @ 2026-08-24 -> 290.00 @ 2026-09-03 | WEEK 290.0 to 317.2 | EMA11/22/50 318.1 / 320.2 / 306.9
+         BSHSL       Bombay Super Hybrid   turnover                  2026-09-16  2026-09-22  2026-09-21  40.43 uncensored       0.05
+          MACD -0.5766 -> -0.4915 | LOW 83.35 @ 2026-09-21 -> 83.35 @ 2026-09-21 | WEEK 83.35 to 89.90 | EMA11/22/50 89.12 / 90.83 / 99.78
+         CAPITALSFB  Capital Small Financ  turnover                  2026-08-17  2026-09-15  2026-09-15  30.54 uncensored       0.44
+          MACD -1.89 -> -1.14 | LOW 280.05 @ 2026-08-17 -> 267.15 @ 2026-09-15 | WEEK 267.1 to 284.0 | EMA11/22/50 282.4 / 280.5 / 279.1
+         CARERATING  CARE Ratings Limited  turnover                  2026-08-25  2026-09-22  2026-09-21  40.40 uncensored       4.82
+          MACD -12.60 -> -7.48 | LOW 1590.20 @ 2026-08-25 -> 1605.60 @ 2026-09-22 | WEEK 1605.6 to 1666.3 | EMA11/22/50 1673.7 / 1664.6 / 1621.5
+         CCHHL       Country Club Hospita  turnover, price Rs 13.14  2026-08-14  2026-09-15  2026-09-15  39.23 uncensored       0.03
+          MACD -0.0554 -> -0.0431 | LOW 12.07 @ 2026-08-19 -> 12.10 @ 2026-09-15 | WEEK 12.10 to 13.10 | EMA11/22/50 12.79 / 13.01 / 13.90
+
+         CENTENKA    Century Enka Limited  turnover                  2026-08-25  2026-09-16  2026-09-15  40.94 uncensored       2.12
+          MACD -7.85 -> -2.74 | LOW 544.00 @ 2026-08-28 -> 535.80 @ 2026-09-16 | WEEK 535.8 to 571.5 | EMA11/22/50 561.9 / 535.9 / 508.0
+         CERA        Cera Sanitaryware Li  turnover                  2026-08-28  2026-09-15  2026-09-15  35.10 uncensored       2.38
+          MACD -21.15 -> -1.73 | LOW 5600.00 @ 2026-08-28 -> 5512.00 @ 2026-09-16 | WEEK 5512.0 to 5785.0 | EMA11/22/50 5812.6 / 5777.4 / 5777.6
+         CHEMFAB     Chemfab Alkalis Limi  turnover                  2026-08-27  2026-09-02  2026-09-07  42.25 uncensored       0.11
+          MACD -0.9534 -> -0.9140 | LOW 347.75 @ 2026-08-24 -> 350.00 @ 2026-09-07 | WEEK 350.0 to 399.5 | EMA11/22/50 372.8 / 384.7 / 447.1
+         CINEVISTA   Cinevista Limited     turnover, price Rs 14.04  2026-08-20  2026-09-17  2026-09-15  34.04 uncensored       0.01
+          MACD -0.0598 -> -0.0046 | LOW 13.80 @ 2026-08-19 -> 13.60 @ 2026-09-16 | WEEK 13.60 to 14.96 | EMA11/22/50 14.64 / 15.00 / 15.60
+         CONTROLPR   Control Print Limite  turnover                  2026-07-30  2026-09-15  2026-09-15  40.18 uncensored       1.38
+          MACD -8.46 -> -1.26 | LOW 565.30 @ 2026-07-31 -> 563.20 @ 2026-09-16 | WEEK 563.2 to 613.7 | EMA11/22/50 599.6 / 613.3 / 645.6
+
+         CREST       Crest Ventures Limit  turnover                  2026-08-18  2026-09-15  2026-09-15  40.70 uncensored       0.10
+          MACD -2.77 -> -0.8027 | LOW 345.25 @ 2026-08-19 -> 347.50 @ 2026-09-15 | WEEK 347.5 to 385.0 | EMA11/22/50 366.5 / 367.1 / 369.7
+         CROWN       Crown Lifters Limite  turnover                  2026-08-20  2026-09-18  2026-09-15  42.52 uncensored       0.14
+          MACD -0.7640 -> -0.1829 | LOW 102.13 @ 2026-08-21 -> 102.70 @ 2026-09-16 | WEEK 102.7 to 114.5 | EMA11/22/50 110.9 / 114.5 / 126.5
+         CUBEXTUB    Cubex Tubings Limite  turnover                  2026-09-02  2026-09-16  2026-09-15  39.64 uncensored       0.44
+          MACD -0.3192 -> -0.1424 | LOW 75.50 @ 2026-09-02 -> 74.50 @ 2026-09-16 | WEEK 74.50 to 87.00 | EMA11/22/50 80.79 / 83.94 / 88.72
+         DBL         Dilip Buildcon Limit  turnover                  2026-08-14  2026-09-02  2026-09-07  33.16 uncensored       4.24
+          MACD -2.85 -> -2.42 | LOW 410.00 @ 2026-08-17 -> 390.00 @ 2026-09-07 | WEEK 390.0 to 439.7 | EMA11/22/50 417.6 / 426.7 / 440.4
+         DCMFINSERV  DCM Financial Servic  turnover, price Rs 5.02   2026-09-03  2026-09-15  2026-09-07  41.71 uncensored      <0.01
+          MACD -0.0307 -> -0.0292 | LOW 4.88 @ 2026-09-03 -> 4.78 @ 2026-09-11 | WEEK 4.780 to 5.350 | EMA11/22/50 5.262 / 5.277 / 5.400
+
+         DECCANCE    Deccan Cements Limit  turnover                  2026-07-28  2026-08-17  2026-08-10  38.38 uncensored       1.32
+          MACD -2.01 -> -1.40 | LOW 542.00 @ 2026-07-27 -> 525.00 @ 2026-08-12 | WEEK 525.0 to 589.0 | EMA11/22/50 576.1 / 609.5 / 679.8
+         DENORA      De Nora India Limite  turnover                  2026-08-17  2026-09-18  2026-09-15  34.66 uncensored       0.21
+          MACD -6.88 -> -1.90 | LOW 821.65 @ 2026-08-12 -> 770.00 @ 2026-09-18 | WEEK 770.0 to 820.0 | EMA11/22/50 823.0 / 811.4 / 809.2
+         DEVX        Dev Accelerator Limi  turnover                  2026-09-03  2026-09-18  2026-09-15  41.69 uncensored       0.35
+          MACD -0.1849 -> -0.0562 | LOW 31.50 @ 2026-09-07 -> 31.21 @ 2026-09-18 | WEEK 31.21 to 34.90 | EMA11/22/50 34.36 / 35.81 / 39.90
+         DHANBANK    Dhanlaxmi Bank Limit  turnover                  2026-07-31  2026-09-17  2026-09-15  26.55 censored         1.13
+          MACD -0.3076 -> -0.2751 | LOW 31.11 @ 2026-07-29 -> 28.49 @ 2026-09-17 | WEEK 28.49 to 31.30 | EMA11/22/50 31.85 / 31.25 / 29.77
+         DNAMEDIA    Diligent Media Corpo  turnover, price Rs 2.53   2026-08-20  2026-09-17  2026-09-15  29.91 censored         0.01
+          MACD -0.0290 -> -0.0158 | LOW 2.28 @ 2026-08-17 -> 2.17 @ 2026-09-17 | WEEK 2.170 to 2.700 | EMA11/22/50 2.654 / 2.826 / 3.298
+
+         DODLA       Dodla Dairy Limited   turnover                  2026-09-04  2026-09-17  2026-09-21  38.73 uncensored       2.14
+          MACD -5.12 -> -3.46 | LOW 1056.30 @ 2026-09-02 -> 1036.80 @ 2026-09-22 | WEEK 1031.0 to 1090.7 | EMA11/22/50 1079.1 / 1089.4 / 1122.7
+         DOLLAR      Dollar Industries Li  turnover                  2026-09-02  2026-09-17  2026-09-15  44.25 uncensored       1.92
+          MACD -1.30 -> -0.1091 | LOW 260.00 @ 2026-09-02 -> 259.05 @ 2026-09-16 | WEEK 259.0 to 278.0 | EMA11/22/50 270.2 / 274.2 / 299.7
+         DPABHUSHAN  D. P. Abhushan Limit  turnover                  2026-09-03  2026-09-16  2026-09-15  40.39 uncensored       3.15
+          MACD -23.13 -> -19.63 | LOW 1355.00 @ 2026-09-03 -> 1290.00 @ 2026-09-16 | WEEK 1290.0 to 1482.0 | EMA11/22/50 1349.3 / 1272.1 / 1267.6
+         EIHAHOTELS  EIH Associated Hotel  turnover                  2026-08-12  2026-09-15  2026-09-15  32.17 uncensored       0.42
+          MACD -2.35 -> -1.19 | LOW 290.00 @ 2026-08-17 -> 278.10 @ 2026-09-16 | WEEK 278.1 to 307.8 | EMA11/22/50 303.0 / 310.0 / 326.4
+         EIHOTEL     EIH Limited           turnover                  2026-09-02  2026-09-15  2026-09-15  37.10 uncensored       4.75
+          MACD -0.7275 -> -0.0079 | LOW 281.05 @ 2026-08-31 -> 280.30 @ 2026-09-15 | WEEK 280.3 to 321.1 | EMA11/22/50 307.1 / 313.1 / 328.2
+
+         ENIL        Entertainment Networ  turnover                  2026-08-13  2026-09-03  2026-08-31  38.34 uncensored       0.13
+          MACD -0.6866 -> -0.0950 | LOW 100.50 @ 2026-08-11 -> 99.45 @ 2026-09-03 | WEEK 99.45 to 106.0 | EMA11/22/50 105.1 / 107.9 / 118.0
+         FISCHER     Fischer Medical Vent  turnover                  2026-08-31  2026-09-21  2026-09-21  33.74 uncensored       1.69
+          MACD -0.3648 -> -0.2749 | LOW 34.67 @ 2026-09-01 -> 32.50 @ 2026-09-21 | WEEK 32.50 to 36.15 | EMA11/22/50 36.13 / 37.88 / 46.75
+         FOODSIN     Foods & Inns Limited  turnover                  2026-07-27  2026-08-12  2026-08-10  34.79 uncensored       0.38
+          MACD -0.7795 -> -0.2777 | LOW 52.91 @ 2026-07-27 -> 50.25 @ 2026-08-12 | WEEK 50.25 to 58.80 | EMA11/22/50 57.00 / 58.72 / 67.70
+         GEEKAYWIRE  Geekay Wires Limited  turnover                  2026-07-20  2026-07-31  2026-08-03  35.59 uncensored       1.36
+          MACD -0.1726 -> -0.1612 | LOW 23.30 @ 2026-07-22 -> 22.12 @ 2026-08-05 | WEEK 22.12 to 24.50 | EMA11/22/50 23.98 / 24.90 / 28.08
+         GLOBAL      Global Education Lim  turnover                  2026-07-20  2026-08-11  2026-08-10  44.29 uncensored       2.48
+          MACD -0.2589 -> -0.1723 | LOW 97.42 @ 2026-07-17 -> 81.60 @ 2026-08-12 | WEEK 81.60 to 107.0 | EMA11/22/50 103.5 / 101.3 / 92.98
+
+         GODAVARIB   Godavari Biorefineri  turnover                  2026-08-31  2026-09-15  2026-09-15  33.69 uncensored       1.51
+          MACD -0.6831 -> -0.1835 | LOW 231.29 @ 2026-09-01 -> 224.00 @ 2026-09-16 | WEEK 224.0 to 258.9 | EMA11/22/50 251.1 / 263.6 / 271.9
+         GREENPLY    Greenply Industries   turnover                  2026-07-30  2026-09-16  2026-09-15  41.16 uncensored       4.93
+          MACD -5.69 -> -0.9231 | LOW 278.00 @ 2026-07-29 -> 275.00 @ 2026-09-16 | WEEK 275.0 to 297.0 | EMA11/22/50 291.3 / 282.9 / 276.3
+         GRPLTD      GRP Limited           turnover                  2026-08-26  2026-09-11  2026-09-07  42.55 uncensored       0.23
+          MACD -8.56 -> -6.71 | LOW 1958.20 @ 2026-08-27 -> 1885.50 @ 2026-09-11 | WEEK 1885.5 to 2046.9 | EMA11/22/50 1967.6 / 1936.4 / 1993.3
+         GUJRAFFIA   Gujarat Raffia Indus  turnover                  2026-09-02  2026-09-22  2026-09-21  41.75 uncensored       0.01
+          MACD -0.1740 -> -0.1735 | LOW 39.40 @ 2026-08-28 -> 39.00 @ 2026-09-24 | WEEK 39.00 to 41.40 | EMA11/22/50 40.90 / 41.09 / 42.46
+         HAVISHA     Sri Havisha Hospital  turnover, price Rs 1.38   2026-09-02  2026-09-15  2026-09-07  45.32 uncensored      <0.01
+          MACD -0.0149 -> -0.0073 | LOW 1.27 @ 2026-09-02 -> 1.25 @ 2026-09-11 | WEEK 1.250 to 1.470 | EMA11/22/50 1.359 / 1.403 / 1.575
+
+         HBSL        HB Stockholdings Lim  turnover                  2026-08-27  2026-09-16  2026-09-15  45.12 uncensored       0.02
+          MACD -0.6639 -> -0.2000 | LOW 50.70 @ 2026-08-28 -> 50.55 @ 2026-09-16 | WEEK 50.55 to 54.63 | EMA11/22/50 53.61 / 55.11 / 62.18
+         HESTERBIO   Hester Biosciences L  turnover                  2026-09-02  2026-09-16  2026-09-15  37.79 uncensored       0.92
+          MACD -32.50 -> -10.68 | LOW 2146.00 @ 2026-09-02 -> 2130.00 @ 2026-09-16 | WEEK 2130.0 to 2305.0 | EMA11/22/50 2272.3 / 2139.6 / 1964.1
+         HGINFRA     H.G. Infra Engineeri  turnover                  2026-09-02  2026-09-21  2026-09-21  22.85 censored         2.57
+          MACD -3.31 -> -2.51 | LOW 470.00 @ 2026-09-02 -> 440.05 @ 2026-09-22 | WEEK 440.0 to 513.5 | EMA11/22/50 498.8 / 534.8 / 643.1
+         HUHTAMAKI   Huhtamaki India Limi  turnover                  2026-08-19  2026-09-16  2026-09-15  37.57 uncensored       3.27
+          MACD -5.69 -> -2.34 | LOW 266.70 @ 2026-08-19 -> 238.65 @ 2026-09-16 | WEEK 238.6 to 258.0 | EMA11/22/50 251.4 / 234.5 / 221.8
+         IFBIND      IFB Industries Limit  turnover                  2026-09-02  2026-09-17  2026-09-15  30.60 uncensored       3.17
+          MACD -13.98 -> -10.40 | LOW 1271.40 @ 2026-09-02 -> 1208.10 @ 2026-09-18 | WEEK 1208.1 to 1310.7 | EMA11/22/50 1304.1 / 1289.8 / 1319.3
+
+         INCREDIBLE  INCREDIBLE INDUSTRIE  turnover                  2026-08-18  2026-09-10  2026-09-07  40.10 uncensored       0.01
+          MACD -0.1307 -> -0.1213 | LOW 31.02 @ 2026-08-13 -> 30.51 @ 2026-09-10 | WEEK 30.51 to 34.49 | EMA11/22/50 33.09 / 33.79 / 35.72
+         INDIANCARD  Indian Card Clothing  turnover                  2026-08-24  2026-09-21  2026-09-21  42.39 uncensored       0.02
+          MACD -1.26 -> -0.3434 | LOW 205.25 @ 2026-08-24 -> 205.00 @ 2026-09-21 | WEEK 197.0 to 214.8 | EMA11/22/50 213.2 / 215.3 / 225.7
+         INDOSTAR    IndoStar Capital Fin  turnover                  2026-08-07  2026-09-17  2026-09-15  32.29 uncensored       2.17
+          MACD -5.17 -> -3.07 | LOW 225.65 @ 2026-08-07 -> 222.62 @ 2026-09-16 | WEEK 222.6 to 246.2 | EMA11/22/50 247.6 / 243.1 / 242.6
+         INDOWIND    Indowind Energy Limi  turnover, price Rs 8.88   2026-09-08  2026-09-18  2026-09-15  44.54 uncensored       0.07
+          MACD -0.0157 -> -0.0089 | LOW 8.61 @ 2026-09-07 -> 8.66 @ 2026-09-16 | WEEK 8.660 to 9.200 | EMA11/22/50 9.123 / 9.543 / 11.46
+         INFOBEAN    InfoBeans Technologi  turnover                  2026-08-20  2026-09-17  2026-09-15  36.54 uncensored       2.64
+          MACD -1.26 -> -0.6729 | LOW 155.00 @ 2026-08-25 -> 148.03 @ 2026-09-16 | WEEK 148.0 to 161.8 | EMA11/22/50 160.0 / 162.5 / 158.8
+
+         INNOVANA    Innovana Thinklabs L  turnover                  2026-08-19  2026-09-02  2026-08-31  36.71 uncensored       0.94
+          MACD -2.79 -> -1.82 | LOW 290.00 @ 2026-08-18 -> 291.05 @ 2026-09-02 | WEEK 291.0 to 322.8 | EMA11/22/50 322.6 / 339.0 / 373.6
+         JAYBARMARU  Jay Bharat Maruti Li  turnover                  2026-07-30  2026-08-11  2026-08-10  29.65 censored         2.94
+          MACD -4.71 -> -4.65 | LOW 147.50 @ 2026-07-30 -> 125.75 @ 2026-08-11 | WEEK 125.8 to 137.6 | EMA11/22/50 146.4 / 133.6 / 114.8
+         JINDALPOLY  Jindal Poly Films Li  turnover                  2026-07-28  2026-08-31  2026-08-31  45.31 uncensored       1.01
+          MACD -2.85 -> -0.0331 | LOW 625.10 @ 2026-07-28 -> 620.10 @ 2026-09-01 | WEEK 620.1 to 715.0 | EMA11/22/50 653.5 / 656.7 / 645.7
+         JPOLYINVST  Jindal Poly Investme  turnover                  2026-07-24  2026-08-24  2026-08-24  30.37 uncensored       0.30
+          MACD -9.02 -> -8.88 | LOW 1002.30 @ 2026-07-23 -> 938.00 @ 2026-08-24 | WEEK 938.0 to 1065.0 | EMA11/22/50 1039.9 / 1053.8 / 1026.3
+         KARMAENG    Karma Energy Limited  turnover                  2026-07-16  2026-09-02  2026-08-31  40.18 uncensored       0.02
+          MACD -0.1933 -> -0.1765 | LOW 37.07 @ 2026-07-16 -> 36.61 @ 2026-09-02 | WEEK 36.61 to 40.00 | EMA11/22/50 39.73 / 41.52 / 45.91
+
+         KELLTONTEC  Kellton Tech Solutio  turnover, price Rs 13.46  2026-08-19  2026-09-10  2026-09-07  41.18 uncensored       2.50
+          MACD -0.0267 -> -0.0202 | LOW 13.30 @ 2026-08-19 -> 13.35 @ 2026-09-11 | WEEK 13.35 to 15.19 | EMA11/22/50 14.37 / 15.04 / 17.12
+         KIRLOSIND   Kirloskar Industries  turnover                  2026-08-24  2026-09-10  2026-09-07  35.60 uncensored       1.84
+          MACD -15.96 -> -10.10 | LOW 3633.90 @ 2026-08-25 -> 3550.80 @ 2026-09-10 | WEEK 3550.8 to 4055.0 | EMA11/22/50 3733.3 / 3609.8 / 3547.7
+         KKCL        Kewal Kiran Clothing  turnover                  2026-08-31  2026-09-18  2026-09-21  37.30 uncensored       1.31
+          MACD -2.96 -> -2.53 | LOW 492.50 @ 2026-08-28 -> 475.10 @ 2026-09-23 | WEEK 465.0 to 491.0 | EMA11/22/50 493.4 / 490.4 / 494.0
+         KOLTEPATIL  Kolte - Patil Develo  turnover                  2026-09-02  2026-09-15  2026-09-15  41.01 uncensored       3.05
+          MACD -6.29 -> -4.64 | LOW 425.80 @ 2026-09-02 -> 413.20 @ 2026-09-16 | WEEK 413.2 to 438.0 | EMA11/22/50 426.4 / 407.9 / 394.7
+         KOTHARIPET  Kothari Petrochemica  turnover                  2026-08-21  2026-09-17  2026-09-15  43.47 uncensored       0.68
+          MACD -2.07 -> -0.1720 | LOW 132.00 @ 2026-08-21 -> 129.00 @ 2026-09-15 | WEEK 129.0 to 140.5 | EMA11/22/50 134.6 / 132.2 / 134.3
+
+         KRITI       Kriti Industries (In  turnover                  2026-09-01  2026-09-21  2026-09-21  33.27 uncensored       0.09
+          MACD -0.5698 -> -0.0498 | LOW 58.00 @ 2026-08-31 -> 58.00 @ 2026-09-22 | WEEK 58.00 to 66.00 | EMA11/22/50 64.45 / 69.05 / 82.79
+         LANDMARK    Landmark Cars Limite  turnover                  2026-08-28  2026-09-15  2026-09-15  37.44 uncensored       3.47
+          MACD -5.42 -> -4.28 | LOW 490.65 @ 2026-09-02 -> 454.05 @ 2026-09-16 | WEEK 454.0 to 515.0 | EMA11/22/50 493.7 / 474.8 / 473.5
+         LAXMIINDIA  Laxmi India Finance   turnover                  2026-08-27  2026-09-16  2026-09-15  40.81 uncensored       2.03
+          MACD -1.74 -> -1.10 | LOW 121.66 @ 2026-08-25 -> 117.25 @ 2026-09-16 | WEEK 117.2 to 130.0 | EMA11/22/50 125.0 / 120.7 / 122.8
+         MAGNUM      Magnum Ventures Limi  turnover, price Rs 19.02  2026-09-01  2026-09-15  2026-09-15  38.66 uncensored       0.04
+          MACD -0.0351 -> -0.0279 | LOW 18.55 @ 2026-09-01 -> 18.41 @ 2026-09-15 | WEEK 18.41 to 20.15 | EMA11/22/50 19.23 / 19.69 / 21.68
+         MAHESHWARI  Maheshwari Logistics  turnover                  2026-09-01  2026-09-18  2026-09-15  37.09 uncensored       0.05
+          MACD -0.3086 -> -0.3068 | LOW 70.30 @ 2026-08-27 -> 68.28 @ 2026-09-17 | WEEK 68.28 to 73.99 | EMA11/22/50 70.51 / 66.70 / 61.31
+
+         MAHLIFE     Mahindra Lifespace D  turnover                  2026-09-01  2026-09-16  2026-09-15  30.17 uncensored       2.89
+          MACD -3.09 -> -2.16 | LOW 352.05 @ 2026-09-02 -> 339.00 @ 2026-09-16 | WEEK 339.0 to 371.0 | EMA11/22/50 367.1 / 363.5 / 366.0
+         MAHLOG      Mahindra Logistics L  turnover                  2026-09-01  2026-09-17  2026-09-15  39.52 uncensored       4.40
+          MACD -2.84 -> -1.38 | LOW 380.25 @ 2026-09-02 -> 380.00 @ 2026-09-16 | WEEK 380.0 to 398.4 | EMA11/22/50 395.0 / 387.3 / 374.0
+         MALUPAPER   Malu Paper Mills Lim  turnover                  2026-08-20  2026-09-02  2026-08-31  43.90 uncensored       0.04
+          MACD -0.2027 -> -0.0338 | LOW 30.20 @ 2026-08-19 -> 30.30 @ 2026-09-02 | WEEK 30.30 to 33.85 | EMA11/22/50 31.93 / 32.22 / 33.73
+         MAMATA      Mamata Machinery Lim  turnover                  2026-08-31  2026-09-17  2026-09-15  39.27 uncensored       1.75
+          MACD -2.70 -> -2.29 | LOW 396.40 @ 2026-08-31 -> 388.00 @ 2026-09-16 | WEEK 388.0 to 413.5 | EMA11/22/50 406.4 / 403.6 / 411.8
+         MANBA       Manba Finance Limite  turnover                  2026-08-07  2026-09-02  2026-08-31  41.83 uncensored       1.00
+          MACD -1.22 -> -0.1216 | LOW 130.00 @ 2026-08-12 -> 128.00 @ 2026-09-02 | WEEK 128.0 to 133.3 | EMA11/22/50 130.3 / 128.0 / 128.7
+
+         MANCREDIT   Mangal Credit and Fi  turnover                  2026-08-21  2026-09-16  2026-09-15  40.28 uncensored       2.93
+          MACD -3.10 -> -1.60 | LOW 214.93 @ 2026-08-21 -> 210.99 @ 2026-09-16 | WEEK 211.0 to 224.9 | EMA11/22/50 226.4 / 216.6 / 199.3
+         MEGASTAR    Megastar Foods Limit  turnover                  2026-08-13  2026-09-11  2026-09-15  26.99 censored         0.09
+          MACD -2.98 -> -2.07 | LOW 299.75 @ 2026-08-14 -> 266.90 @ 2026-09-15 | WEEK 266.9 to 295.0 | EMA11/22/50 308.1 / 306.2 / 287.4
+         MGEL        Mangalam Global Ente  turnover, price Rs 15.99  2026-08-11  2026-08-31  2026-08-31  34.97 uncensored       0.49
+          MACD -0.2077 -> -0.0039 | LOW 13.91 @ 2026-08-10 -> 13.90 @ 2026-09-03 | WEEK 13.90 to 14.75 | EMA11/22/50 14.95 / 14.71 / 14.29
+         MOHITIND    Mohit Industries Lim  turnover                  2026-08-19  2026-09-09  2026-09-15  44.64 uncensored       0.02
+          MACD -0.2503 -> -0.1130 | LOW 22.51 @ 2026-08-18 -> 22.65 @ 2026-09-15 | WEEK 22.01 to 24.45 | EMA11/22/50 23.81 / 23.98 / 25.32
+         MOTISONS    Motisons Jewellers L  price Rs 17.85            2026-09-03  2026-09-15  2026-09-15  46.90 uncensored         66
+          MACD -0.1579 -> -0.1395 | LOW 15.21 @ 2026-09-04 -> 15.02 @ 2026-09-16 | WEEK 15.02 to 19.12 | EMA11/22/50 15.90 / 15.13 / 15.37
+
+         MPSLTD      MPS Limited           turnover                  2026-08-28  2026-09-15  2026-09-15  40.77 uncensored       2.95
+          MACD -51.84 -> -27.69 | LOW 2588.00 @ 2026-09-02 -> 2473.00 @ 2026-09-16 | WEEK 2473.0 to 2689.9 | EMA11/22/50 2553.1 / 2334.9 / 2163.3
+         MUKANDLTD   Mukand Limited        turnover                  2026-09-03  2026-09-18  2026-09-15  43.28 uncensored       1.05
+          MACD -0.2757 -> -0.1619 | LOW 132.22 @ 2026-09-03 -> 129.91 @ 2026-09-16 | WEEK 129.9 to 143.5 | EMA11/22/50 137.0 / 136.3 / 134.3
+         MUTHOOTCAP  Muthoot Capital Serv  turnover                  2026-08-28  2026-09-15  2026-09-15  31.12 uncensored       0.25
+          MACD -3.19 -> -3.01 | LOW 236.90 @ 2026-08-28 -> 216.54 @ 2026-09-16 | WEEK 216.5 to 240.0 | EMA11/22/50 233.6 / 228.8 / 237.6
+         MUTHOOTMF   Muthoot Microfin Lim  turnover                  2026-09-01  2026-09-16  2026-09-15  32.29 uncensored       4.09
+          MACD -1.19 -> -1.02 | LOW 193.35 @ 2026-09-02 -> 183.60 @ 2026-09-15 | WEEK 183.6 to 199.3 | EMA11/22/50 206.9 / 203.2 / 191.6
+         NGLFINE     NGL Fine-Chem Limite  turnover                  2026-08-25  2026-09-15  2026-09-15  33.22 uncensored       2.18
+          MACD -69.03 -> -14.08 | LOW 2782.20 @ 2026-08-25 -> 2505.10 @ 2026-09-16 | WEEK 2505.1 to 2780.0 | EMA11/22/50 2933.1 / 2816.4 / 2428.7
+
+         NIITMTS     NIIT Learning System  turnover                  2026-08-24  2026-09-03  2026-09-07  37.58 uncensored       2.19
+          MACD -2.12 -> -1.18 | LOW 221.67 @ 2026-08-25 -> 218.23 @ 2026-09-07 | WEEK 218.2 to 237.9 | EMA11/22/50 235.6 / 251.4 / 290.4
+         NIVABUPA    Niva Bupa Health Ins  turnover                  2026-08-17  2026-09-04  2026-09-07  32.78 uncensored       4.75
+          MACD -0.5148 -> -0.2263 | LOW 82.10 @ 2026-08-17 -> 79.20 @ 2026-09-09 | WEEK 78.36 to 81.25 | EMA11/22/50 82.71 / 82.20 / 80.66
+         OMAXAUTO    Omax Autos Limited    turnover                  2026-09-08  2026-09-16  2026-09-15  31.70 uncensored       1.14
+          MACD -1.04 -> -0.9549 | LOW 167.35 @ 2026-09-08 -> 161.21 @ 2026-09-16 | WEEK 161.2 to 185.0 | EMA11/22/50 192.7 / 187.7 / 163.6
+         ORIENTCER   ORIENT CERATECH LIMI  turnover                  2026-09-04  2026-09-16  2026-09-15  52.14 uncensored       0.35
+          MACD -0.2006 -> -0.0803 | LOW 42.93 @ 2026-09-02 -> 42.50 @ 2026-09-16 | WEEK 42.50 to 47.40 | EMA11/22/50 44.02 / 42.70 / 41.65
+         ORIENTPPR   Orient Paper & Indus  turnover, price Rs 16.76  2026-08-14  2026-09-02  2026-08-31  40.22 uncensored       0.43
+          MACD -0.1760 -> -0.0593 | LOW 16.65 @ 2026-08-19 -> 16.45 @ 2026-09-02 | WEEK 16.45 to 17.45 | EMA11/22/50 17.40 / 17.86 / 20.38
+
+         ORIENTTECH  Orient Technologies   turnover                  2026-09-02  2026-09-09  2026-09-07  28.38 censored         2.98
+          MACD -0.9509 -> -0.7770 | LOW 233.61 @ 2026-09-02 -> 229.00 @ 2026-09-09 | WEEK 229.0 to 274.5 | EMA11/22/50 253.2 / 263.5 / 284.5
+         PANSARI     Pansari Developers L  turnover                  2026-09-09  2026-09-22  2026-09-15  34.46 uncensored       0.02
+          MACD -2.49 -> -0.6940 | LOW 275.00 @ 2026-09-15 -> 262.90 @ 2026-09-18 | WEEK 262.9 to 299.0 | EMA11/22/50 304.8 / 304.3 / 288.8
+         PARASPETRO  Paras Petrofils Limi  turnover, price Rs 2.08   2026-08-20  2026-09-02  2026-08-31  38.52 uncensored       0.03
+          MACD -0.0496 -> -0.0305 | LOW 2.11 @ 2026-08-24 -> 2.04 @ 2026-09-03 | WEEK 2.040 to 2.280 | EMA11/22/50 2.215 / 2.198 / 2.250
+         PARIN       Parin Enterprises Li  turnover                  2026-08-12  2026-09-11  2026-09-07  39.50 uncensored       0.54
+          MACD -3.42 -> -1.64 | LOW 681.00 @ 2026-08-19 -> 675.00 @ 2026-09-11 | WEEK 675.0 to 735.0 | EMA11/22/50 704.5 / 690.0 / 630.7
+         PIGL        Power & Instrumentat  turnover                  2026-08-26  2026-09-08  2026-09-07  31.80 uncensored       0.41
+          MACD -0.6117 -> -0.4485 | LOW 100.00 @ 2026-08-31 -> 95.50 @ 2026-09-08 | WEEK 95.50 to 109.7 | EMA11/22/50 105.2 / 108.4 / 119.8
+
+         PLASTIBLEN  Plastiblends India L  turnover                  2026-09-02  2026-09-17  2026-09-15  41.31 uncensored       0.41
+          MACD -1.29 -> -0.5750 | LOW 181.80 @ 2026-09-02 -> 180.86 @ 2026-09-16 | WEEK 180.9 to 196.1 | EMA11/22/50 187.7 / 181.2 / 178.6
+         PNBGILTS    PNB Gilts Limited     turnover                  2026-08-11  2026-09-01  2026-08-31  33.11 uncensored       2.61
+          MACD -0.4721 -> -0.0633 | LOW 78.81 @ 2026-08-14 -> 74.50 @ 2026-08-31 | WEEK 74.50 to 85.50 | EMA11/22/50 82.48 / 82.21 / 84.01
+         PRECOT      Precot Limited        turnover                  2026-08-24  2026-09-15  2026-09-15  34.75 uncensored       0.21
+          MACD -13.63 -> -1.57 | LOW 667.10 @ 2026-08-24 -> 643.00 @ 2026-09-16 | WEEK 643.0 to 693.8 | EMA11/22/50 710.4 / 690.2 / 617.2
+         PRIMESECU   Prime Securities Lim  turnover                  2026-08-24  2026-09-10  2026-09-07  43.93 uncensored       0.88
+          MACD -1.47 -> -0.6643 | LOW 272.00 @ 2026-08-24 -> 274.00 @ 2026-09-11 | WEEK 274.0 to 286.2 | EMA11/22/50 284.0 / 284.0 / 280.6
+         PRSMJOHNSN  Prism Johnson Limite  turnover                  2026-07-30  2026-08-18  2026-08-17  36.43 uncensored       3.35
+          MACD -0.2356 -> -0.1569 | LOW 103.08 @ 2026-07-30 -> 104.10 @ 2026-08-18 | WEEK 104.1 to 116.9 | EMA11/22/50 111.9 / 117.1 / 126.4
+
+         PSPPROJECT  PSP Projects Limited  turnover                  2026-09-02  2026-09-18  2026-09-15  26.13 censored         4.16
+          MACD -3.99 -> -3.90 | LOW 848.70 @ 2026-09-02 -> 796.75 @ 2026-09-16 | WEEK 796.8 to 854.8 | EMA11/22/50 896.0 / 887.1 / 840.8
+         RAMCOIND    Ramco Industries Lim  turnover                  2026-07-28  2026-09-02  2026-08-31  37.68 uncensored       3.04
+          MACD -5.40 -> -3.88 | LOW 326.00 @ 2026-07-24 -> 317.35 @ 2026-09-02 | WEEK 317.4 to 334.0 | EMA11/22/50 331.9 / 321.0 / 307.9
+         RAMCOSYS    Ramco Systems Limite  turnover                  2026-07-29  2026-08-20  2026-08-17  33.91 uncensored       4.10
+          MACD -38.38 -> -7.02 | LOW 561.30 @ 2026-08-03 -> 537.15 @ 2026-08-21 | WEEK 537.2 to 606.8 | EMA11/22/50 617.0 / 582.1 / 530.7
+         RELIABLE    Reliable Data Servic  turnover                  2026-09-01  2026-09-15  2026-09-15  41.07 uncensored       0.33
+          MACD -0.3163 -> -0.2646 | LOW 133.61 @ 2026-09-02 -> 130.00 @ 2026-09-17 | WEEK 130.0 to 142.0 | EMA11/22/50 140.9 / 140.3 / 133.3
+         RELTD       Ravindra Energy Limi  turnover                  2026-08-27  2026-09-21  2026-09-21  33.59 uncensored       2.21
+          MACD -1.21 -> -0.9277 | LOW 152.72 @ 2026-09-01 -> 140.88 @ 2026-09-21 | WEEK 140.9 to 158.9 | EMA11/22/50 156.9 / 155.3 / 149.8
+
+         RKEC        RKEC Projects Limite  turnover                  2026-09-10  2026-09-18  2026-09-21  22.82 censored         0.08
+          MACD -0.1629 -> -0.1392 | LOW 18.27 @ 2026-09-11 -> 17.40 @ 2026-09-22 | WEEK 17.40 to 27.40 | EMA11/22/50 23.63 / 27.68 / 38.94
+         ROTO        Roto Pumps Limited    turnover                  2026-08-31  2026-09-18  2026-09-15  39.54 uncensored       1.66
+          MACD -0.2732 -> -0.1407 | LOW 61.40 @ 2026-09-01 -> 60.15 @ 2026-09-16 | WEEK 60.15 to 65.70 | EMA11/22/50 64.95 / 64.48 / 66.23
+         RPSGVENT    RPSG VENTURES LIMITE  turnover                  2026-08-19  2026-09-07  2026-09-07  25.98 censored         1.92
+          MACD -7.69 -> -4.49 | LOW 853.05 @ 2026-08-24 -> 803.15 @ 2026-09-09 | WEEK 803.2 to 888.8 | EMA11/22/50 869.4 / 867.8 / 854.3
+         RSYSTEMS    R Systems Internatio  turnover                  2026-08-17  2026-09-16  2026-09-15  42.89 uncensored       3.30
+          MACD -2.21 -> -0.7319 | LOW 236.80 @ 2026-08-19 -> 235.37 @ 2026-09-16 | WEEK 235.4 to 252.7 | EMA11/22/50 247.7 / 259.7 / 299.2
+         RUSHIL      Rushil Decor Limited  turnover, price Rs 16.10  2026-09-02  2026-09-16  2026-09-15  32.06 uncensored       0.45
+          MACD -0.1280 -> -0.0900 | LOW 15.66 @ 2026-09-04 -> 13.91 @ 2026-09-17 | WEEK 13.91 to 18.30 | EMA11/22/50 16.70 / 16.95 / 19.03
+
+         SADBHIN     Sadbhav Infrastructu  turnover, price Rs 2.65   2026-09-04  2026-09-15  2026-09-15  39.67 uncensored       0.03
+          MACD -0.0196 -> -0.0166 | LOW 2.46 @ 2026-09-03 -> 2.42 @ 2026-09-16 | WEEK 2.420 to 2.660 | EMA11/22/50 2.635 / 2.746 / 3.178
+         SAFARI      Safari Industries (I  turnover                  2026-07-24  2026-08-07  2026-08-03  35.78 uncensored       4.32
+          MACD -13.35 -> -12.22 | LOW 1526.20 @ 2026-07-23 -> 1475.10 @ 2026-08-04 | WEEK 1475.1 to 1588.9 | EMA11/22/50 1569.5 / 1623.0 / 1783.9
+         SAGARDEEP   Sagardeep Alloys Lim  turnover                  2026-08-21  2026-09-22  2026-09-21  42.36 uncensored       0.01
+          MACD -0.1159 -> -0.0103 | LOW 23.26 @ 2026-08-26 -> 23.03 @ 2026-09-22 | WEEK 23.03 to 24.47 | EMA11/22/50 23.84 / 24.16 / 25.09
+         SANATHAN    Sanathan Textiles Li  turnover                  2026-08-19  2026-09-03  2026-08-31  38.38 uncensored       4.74
+          MACD -4.92 -> -3.81 | LOW 442.25 @ 2026-08-20 -> 425.05 @ 2026-09-02 | WEEK 425.0 to 475.0 | EMA11/22/50 455.5 / 447.5 / 442.3
+         SANSTAR     Sanstar Limited       turnover                  2026-07-15  2026-08-21  2026-08-24  36.27 uncensored       1.79
+          MACD -1.63 -> -0.8110 | LOW 106.54 @ 2026-07-20 -> 104.90 @ 2026-08-24 | WEEK 104.9 to 110.9 | EMA11/22/50 109.9 / 106.6 / 101.7
+
+         SATIN       Satin Creditcare Net  turnover                  2026-08-05  2026-09-02  2026-08-31  36.32 uncensored       3.53
+          MACD -4.54 -> -0.0034 | LOW 225.17 @ 2026-08-10 -> 213.06 @ 2026-09-01 | WEEK 213.1 to 228.9 | EMA11/22/50 229.3 / 218.4 / 195.7
+         SEJALLTD    Sejal Glass Limited   turnover                  2026-08-13  2026-09-15  2026-09-15  34.59 uncensored       0.50
+          MACD -7.40 -> -2.41 | LOW 665.00 @ 2026-08-13 -> 587.45 @ 2026-09-16 | WEEK 587.5 to 715.8 | EMA11/22/50 695.9 / 703.2 / 685.0
+         SESHAPAPER  Seshasayee Paper and  turnover                  2026-08-19  2026-08-25  2026-08-24  46.84 uncensored       0.88
+          MACD -0.7898 -> -0.6532 | LOW 225.20 @ 2026-08-24 -> 225.10 @ 2026-08-27 | WEEK 225.1 to 234.7 | EMA11/22/50 231.9 / 236.6 / 247.5
+         SHIVAMILLS  Shiva Mills Limited   turnover                  2026-08-24  2026-09-17  2026-09-15  45.16 uncensored       0.01
+          MACD -0.2347 -> -0.1261 | LOW 59.02 @ 2026-08-19 -> 58.10 @ 2026-09-18 | WEEK 58.10 to 63.00 | EMA11/22/50 61.38 / 61.08 / 62.90
+         SHREEPUSHK  Shree Pushkar Chemic  turnover                  2026-07-24  2026-08-18  2026-08-10  37.01 uncensored       3.89
+          MACD -4.51 -> -4.13 | LOW 381.75 @ 2026-07-24 -> 368.10 @ 2026-08-13 | WEEK 368.1 to 418.4 | EMA11/22/50 391.8 / 381.3 / 364.0
+
+         SICAGEN     Sicagen India Limite  turnover                  2026-08-25  2026-09-17  2026-09-21  40.01 uncensored       0.10
+          MACD -0.6978 -> -0.5970 | LOW 52.88 @ 2026-08-24 -> 51.50 @ 2026-09-21 | WEEK 51.25 to 54.85 | EMA11/22/50 54.53 / 50.81 / 40.00
+         SIMPLEXINF  Simplex Infrastructu  turnover                  2026-07-23  2026-09-16  2026-09-15  40.80 uncensored       2.72
+          MACD -3.82 -> -2.20 | LOW 231.00 @ 2026-07-23 -> 233.05 @ 2026-09-16 | WEEK 233.1 to 268.0 | EMA11/22/50 254.6 / 248.0 / 245.4
+         SINTERCOM   Sintercom India Limi  turnover                  2026-09-02  2026-09-21  2026-09-15  39.87 uncensored       0.03
+          MACD -0.6625 -> -0.4911 | LOW 75.60 @ 2026-08-28 -> 73.30 @ 2026-09-16 | WEEK 73.30 to 80.00 | EMA11/22/50 79.08 / 80.43 / 89.64
+         SKFINDIA    SKF India Limited     turnover                  2026-09-03  2026-09-15  2026-09-15  39.20 uncensored       4.94
+          MACD -6.75 -> -5.94 | LOW 1508.00 @ 2026-09-02 -> 1488.00 @ 2026-09-16 | WEEK 1488.0 to 1639.8 | EMA11/22/50 1560.3 / 1624.8 / 2061.2
+         SKMEGGPROD  SKM Egg Products Exp  turnover                  2026-08-03  2026-09-22  2026-09-21  29.60 censored         4.38
+          MACD -12.84 -> -2.47 | LOW 229.50 @ 2026-08-05 -> 218.05 @ 2026-09-25 | WEEK 218.1 to 231.8 | EMA11/22/50 247.0 / 240.5 / 214.7
+
+         SUDARCOLOR  Sudarshan Colorants   turnover                  2026-09-01  2026-09-16  2026-09-15  38.68 uncensored       0.21
+          MACD -4.01 -> -2.47 | LOW 377.00 @ 2026-08-27 -> 370.00 @ 2026-09-16 | WEEK 370.0 to 388.7 | EMA11/22/50 382.8 / 380.6 / 406.9
+         SUMIT       Sumit Woods Limited   turnover                  2026-08-26  2026-09-10  2026-09-07  40.27 uncensored       0.09
+          MACD -0.5490 -> -0.3703 | LOW 49.58 @ 2026-08-26 -> 47.70 @ 2026-09-08 | WEEK 47.70 to 53.20 | EMA11/22/50 50.37 / 50.44 / 58.44
+         SUNDROP     Sundrop Brands Limit  turnover                  2026-08-24  2026-09-17  2026-09-15  45.83 uncensored       0.54
+          MACD -3.24 -> -0.1712 | LOW 640.10 @ 2026-08-24 -> 645.50 @ 2026-09-16 | WEEK 645.5 to 671.5 | EMA11/22/50 660.2 / 661.6 / 687.7
+         SUPREMEINF  Supreme Infrastructu  turnover                  2026-08-31  2026-09-18  2026-09-15  39.55 uncensored       0.27
+          MACD -0.7574 -> -0.5830 | LOW 83.00 @ 2026-08-28 -> 79.05 @ 2026-09-17 | WEEK 79.05 to 86.00 | EMA11/22/50 83.56 / 82.84 / 85.20
+         SURANASOL   Surana Solar Limited  turnover                  2026-08-18  2026-09-17  2026-09-15  39.40 uncensored       0.06
+          MACD -0.1129 -> -0.0974 | LOW 25.10 @ 2026-08-18 -> 24.61 @ 2026-09-16 | WEEK 24.61 to 26.00 | EMA11/22/50 25.92 / 26.05 / 27.36
+
+         TAINWALCHM  Tainwala Chemical an  turnover                  2026-09-03  2026-09-15  2026-09-15  44.66 uncensored       0.05
+          MACD -1.04 -> -0.8751 | LOW 205.15 @ 2026-09-01 -> 205.00 @ 2026-09-15 | WEEK 205.0 to 215.0 | EMA11/22/50 208.2 / 204.2 / 202.1
+         TINNARUBR   Tinna Rubber and Inf  turnover                  2026-08-24  2026-09-15  2026-09-15  37.50 uncensored       4.01
+          MACD -15.15 -> -2.77 | LOW 984.10 @ 2026-08-27 -> 940.00 @ 2026-09-16 | WEEK 940.0 to 1043.9 | EMA11/22/50 1011.3 / 950.9 / 894.4
+         TRAVELFOOD  Travel Food Services  turnover                  2026-09-02  2026-09-16  2026-09-15  31.79 uncensored       3.45
+          MACD -8.73 -> -7.75 | LOW 1251.10 @ 2026-09-02 -> 1190.10 @ 2026-09-16 | WEEK 1190.1 to 1276.8 | EMA11/22/50 1293.1 / 1282.4 / 1253.8
+         TREJHARA    TREJHARA SOLUTIONS L  turnover                  2026-09-01  2026-09-18  2026-09-21  31.91 uncensored       0.26
+          MACD -2.58 -> -1.85 | LOW 141.11 @ 2026-09-02 -> 128.07 @ 2026-09-21 | WEEK 128.1 to 146.9 | EMA11/22/50 146.3 / 151.9 / 169.9
+         TSFINV      TSF INVESTMENTS LIMI  turnover                  2026-07-27  2026-08-14  2026-08-17  36.19 uncensored       3.00
+          MACD -7.00 -> -4.92 | LOW 424.85 @ 2026-07-24 -> 409.60 @ 2026-08-17 | WEEK 409.6 to 427.5 | EMA11/22/50 428.9 / 426.2 / 427.5
+
+         URJA        Urja Global Limited   turnover, price Rs 8.95   2026-09-02  2026-09-16  2026-09-15  29.13 censored         0.50
+          MACD -0.0329 -> -0.0258 | LOW 8.95 @ 2026-09-02 -> 8.72 @ 2026-09-16 | WEEK 8.720 to 9.400 | EMA11/22/50 9.389 / 9.718 / 10.69
+         VARDMNPOLY  Vardhman Polytex Lim  turnover, price Rs 5.85   2026-09-04  2026-09-18  2026-09-15  30.22 uncensored       0.07
+          MACD -0.0108 -> -0.0076 | LOW 5.80 @ 2026-09-07 -> 5.62 @ 2026-09-18 | WEEK 5.620 to 6.350 | EMA11/22/50 6.137 / 6.443 / 7.146
+         VENTIVE     Ventive Hospitality   turnover                  2026-08-21  2026-09-21  2026-09-21  33.75 uncensored       1.36
+          MACD -3.26 -> -1.27 | LOW 556.60 @ 2026-08-21 -> 554.00 @ 2026-09-21 | WEEK 554.0 to 586.9 | EMA11/22/50 586.6 / 607.8 / 645.8
+         VGL         VARVEE GLOBAL LIMITE  turnover                  2026-08-24  2026-09-08  2026-08-31  32.67 uncensored       0.33
+          MACD -0.4477 -> -0.3179 | LOW 52.36 @ 2026-08-24 -> 51.35 @ 2026-09-04 | WEEK 51.35 to 59.70 | EMA11/22/50 59.62 / 61.70 / 63.80
+         VINEETLAB   Vineet Laboratories   turnover                  2026-08-18  2026-09-15  2026-09-15  38.79 uncensored       0.24
+          MACD -0.3317 -> -0.2821 | LOW 35.65 @ 2026-08-17 -> 34.41 @ 2026-09-16 | WEEK 34.41 to 37.37 | EMA11/22/50 36.97 / 36.32 / 36.48
+
+         VISAKAIND   Visaka Industries Li  turnover                  2026-09-02  2026-09-16  2026-09-15  42.31 uncensored       1.94
+          MACD -1.26 -> -0.6812 | LOW 87.19 @ 2026-09-02 -> 85.11 @ 2026-09-16 | WEEK 85.11 to 97.95 | EMA11/22/50 89.50 / 83.63 / 78.85
+         VRAJ        Vraj Iron and Steel   turnover                  2026-08-19  2026-09-08  2026-08-31  44.51 uncensored       0.22
+          MACD -0.5399 -> -0.1469 | LOW 120.00 @ 2026-08-19 -> 120.24 @ 2026-09-04 | WEEK 120.2 to 129.0 | EMA11/22/50 123.3 / 124.1 / 132.8
+         WCIL        Western Carriers (In  turnover                  2026-08-12  2026-09-08  2026-09-07  32.01 uncensored       1.29
+          MACD -0.2363 -> -0.1100 | LOW 83.00 @ 2026-08-17 -> 81.76 @ 2026-09-08 | WEEK 81.76 to 89.40 | EMA11/22/50 89.33 / 93.69 / 101.5
+         WIPL        The Western India Pl  turnover                  2026-08-18  2026-09-02  2026-08-31  43.43 uncensored       0.01
+          MACD -0.6805 -> -0.4459 | LOW 160.00 @ 2026-08-19 -> 161.55 @ 2026-09-03 | WEEK 161.6 to 169.9 | EMA11/22/50 166.2 / 163.2 / 161.4
+         WONDERLA    Wonderla Holidays Li  turnover                  2026-07-14  2026-08-17  2026-08-10  43.10 uncensored       2.70
+          MACD -2.40 -> -1.56 | LOW 462.30 @ 2026-07-17 -> 461.00 @ 2026-08-13 | WEEK 461.0 to 493.5 | EMA11/22/50 481.9 / 492.6 / 531.6
+
+         ZENITHEXPO  Zenith Exports Limit  turnover                  2026-09-08  2026-09-16  2026-09-15  42.16 uncensored      <0.01
+          MACD -1.89 -> -1.37 | LOW 193.90 @ 2026-09-07 -> 194.75 @ 2026-09-15 | WEEK 194.8 to 207.1 | EMA11/22/50 206.3 / 206.6 / 213.4
+         ZIMLAB      Zim Laboratories Lim  turnover                  2026-08-04  2026-08-12  2026-08-10  38.68 uncensored       1.51
+          MACD -1.42 -> -0.7970 | LOW 106.10 @ 2026-08-04 -> 106.00 @ 2026-08-13 | WEEK 106.0 to 115.8 | EMA11/22/50 111.2 / 103.2 / 94.05
+
+=====================================================================
+
+ SCAN SUMMARY (why the other stocks were not selected)
+   scanned 1954 | passed liquidity+history 920 | setups 318 (156 ranked, 162 fail liquidity) | waiting 0
+       872  below liquidity/price floor (not a setup, or its week is still forming)
+       609  no valid bullish divergence
+       135  swing-low week did not touch the weekly EMA zone
+        20  fewer than two troughs
+
+=====================================================================
+
+ SETTINGS USED
+   MACD 12/26/9 | 60-day lookback | trough pivot +-3 bars | price/RSI window +-3 bars
+   equal-low tolerance 1% on Low | weekly EMA 11/22/50, zone = range overlap | history >= 250 days and 50 weeks
+   RSI 14 (wilder), band 30 | liquidity >= Rs 5 cr/day and price >= Rs 20 (20-day median) | top 10
+   data: yfinance (.NS), split-adjusted, dividends unadjusted
+
+ NOTES
+   - Every number in this report is computed from the downloaded data. The latest bar is
+     2026-09-25 for 1953 of 1954 scanned stocks.
+   - Not investment advice; always verify each chart before acting.
+=====================================================================
